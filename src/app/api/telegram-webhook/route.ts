@@ -36,11 +36,12 @@ export async function POST(req: NextRequest) {
       if (text.startsWith("/start")) {
         await sendTelegramMessage(
           chatId,
-          `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
-          `⚡ <b>TeacherOS</b> — interaktiv ta'lim platformasiga xush kelibsiz!\n\n` +
-          `Darslarni boshlash uchun quyidagi tugmalardan birini tanlang:\n\n` +
-          `🔹 <b>TeacherOS</b> — 16:9 interaktiv doska, AI slaydlar va darsliklar generatori.\n` +
-          `🔹 <b>O'quvchilar uchun</b> — A1 va B1 grammatika trenajyorlari va uyga vazifalar.`,
+          `Salom, ${firstName} 👋\n\n` +
+          `TeacherOS ta'limni osonlashtiradi:\n` +
+          `⚡ <b>16:9 Interaktiv doska</b> — darsni jonli tushuntirish uchun\n` +
+          `📚 <b>AI Darslik & Slaydlar</b> — 1 daqiqada tayyor\n` +
+          `🎯 <b>Mashqlar & Testlar</b> — o'quvchilar darajasini oshirish uchun\n\n` +
+          `Boshlash uchun ilovani oching 👇`,
           {
             inline_keyboard: [
               [

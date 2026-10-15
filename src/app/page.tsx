@@ -1347,7 +1347,7 @@ export default function StitchTeacherOS() {
 
       {/* DESKTOP LEFT NAVIGATION SIDEBAR (QuizPilot PC Style) */}
       {!isFullscreen && (
-        <aside className="hidden lg:flex flex-col w-64 bg-[#0B0D13] border-r border-white/10 shrink-0 h-full justify-between z-30 select-none">
+        <aside className="hidden md:flex flex-col w-64 bg-[#0B0D13] border-r border-white/10 shrink-0 h-full justify-between z-30 select-none">
           {/* Top Brand & Nav */}
           <div className="flex flex-col">
             <div className="p-4 border-b border-white/10 flex items-center justify-between">
@@ -1472,31 +1472,20 @@ export default function StitchTeacherOS() {
         {/* TOP HEADER */}
         {!isFullscreen && (
           <header className="relative h-14 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 bg-[#0D0F14]/90 backdrop-blur-md z-30">
-            {/* Left: User greeting on desktop & brand on mobile */}
+            {/* Left: User greeting on BOTH mobile and desktop (Screenshot 1 & 5 style) */}
             <div className="flex items-center space-x-3">
-              <div
-                onClick={() => setActiveMainTab("create")}
-                className="flex items-center space-x-2 cursor-pointer lg:hidden"
-                title="TeacherOS"
-              >
-                <BrandLogo isLight={false} />
+              <div className="w-9 h-9 rounded-xl bg-[#0284C7] flex items-center justify-center text-white font-black text-sm shadow-md shrink-0">
+                {userInitial}
               </div>
-
-              {/* Desktop User Greeting Card (Screenshot 5 style) */}
-              <div className="hidden lg:flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-xl bg-[#0284C7] flex items-center justify-center text-white font-black text-sm shadow-md">
-                  {userInitial}
-                </div>
-                <div>
-                  <div className="text-[10px] text-slate-400 font-medium leading-none">Xush kelibsiz</div>
-                  <div className="text-sm font-black text-white tracking-tight mt-0.5">{userDisplayName}</div>
-                </div>
+              <div className="min-w-0">
+                <div className="text-[10px] text-slate-400 font-medium leading-none">Xush kelibsiz</div>
+                <div className="text-sm font-black text-white tracking-tight mt-0.5 truncate max-w-[130px] sm:max-w-xs">{userDisplayName}</div>
               </div>
 
               {curriculum && activeMainTab === "board" && (
                 <>
                   <div className="h-4 w-px bg-white/10 hidden sm:block" />
-                  <div className="flex items-center space-x-2">
+                  <div className="hidden sm:flex items-center space-x-2">
                     <span className="text-xs sm:text-sm font-extrabold text-white truncate max-w-[140px] sm:max-w-xs">
                       {curriculum.topic}
                     </span>
@@ -2413,7 +2402,7 @@ export default function StitchTeacherOS() {
         {curriculum && activeMainTab === "board" && (
           <>
             {/* MOBILE SLIDE VIEWER (Touch & Reading Optimized for Mobile Screens) */}
-            <div className="lg:hidden w-full h-full overflow-y-auto p-4 pb-24 space-y-4 animate-fade-in z-20">
+            <div className="md:hidden w-full h-full overflow-y-auto p-4 pb-24 space-y-4 animate-fade-in z-20">
               {/* Mobile Top Navigation */}
               <div className="flex items-center justify-between bg-[#131622] border border-white/10 rounded-2xl px-4 py-2.5 shadow-lg">
                 <button
@@ -2705,7 +2694,7 @@ export default function StitchTeacherOS() {
 
             {/* RIGHT CATEGORY NAVIGATION TOOLBAR */}
             {!isFullscreen && (
-              <aside className="hidden lg:flex absolute right-5 top-5 z-20 flex-col space-y-1.5 p-2 rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400">
+              <aside className="hidden md:flex absolute right-5 top-5 z-20 flex-col space-y-1.5 p-2 rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400">
                 {/* Section Jump Icons */}
                 {categories.map((cat) => {
                   const isCatActive = activeCategory?.key === cat.key;
@@ -2764,7 +2753,7 @@ export default function StitchTeacherOS() {
             {/* ============================================================ */}
             {/* THE PRESENTATION WHITEBOARD (16:9 Zero-Scroll Container)    */}
             {/* ============================================================ */}
-            <div className={`w-full h-full min-h-0 ${isFullscreen ? "flex" : "hidden lg:flex"} items-center justify-center p-2 sm:p-3 md:p-4 transition-all ${
+            <div className={`w-full h-full min-h-0 ${isFullscreen ? "flex" : "hidden md:flex"} items-center justify-center p-2 sm:p-3 md:p-4 transition-all ${
               isFullscreen ? "p-0" : isPromptCollapsed ? "pr-14 sm:pr-16" : "pr-14 sm:pr-16 2xl:pr-96"
             }`}>
               <div
@@ -3942,9 +3931,9 @@ export default function StitchTeacherOS() {
         )}
       </div>
 
-      {/* MOBILE BOTTOM NAVIGATION BAR (lg:hidden QuizPilot Style) */}
+      {/* MOBILE BOTTOM NAVIGATION BAR (md:hidden QuizPilot Style) */}
       {!isFullscreen && (
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0D0F14]/95 backdrop-blur-xl border-t border-white/10 px-4 flex items-center justify-around z-50 select-none">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0D0F14]/95 backdrop-blur-xl border-t border-white/10 px-4 flex items-center justify-around z-50 select-none">
           <button
             onClick={() => setActiveMainTab("create")}
             className={`flex flex-col items-center justify-center space-y-1 py-1 px-3 rounded-xl transition-all ${
