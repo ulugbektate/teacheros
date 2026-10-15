@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BOT_TOKEN = process.env.BOT_TOKEN || "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+const BOT_TOKEN = process.env.TELEGRAM_AUTH_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78";
+const APP_URL = "https://teacher-os-beryl.vercel.app";
 
 async function sendTelegramMessage(chatId: number | string, text: string, replyMarkup?: any) {
   try {
@@ -31,47 +32,35 @@ export async function POST(req: NextRequest) {
       const text = update.message.text.trim();
       const firstName = update.message.from?.first_name || "O'quvchi";
 
-      // /start deep link
+      // /start command
       if (text.startsWith("/start")) {
-        const parts = text.split(" ");
-        if (parts.length > 1) {
-          const roomKey = parts[1].replace(/_/g, "-");
-          await sendTelegramMessage(
-            chatId,
-            `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\nSiz <code>${roomKey}</code> sinfiga taklif qilindingiz!\n\nDars va vazifalaringizni hoziroq boshlash uchun quyidagi tugmani bosing:`,
-            {
-              inline_keyboard: [
-                [
-                  {
-                    text: "🚀 Darslik & Vazifani Ochish",
-                    url: `https://teacheros-0l68.onrender.com/index.html#class=${roomKey}&role=student`,
-                  },
-                ],
-              ],
-            }
-          );
-          return NextResponse.json({ ok: true });
-        }
-
-        // Standard /start welcome
         await sendTelegramMessage(
           chatId,
-          `✨ <b>TeacherOS 2.0 Raqamli Ta'lim Tizimiga xush kelibsiz!</b>\n\nUstozingiz yuborgan havola orqali sinfga qo'shiling yoki faol vazifalarni ko'rish uchun /vazifa deb yozing.`
-        );
-        return NextResponse.json({ ok: true });
-      }
-
-      // /vazifa or /hw command
-      if (/^\/(vazifa|hw|homework)/i.test(text)) {
-        await sendTelegramMessage(
-          chatId,
-          `📚 <b>FAOL UYGA VAZIFANGIZ</b>\n\nTopshirish havolasini ochish uchun quyidagi tugmani bosing:`,
+          `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
+          `⚡ <b>TeacherOS 2.0</b> interaktiv ta'lim platformasiga xush kelibsiz!\n\n` +
+          `Quyidagi tugmalar orqali platformani to'g'ridan-to'g'ri Telegram ichida ochishingiz yoki testlarni yechishingiz mumkin:`,
           {
             inline_keyboard: [
               [
                 {
-                  text: "🚀 Vazifani Ochish",
-                  url: `https://teacheros-0l68.onrender.com/index.html#class=TOS-2PCX-WY6C-SPV7&role=student`,
+                  text: "🚀 TeacherOS Platformasini Ochish",
+                  web_app: { url: `${APP_URL}` },
+                },
+              ],
+              [
+                {
+                  text: "📘 A1 Grammar Trainer (365 Qs)",
+                  web_app: { url: `${APP_URL}/homework/A1/a1-grammar-mastery.html` },
+                },
+                {
+                  text: "🚀 B1 Grammar Trainer (925 Qs)",
+                  web_app: { url: `${APP_URL}/homework/B1/b1-grammar-mastery.html` },
+                },
+              ],
+              [
+                {
+                  text: "🏆 Natijalar & Reyting",
+                  web_app: { url: `${APP_URL}/dashboard` },
                 },
               ],
             ],
@@ -79,10 +68,34 @@ export async function POST(req: NextRequest) {
         );
         return NextResponse.json({ ok: true });
       }
+
+      // Help / Info
+      await sendTelegramMessage(
+        chatId,
+        `💡 <b>TeacherOS Buyruqlari:</b>\n\n` +
+        `/start — Platformani ochish va asosiy menyu\n` +
+        `Quyidagi tugmani bosib istalgan vaqt platformaga kirishingiz mumkin:`,
+        {
+          inline_keyboard: [
+            [
+              {
+                text: "🚀 TeacherOS Ochish",
+                web_app: { url: `${APP_URL}` },
+              },
+            ],
+          ],
+        }
+      );
+      return NextResponse.json({ ok: true });
     }
 
     return NextResponse.json({ ok: true });
-  } catch (error: any) {
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  } catch (err: any) {
+    console.error("Webhook processing error:", err);
+    return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ status: "TeacherOS Webhook Active", bot: "TeacherOS_official_bot" });
 }
