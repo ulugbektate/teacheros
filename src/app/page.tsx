@@ -48,8 +48,7 @@ import {
   Trophy,
   Eye,
   EyeOff,
-  Lightbulb,
-  Home
+  Lightbulb
 } from "lucide-react";
 import {
   Curriculum,
@@ -73,7 +72,6 @@ import {
   DEFAULT_TEACHER_CHAT_ID
 } from "../lib/share";
 import { getSlideImageUrl, getVocabImageUrl } from "../lib/pollinations";
-import QuizPilotDashboard from "../components/QuizPilotDashboard";
 
 function sanitizeSlideBody(rawHtml: string, isLight: boolean = false): string {
   if (!rawHtml || typeof rawHtml !== "string") return "";
@@ -194,20 +192,6 @@ export default function StitchTeacherOS() {
   const [curriculum, setCurriculum] = useState<Curriculum | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<any>(null);
-
-  // User Profile & Credits (QuizPilot style)
-  const [userName, setUserName] = useState<string>("Ulugb7k");
-  const [userCredits, setUserCredits] = useState<number>(3);
-  const [userRole, setUserRole] = useState<string>("student");
-
-  useEffect(() => {
-    const storedName = localStorage.getItem("teacheros_user_name");
-    if (storedName) setUserName(storedName);
-    const storedRole = localStorage.getItem("teacheros_role");
-    if (storedRole) setUserRole(storedRole);
-    const storedCredits = localStorage.getItem("teacheros_credits");
-    if (storedCredits) setUserCredits(Number(storedCredits));
-  }, []);
 
   // Dynamic Add Item & Feedback State
   const [isAddingItem, setIsAddingItem] = useState(false);
@@ -1333,15 +1317,6 @@ export default function StitchTeacherOS() {
           {/* Right Header Actions */}
           <div className="flex items-center space-x-2 text-xs">
             <button
-              onClick={() => setCurriculum(null)}
-              className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 flex items-center space-x-1.5 font-bold transition-all"
-              title="QuizPilot Boshqaruv Paneliga Qaytish"
-            >
-              <Home className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="hidden sm:inline">Dashboard</span>
-            </button>
-
-            <button
               onClick={toggleFullscreen}
               className="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5 font-bold transition-all"
               title="To'liq doska rejimi (F)"
@@ -1528,31 +1503,171 @@ export default function StitchTeacherOS() {
         )}
 
         {/* ============================================================ */}
-        {/* INITIAL STATE: QUIZPILOT-STYLE DASHBOARD                     */}
+        {/* INITIAL STATE: PROMPT BAR & LENGTH SELECTOR HERO             */}
         {/* ============================================================ */}
         {!curriculum && !isGenerating && (
-          <QuizPilotDashboard
-            userName={userName}
-            userCredits={userCredits}
-            userRole={userRole}
-            onGenerateTopic={(top, lvl) => {
-              if (lvl) setLevel(lvl as any);
-              handleGenerate(top);
-            }}
-            onOpenWhiteboard={(top) => {
-              handleGenerate(top || 'Present Perfect vs Past Simple');
-            }}
-            onLoginClick={() => {
-              window.location.href = '/login';
-            }}
-            onLogout={() => {
-              localStorage.removeItem('teacheros_user_name');
-              localStorage.removeItem('teacheros_role');
-              localStorage.removeItem('teacheros_user');
-              setUserName('Mehmon');
-              window.location.href = '/login';
-            }}
-          />
+          <div
+            className={`w-full max-w-2xl px-6 flex flex-col items-center text-center space-y-6 z-20 ${
+              isAnimatingUp ? "pointer-events-none" : "animate-fade-in"
+            }`}
+          >
+            {/* Minimalist Hero Branding */}
+            <div
+              className={`space-y-3 transition-all duration-400 ease-out ${
+                isAnimatingUp ? "opacity-0 -translate-y-8 scale-95 pointer-events-none" : "opacity-100 translate-y-0"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-3 mb-1">
+                <BrandLogo isLight={false} className="h-14 sm:h-16 max-w-[220px] object-contain" />
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-semibold text-slate-300 shadow-md">
+                  <Sparkles className="w-4 h-4 text-[#5B3DF5]" />
+                  <span>TeacherOS • Interaktiv Doska Studiyasi</span>
+                </div>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+                Darslikni sun'iy intellekt bilan yarating
+              </h1>
+              <p className="text-sm text-slate-400 max-w-md mx-auto">
+                Mavzuni kiriting — Google Gemini AI 16:9 interaktiv doska, tezkor savollar, xato ovchisi va muloqot mashqlarini sintez qiladi.
+              </p>
+            </div>
+
+            {/* Topic Suggestion Pills */}
+            <div
+              className={`flex items-center flex-wrap justify-center gap-2 text-xs transition-all duration-300 ease-out ${
+                isAnimatingUp ? "opacity-0 -translate-y-4 scale-95 pointer-events-none" : "opacity-100 translate-y-0"
+              }`}
+            >
+              <button
+                onClick={() => handleGenerate("Past Simple & Irregular Verbs")}
+                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+              >
+                Past Simple & Irregular Verbs (A1)
+              </button>
+              <button
+                onClick={() => handleGenerate("Used to vs Would")}
+                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+              >
+                Used to vs Would (B1)
+              </button>
+              <button
+                onClick={() => handleGenerate("Stative Verbs & Need")}
+                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+              >
+                Stative Verbs (A1)
+              </button>
+              <button
+                onClick={() => handleGenerate("Present Perfect Simple")}
+                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+              >
+                Present Perfect (B1)
+              </button>
+            </div>
+
+            {/* Prompt Capsule Box - CapCut Slide-Up */}
+            <div
+              className={`w-full rounded-2xl bg-[#1A1C23]/95 border border-white/15 p-4 shadow-2xl backdrop-blur-2xl space-y-3.5 focus-within:border-[#5B3DF5] text-left capcut-slide-up ${
+                isAnimatingUp
+                  ? "-translate-y-7 scale-[0.97] opacity-0 blur-xs"
+                  : "translate-y-0 scale-100 opacity-100 blur-none"
+              }`}
+            >
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  value={topicInput}
+                  onChange={(e) => setTopicInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
+                  placeholder="Bugun qaysi mavzuni o'tamiz? (masalan: Present Perfect, Conditionals, Passive Voice)..."
+                  className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-400 focus:outline-none font-medium px-1 pr-10"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={handleVoiceRecord}
+                  className={`absolute right-1 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all ${
+                    isRecording
+                      ? 'bg-red-500/20 text-red-400 animate-pulse'
+                      : 'text-slate-400 hover:text-white hover:bg-white/10'
+                  }`}
+                  title={isRecording ? "Yozishni to'xtatish" : "Ovoz bilan yozish"}
+                >
+                  <Mic className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* DARS UZUNLIGI (Lesson Length Selector: Short / Medium / Long) */}
+              <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-[11px] font-bold text-slate-400 mr-1">Dars Uzunligi:</span>
+                  
+                  <button
+                    type="button"
+                    onClick={() => setLessonLength("short")}
+                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
+                      lessonLength === "short"
+                        ? "bg-[#5B3DF5] text-white shadow-md"
+                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
+                    }`}
+                  >
+                    <span>⚡ Qisqa</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setLessonLength("medium")}
+                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
+                      lessonLength === "medium"
+                        ? "bg-[#5B3DF5] text-white shadow-md"
+                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
+                    }`}
+                  >
+                    <span>🎯 O'rtacha</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setLessonLength("long")}
+                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
+                      lessonLength === "long"
+                        ? "bg-[#5B3DF5] text-white shadow-md"
+                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
+                    }`}
+                  >
+                    <span>🚀 Uzun</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end">
+                  {/* Level Pill */}
+                  <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <select
+                      value={level}
+                      onChange={(e) => setLevel(e.target.value as any)}
+                      className="bg-transparent text-[11px] font-bold focus:outline-none cursor-pointer"
+                    >
+                      {["A1", "A2", "B1", "B2", "C1"].map((lvl) => (
+                        <option key={lvl} value={lvl} className="bg-[#1A1C23] text-white">
+                          Level: {lvl}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                  </div>
+
+                  <button
+                    onClick={() => handleGenerate()}
+                    disabled={isGenerating}
+                    className="h-8 px-4 rounded-xl bg-[#5B3DF5] hover:bg-[#4C2FE0] text-white font-bold flex items-center space-x-1.5 transition-all shadow-md disabled:opacity-50"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span className="text-[11px]">Yaratish</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* ============================================================ */}
