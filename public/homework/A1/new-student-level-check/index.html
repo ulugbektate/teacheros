@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yangi O'quvchi Katta Diagnostik Level Check (A0–A1–A2) | TeacherOS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070d18;
+      --card-bg: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --sky: #0ea5e9;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; padding-bottom: 90px;
+      background-image: radial-gradient(circle at 12% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                        radial-gradient(circle at 88% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+    .container { max-width: 920px; margin: 0 auto; padding: 20px 16px; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #0e172a 0%, #172554 50%, #0f172a 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-lg); padding: 28px 24px; margin-bottom: 22px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 30px var(--primary-glow);
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .badge {
+      font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-diag { background: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(165, 180, 252, 0.35); }
+    .badge-tiers { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(110, 231, 183, 0.35); }
+    .badge-bot { background: rgba(14, 165, 233, 0.18); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.35); }
+
+    h1 {
+      font-size: 1.85rem; font-weight: 900; margin-bottom: 8px; line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 80%, #818cf8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--text-muted); font-size: 0.92rem; max-width: 820px; }
+
+    /* STUDENT INPUT CARD */
+    .student-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px;
+    }
+    .student-inputs { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; min-width: 220px; flex: 1; }
+    .input-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    input[type="text"], textarea {
+      background: #090f1e; border: 1.5px solid var(--border); color: #fff;
+      font-family: inherit; font-size: 0.92rem; padding: 11px 14px; border-radius: 10px; width: 100%;
+    }
+    input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
+
+    /* STICKY LIVE SCORE & LEVEL BAR */
+    .sticky-score-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 90;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+    .score-left { display: flex; align-items: center; gap: 12px; }
+    .score-badge {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; font-size: 1.15rem; font-weight: 900; padding: 5px 14px; border-radius: 8px;
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+    .level-estimate-badge {
+      font-size: 0.92rem; font-weight: 800; padding: 5px 12px; border-radius: 8px;
+      background: rgba(14, 165, 233, 0.18); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8;
+    }
+    .score-progress-wrap { flex: 1; min-width: 180px; max-width: 260px; }
+    .progress-bar-bg { background: #1e293b; height: 8px; border-radius: 999px; overflow: hidden; }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--sky), var(--emerald));
+      height: 100%; width: 0%; transition: width 0.3s ease;
+    }
+
+    /* SECTION HEADER BANNER (ONE CONTINUOUS VERTICAL FLOW) */
+    .section-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-left: 6px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 36px 0 16px;
+    }
+    .section-banner.emerald { border-left-color: var(--emerald); }
+    .section-banner.amber { border-left-color: var(--amber); }
+    .section-banner.sky { border-left-color: var(--sky); }
+    .section-banner h2 { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .section-banner p { color: var(--text-muted); font-size: 0.88rem; margin: 0; }
+
+    .tier-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 5px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .tier-A0 { background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .tier-A1 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.35); }
+    .tier-A2 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.35); }
+
+    /* QUESTION CARD */
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 14px; transition: all 0.2s; }
+    .card:hover { border-color: rgba(99, 102, 241, 0.35); }
+    .q-text { font-size: 0.98rem; font-weight: 700; color: #f8fafc; margin-bottom: 10px; }
+    .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-bottom: 8px; }
+    
+    .opt-btn {
+      background: #090f1e; border: 1.5px solid var(--border); color: #cbd5e1;
+      padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: left;
+      transition: all 0.18s ease;
+    }
+    .opt-btn:hover { background: #17233f; border-color: #3b82f6; color: #fff; }
+    .opt-btn.correct { background: rgba(16, 185, 129, 0.25) !important; border-color: var(--emerald) !important; color: #34d399 !important; font-weight: 700; }
+    .opt-btn.wrong { background: rgba(239, 68, 68, 0.25) !important; border-color: var(--rose) !important; color: #f87171 !important; }
+
+    .feedback-box { font-size: 0.85rem; border-radius: 8px; padding: 9px 13px; margin-top: 8px; display: none; line-height: 1.5; }
+    .feedback-box.show { display: block; animation: fadeIn 0.2s ease; }
+    .feedback-box.correct { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+    .feedback-box.wrong { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; }
+
+    /* VOCABULARY SECTION */
+    .vocab-quiz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .vocab-quiz-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
+    .vocab-quiz-word { font-size: 1.05rem; font-weight: 800; color: #67e8f9; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: baseline; }
+    .vocab-pos { font-size: 0.72rem; color: #a5b4fc; font-weight: 600; text-transform: uppercase; }
+    .vocab-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .vocab-opt-btn { background: #090f1e; border: 1px solid var(--border); color: #cbd5e1; padding: 8px 10px; border-radius: 6px; font-size: 0.84rem; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s; }
+    .vocab-opt-btn:hover { border-color: var(--primary); color: #fff; }
+    .vocab-opt-btn.correct { background: rgba(16, 185, 129, 0.25) !important; border-color: var(--emerald) !important; color: #6ee7b7 !important; font-weight: 700; }
+    .vocab-opt-btn.wrong { background: rgba(239, 68, 68, 0.25) !important; border-color: var(--rose) !important; color: #fca5a5 !important; }
+
+    /* ERROR HUNT */
+    .error-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 12px; }
+    .error-sentence { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .error-inputs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+    .error-inputs input { flex: 1; min-width: 200px; padding: 9px 12px; font-size: 0.9rem; }
+    .btn-check-error {
+      background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff;
+      border: none; padding: 9px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    }
+
+    /* READING */
+    .reading-box {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.85));
+      border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 16px;
+      line-height: 1.8; font-size: 0.95rem; color: #e2e8f0;
+    }
+    .reading-title { font-size: 1.12rem; font-weight: 800; color: #67e8f9; margin-bottom: 8px; }
+
+    /* TRANSLATION DRILL */
+    .trans-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 12px; }
+    .trans-uz { font-size: 0.98rem; font-weight: 700; color: #fcd34d; margin-bottom: 8px; }
+    .trans-hint { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; font-style: italic; }
+
+    /* ESSAY */
+    .essay-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 24px; }
+    .essay-prompts { background: #090f1e; border: 1px dashed rgba(99, 102, 241, 0.4); border-radius: 8px; padding: 12px 14px; font-size: 0.86rem; color: #a5b4fc; margin-bottom: 12px; line-height: 1.6; }
+    .word-counter { font-size: 0.8rem; color: var(--text-muted); text-align: right; margin-top: 6px; }
+
+    /* FINAL DIAGNOSTIC LEVEL REPORT CARD */
+    .final-report-card {
+      background: linear-gradient(135deg, #0e172a 0%, #1a2747 50%, #0e172a 100%);
+      border: 2px solid rgba(16, 185, 129, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-top: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 35px var(--emerald-glow);
+      text-align: center;
+    }
+    .report-header { font-size: 0.85rem; font-weight: 800; color: #6ee7b7; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .report-level-big {
+      font-size: 2.2rem; font-weight: 900; margin: 8px 0 14px;
+      background: linear-gradient(135deg, #ffffff 40%, #6ee7b7 80%, #34d399 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .report-matrix {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 20px 0;
+      text-align: left;
+    }
+    .matrix-box {
+      background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 10px; padding: 12px;
+    }
+    .matrix-label { font-size: 0.74rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .matrix-val { font-size: 1.15rem; font-weight: 900; color: #67e8f9; }
+
+    .roadmap-box {
+      background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.35); border-radius: 12px;
+      padding: 16px; margin: 18px 0; text-align: left; font-size: 0.92rem; color: #cbd5e1; line-height: 1.6;
+    }
+    .roadmap-title { font-weight: 800; color: #a5b4fc; margin-bottom: 6px; font-size: 0.96rem; }
+
+    /* SUBMIT BUTTON */
+    .btn-submit-main {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff;
+      font-weight: 800; font-size: 1.1rem; border: none; padding: 16px 40px; border-radius: 14px;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all 0.25s ease; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      margin-top: 14px; width: 100%; max-width: 440px;
+    }
+    .btn-submit-main:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(16, 185, 129, 0.5); }
+    .submit-status-msg { margin-top: 14px; font-size: 0.94rem; font-weight: 700; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <div class="badge-row">
+        <span class="badge badge-diag">🎯 To'liq Diagnostik Tekshiruv</span>
+        <span class="badge badge-tiers">📈 A0 • A1 • A2 Bosqichlar</span>
+        <span class="badge badge-bot">🤖 Telegram Bot Real-time Sync</span>
+      </div>
+      <h1>Yangi O'quvchi Aniq Darajasini Aniqlash Testi</h1>
+      <p class="subtitle">Ushbu sinov orqali sizning ingliz tilidagi haqiqiy bilimlaringiz — harflar va to be asoslaridan tortib, Present/Past zamonlar, so'z boyligi, matn tushunish va gap tuzishgacha 100% ob'ektiv tahlil qilinadi.</p>
+    </header>
+
+    <!-- STUDENT IDENTITY CARD -->
+    <div class="student-card">
+      <div class="student-inputs">
+        <div class="input-group">
+          <label>O'quvchi Ismi va Familiyasi *</label>
+          <input type="text" id="studentName" placeholder="Masalan: Dilnoza Rahimova" oninput="saveDraft()">
+        </div>
+        <div class="input-group">
+          <label>Telefon / Telegram Username</label>
+          <input type="text" id="studentContact" placeholder="@username yoki +998 90 123 45 67" oninput="saveDraft()">
+        </div>
+        <div class="input-group">
+          <label>Test Sanasi</label>
+          <input type="text" id="testDate" value="14-Oktyabr, 2026" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY REAL-TIME SCORE & LIVE LEVEL HUD -->
+    <div class="sticky-score-bar">
+      <div class="score-left">
+        <div class="score-badge" id="hudScore">0 / 61</div>
+        <div class="level-estimate-badge" id="hudLevelBadge">A0 Starter (0%)</div>
+      </div>
+      <div class="score-progress-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="hudProgressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1-QISM: GRAMMATIKA BOSQICHLARI (30 TA SAVOL) -->
+    <!-- ========================================== -->
+    <div class="section-banner sky">
+      <h2>1-Qism: Grammatika Bosqichlari (30 ta Savol)</h2>
+      <p>Savollar eng oddiy A0 poydevoridan boshlanib, asta-sekin A1 va A2 bosqichlariga ko'tariladi.</p>
+    </div>
+
+    <!-- A0 STARTER (1-10) -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #38bdf8; font-size: 1rem; margin-bottom: 12px; font-weight: 800;">🔹 1-Bosqich: A0 Starter Asoslari (1–10)</h3>
+      
+      <!-- G1 -->
+      <div class="card" id="card-g-1">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">1. My name ______ Malika. I ______ 19 years old.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 1, 'is / am', 'is / am', '\'My name\' uchun \'is\', \'I\' uchun \'am\' ishlatiladi: \'My name is Malika. I am 19...\'', 'A0')">is / am</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 1, 'am / is', 'is / am', '\'My name\' uchun \'is\', \'I\' uchun \'am\' ishlatiladi: \'My name is Malika. I am 19...\'', 'A0')">am / is</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 1, 'are / am', 'is / am', '\'My name\' uchun \'is\', \'I\' uchun \'am\' ishlatiladi: \'My name is Malika. I am 19...\'', 'A0')">are / am</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 1, 'is / are', 'is / am', '\'My name\' uchun \'is\', \'I\' uchun \'am\' ishlatiladi: \'My name is Malika. I am 19...\'', 'A0')">is / are</button>
+        </div>
+        <div id="fb-g-1" class="feedback-box"></div>
+      </div>
+
+      <!-- G2 -->
+      <div class="card" id="card-g-2">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">2. They ______ from Uzbekistan. They are from Turkey.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 2, 'isn\'t', 'aren\'t', '\'They\' ko\'plik bo\'lgani uchun \'aren\'t\' to\'g\'ri.', 'A0')">isn't</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 2, 'aren\'t', 'aren\'t', '\'They\' ko\'plik bo\'lgani uchun \'aren\'t\' to\'g\'ri.', 'A0')">aren't</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 2, 'not', 'aren\'t', '\'They\' ko\'plik bo\'lgani uchun \'aren\'t\' to\'g\'ri.', 'A0')">not</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 2, 'am not', 'aren\'t', '\'They\' ko\'plik bo\'lgani uchun \'aren\'t\' to\'g\'ri.', 'A0')">am not</button>
+        </div>
+        <div id="fb-g-2" class="feedback-box"></div>
+      </div>
+
+      <!-- G3 -->
+      <div class="card" id="card-g-3">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">3. Look at that! It is ______ apple and ______ big yellow banana.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 3, 'a / an', 'an / a', '\'apple\' unli tovush bilan boshlangani uchun \'an\', \'banana\' undosh uchun \'a\'.', 'A0')">a / an</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 3, 'an / a', 'an / a', '\'apple\' unli tovush bilan boshlangani uchun \'an\', \'banana\' undosh uchun \'a\'.', 'A0')">an / a</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 3, 'a / a', 'an / a', '\'apple\' unli tovush bilan boshlangani uchun \'an\', \'banana\' undosh uchun \'a\'.', 'A0')">a / a</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 3, 'an / an', 'an / a', '\'apple\' unli tovush bilan boshlangani uchun \'an\', \'banana\' undosh uchun \'a\'.', 'A0')">an / an</button>
+        </div>
+        <div id="fb-g-3" class="feedback-box"></div>
+      </div>
+
+      <!-- G4 -->
+      <div class="card" id="card-g-4">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">4. These are my ______ and those are his ______.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 4, 'book / pen', 'books / pens', '\'These\' va \'Those\' ko\'plik bo\'lgani uchun otlar ham ko\'plikda (-s) bo\'ladi.', 'A0')">book / pen</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 4, 'books / pens', 'books / pens', '\'These\' va \'Those\' ko\'plik bo\'lgani uchun otlar ham ko\'plikda (-s) bo\'ladi.', 'A0')">books / pens</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 4, 'books / pen', 'books / pens', '\'These\' va \'Those\' ko\'plik bo\'lgani uchun otlar ham ko\'plikda (-s) bo\'ladi.', 'A0')">books / pen</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 4, 'book / pens', 'books / pens', '\'These\' va \'Those\' ko\'plik bo\'lgani uchun otlar ham ko\'plikda (-s) bo\'ladi.', 'A0')">book / pens</button>
+        </div>
+        <div id="fb-g-4" class="feedback-box"></div>
+      </div>
+
+      <!-- G5 -->
+      <div class="card" id="card-g-5">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">5. ______ is your English teacher? — Mr. John.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 5, 'Where', 'Who', 'Shaxsni so\'rash uchun \'Who\' (Kim?) ishlatiladi.', 'A0')">Where</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 5, 'What', 'Who', 'Shaxsni so\'rash uchun \'Who\' (Kim?) ishlatiladi.', 'A0')">What</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 5, 'Who', 'Who', 'Shaxsni so\'rash uchun \'Who\' (Kim?) ishlatiladi.', 'A0')">Who</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 5, 'When', 'Who', 'Shaxsni so\'rash uchun \'Who\' (Kim?) ishlatiladi.', 'A0')">When</button>
+        </div>
+        <div id="fb-g-5" class="feedback-box"></div>
+      </div>
+
+      <!-- G6 -->
+      <div class="card" id="card-g-6">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">6. This is Anna. ______ brother is a student at university.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 6, 'His', 'Her', 'Anna ayol kishi bo\'lgani uchun egalik olmoshi \'Her\' (Uning) bo\'ladi.', 'A0')">His</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 6, 'Her', 'Her', 'Anna ayol kishi bo\'lgani uchun egalik olmoshi \'Her\' (Uning) bo\'ladi.', 'A0')">Her</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 6, 'She', 'Her', 'Anna ayol kishi bo\'lgani uchun egalik olmoshi \'Her\' (Uning) bo\'ladi.', 'A0')">She</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 6, 'Your', 'Her', 'Anna ayol kishi bo\'lgani uchun egalik olmoshi \'Her\' (Uning) bo\'ladi.', 'A0')">Your</button>
+        </div>
+        <div id="fb-g-6" class="feedback-box"></div>
+      </div>
+
+      <!-- G7 -->
+      <div class="card" id="card-g-7">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">7. ______ there a bank near here? — Yes, there is one.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 7, 'Are', 'Is', '\'a bank\' bitta bo\'lgani uchun \'Is there\' so\'roq shakli to\'g\'ri.', 'A0')">Are</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 7, 'Is', 'Is', '\'a bank\' bitta bo\'lgani uchun \'Is there\' so\'roq shakli to\'g\'ri.', 'A0')">Is</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 7, 'Do', 'Is', '\'a bank\' bitta bo\'lgani uchun \'Is there\' so\'roq shakli to\'g\'ri.', 'A0')">Do</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 7, 'Have', 'Is', '\'a bank\' bitta bo\'lgani uchun \'Is there\' so\'roq shakli to\'g\'ri.', 'A0')">Have</button>
+        </div>
+        <div id="fb-g-7" class="feedback-box"></div>
+      </div>
+
+      <!-- G8 -->
+      <div class="card" id="card-g-8">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">8. She ______ swim very well, but she ______ play tennis.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 8, 'can / can\'t', 'can / can\'t', 'Qobiliyat bor-yo\'qligi: \'can\' va \'can\'t\'.', 'A0')">can / can't</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 8, 'is / isn\'t', 'can / can\'t', 'Qobiliyat bor-yo\'qligi: \'can\' va \'can\'t\'.', 'A0')">is / isn't</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 8, 'does / doesn\'t', 'can / can\'t', 'Qobiliyat bor-yo\'qligi: \'can\' va \'can\'t\'.', 'A0')">does / doesn't</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 8, 'cans / can\'t', 'can / can\'t', '\'can\' modal fe\'liga hech qachon -s qo\'shilmaydi.', 'A0')">cans / can't</button>
+        </div>
+        <div id="fb-g-8" class="feedback-box"></div>
+      </div>
+
+      <!-- G9 -->
+      <div class="card" id="card-g-9">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">9. There are three ______ and five ______ in the classroom.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 9, 'childs / womans', 'children / women', '\'child\' ko\'pligi \'children\', \'woman\' ko\'pligi \'women\' (noto\'g\'ri otlar).', 'A0')">childs / womans</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 9, 'children / women', 'children / women', '\'child\' ko\'pligi \'children\', \'woman\' ko\'pligi \'women\' (noto\'g\'ri otlar).', 'A0')">children / women</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 9, 'childrens / womens', 'children / women', '\'child\' ko\'pligi \'children\', \'woman\' ko\'pligi \'women\' (noto\'g\'ri otlar).', 'A0')">childrens / womens</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 9, 'child / woman', 'children / women', '\'child\' ko\'pligi \'children\', \'woman\' ko\'pligi \'women\' (noto\'g\'ri otlar).', 'A0')">child / woman</button>
+        </div>
+        <div id="fb-g-9" class="feedback-box"></div>
+      </div>
+
+      <!-- G10 -->
+      <div class="card" id="card-g-10">
+        <span class="tier-badge tier-A0">A0 Starter</span>
+        <div class="q-text">10. I usually wake up ______ 7:00 AM ______ Mondays.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 10, 'in / at', 'at / on', 'Aniq soatlar uchun \'at\', hafta kunlari uchun \'on\' ishlatiladi.', 'A0')">in / at</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 10, 'at / in', 'at / on', 'Aniq soatlar uchun \'at\', hafta kunlari uchun \'on\' ishlatiladi.', 'A0')">at / in</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 10, 'at / on', 'at / on', 'Aniq soatlar uchun \'at\', hafta kunlari uchun \'on\' ishlatiladi.', 'A0')">at / on</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 10, 'on / at', 'at / on', 'Aniq soatlar uchun \'at\', hafta kunlari uchun \'on\' ishlatiladi.', 'A0')">on / at</button>
+        </div>
+        <div id="fb-g-10" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <!-- A1 ELEMENTARY (11-20) -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #34d399; font-size: 1rem; margin-bottom: 12px; font-weight: 800;">🔹 2-Bosqich: A1 Elementary Grammatika (11–20)</h3>
+
+      <!-- G11 -->
+      <div class="card" id="card-g-11">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">11. My brother ______ coffee, but he ______ tea every morning.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 11, 'doesn\'t drink / drinks', 'doesn\'t drink / drinks', '\'he\' uchun inkor \'doesn\'t drink\', tasdiq esa \'drinks\' (-s).', 'A1')">doesn't drink / drinks</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 11, 'don\'t drink / drinks', 'doesn\'t drink / drinks', '\'he\' uchun inkor \'doesn\'t drink\', tasdiq esa \'drinks\' (-s).', 'A1')">don't drink / drinks</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 11, 'doesn\'t drinks / drink', 'doesn\'t drink / drinks', '\'doesn\'t\' dan keyin fe\'lning o\'zi keladi (-s yo\'qoladi).', 'A1')">doesn't drinks / drink</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 11, 'isn\'t drink / drink', 'doesn\'t drink / drinks', 'Present Simple inkori \'isn\'t\' bilan yasalmaydi.', 'A1')">isn't drink / drink</button>
+        </div>
+        <div id="fb-g-11" class="feedback-box"></div>
+      </div>
+
+      <!-- G12 -->
+      <div class="card" id="card-g-12">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">12. ______ your parents ______ in a big house?</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 12, 'Does / live', 'Do / live', '\'Your parents\' = they (ular). Shuning uchun \'Do\' ishlatiladi.', 'A1')">Does / live</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 12, 'Do / live', 'Do / live', '\'Your parents\' = they (ular). Shuning uchun \'Do\' ishlatiladi.', 'A1')">Do / live</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 12, 'Are / live', 'Do / live', 'Harakat fe\'li \'live\' bo\'lgani uchun to be emas, Do kerak.', 'A1')">Are / live</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 12, 'Do / lives', 'Do / live', 'So\'roqda fe\'lga -s qo\'shilmaydi.', 'A1')">Do / lives</button>
+        </div>
+        <div id="fb-g-12" class="feedback-box"></div>
+      </div>
+
+      <!-- G13 -->
+      <div class="card" id="card-g-13">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">13. She ______ a new laptop, but she ______ a smartphone.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 13, 'has got / hasn\'t got', 'has got / hasn\'t got', '\'she\' uchun \'has got\' va \'hasn\'t got\' ishlatiladi.', 'A1')">has got / hasn't got</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 13, 'have got / haven\'t got', 'has got / hasn\'t got', '\'she\' uchun \'has got\' va \'hasn\'t got\' ishlatiladi.', 'A1')">have got / haven't got</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 13, 'is got / isn\'t got', 'has got / hasn\'t got', '\'have got\' tuzilmasida to be ishlatilmaydi.', 'A1')">is got / isn't got</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 13, 'has / don\'t have', 'has got / hasn\'t got', '\'she\' uchun \'doesn\'t have\' bo\'lishi kerak edi.', 'A1')">has / don't have</button>
+        </div>
+        <div id="fb-g-13" class="feedback-box"></div>
+      </div>
+
+      <!-- G14 -->
+      <div class="card" id="card-g-14">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">14. Please be quiet! The baby ______ in the bedroom right now.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 14, 'sleeps', 'is sleeping', '\'right now\' (ayni vaqtda) davom etayotgan ish: Present Continuous (\'is sleeping\').', 'A1')">sleeps</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 14, 'is sleeping', 'is sleeping', '\'right now\' (ayni vaqtda) davom etayotgan ish: Present Continuous (\'is sleeping\').', 'A1')">is sleeping</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 14, 'sleeping', 'is sleeping', '\'is\' yordamchi fe\'lisiz continuous bo\'lmaydi.', 'A1')">sleeping</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 14, 'is sleep', 'is sleeping', 'Continuous zamonda fe\'lga -ing qo\'shiladi.', 'A1')">is sleep</button>
+        </div>
+        <div id="fb-g-14" class="feedback-box"></div>
+      </div>
+
+      <!-- G15 -->
+      <div class="card" id="card-g-15">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">15. How ______ milk is there in the fridge? And how ______ eggs do we have?</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 15, 'many / much', 'much / many', 'Sanalmaydigan sut uchun \'much\', sanaladigan tuxum uchun \'many\'.', 'A1')">many / much</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 15, 'much / many', 'much / many', 'Sanalmaydigan sut uchun \'much\', sanaladigan tuxum uchun \'many\'.', 'A1')">much / many</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 15, 'much / much', 'much / many', 'Tuxum sanaladi (-s), \'many eggs\' bo\'ladi.', 'A1')">much / much</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 15, 'many / many', 'much / many', 'Sut suyuqlik, sanalmaydi: \'much milk\'.', 'A1')">many / many</button>
+        </div>
+        <div id="fb-g-15" class="feedback-box"></div>
+      </div>
+
+      <!-- G16 -->
+      <div class="card" id="card-g-16">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">16. She is ______ than her sister, but her brother is the ______ in the family.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 16, 'taller / tallest', 'taller / tallest', 'Qiyosiy daraja: tall -> taller. Orttirma: the tallest.', 'A1')">taller / tallest</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 16, 'more tall / most tall', 'taller / tallest', 'Qisqa bir bo\'g\'inli sifatlarga -er va -est qo\'shiladi.', 'A1')">more tall / most tall</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 16, 'tallest / taller', 'taller / tallest', '\'than\' bilan qiyosiy (\'taller\'), \'the\' bilan orttirma (\'tallest\').', 'A1')">tallest / taller</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 16, 'taller / most tall', 'taller / tallest', '\'tall\' bir bo\'g\'inli, -est oladi.', 'A1')">taller / most tall</button>
+        </div>
+        <div id="fb-g-16" class="feedback-box"></div>
+      </div>
+
+      <!-- G17 -->
+      <div class="card" id="card-g-17">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">17. Where ______ you yesterday at 5:00 PM? — I ______ at home.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 17, 'was / were', 'were / was', '\'you\' uchun \'were\', \'I\' uchun \'was\' ishlatiladi: Where were you? I was...', 'A1')">was / were</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 17, 'were / was', 'were / was', '\'you\' uchun \'were\', \'I\' uchun \'was\' ishlatiladi: Where were you? I was...', 'A1')">were / was</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 17, 'are / am', 'were / was', '\'yesterday\' o\'tgan zamon bo\'lgani uchun was/were kerak.', 'A1')">are / am</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 17, 'did / was', 'were / was', 'Sifat yoki joylashuv holatida \'did\' ishlatilmaydi.', 'A1')">did / was</button>
+        </div>
+        <div id="fb-g-17" class="feedback-box"></div>
+      </div>
+
+      <!-- G18 -->
+      <div class="card" id="card-g-18">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">18. Last Sunday, we ______ a movie and ______ pizza.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 18, 'watch / eat', 'watched / ate', '\'Last Sunday\' = Past Simple. watch -> watched, eat -> ate.', 'A1')">watch / eat</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 18, 'watched / ate', 'watched / ate', '\'Last Sunday\' = Past Simple. watch -> watched, eat -> ate.', 'A1')">watched / ate</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 18, 'watched / eated', 'watched / ate', '\'eat\' noto\'g\'ri fe\'l: o\'tgan zamoni \'ate\' (eated emas).', 'A1')">watched / eated</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 18, 'watching / eating', 'watched / ate', 'Tugallangan o\'tgan harakat uchun Past Simple kerak.', 'A1')">watching / eating</button>
+        </div>
+        <div id="fb-g-18" class="feedback-box"></div>
+      </div>
+
+      <!-- G19 -->
+      <div class="card" id="card-g-19">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">19. ______ you ______ your homework yesterday? — Yes, I did.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 19, 'Did / finish', 'Did / finish', 'Past Simple so\'rog\'i: Did + Subject + V1 (\'Did you finish\').', 'A1')">Did / finish</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 19, 'Did / finished', 'Did / finish', '\'Did\' bo\'lganda asosiy fe\'lga -ed qo\'shilmaydi!', 'A1')">Did / finished</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 19, 'Do / finish', 'Did / finish', '\'yesterday\' o\'tgan zamon, Do emas Did kerak.', 'A1')">Do / finish</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 19, 'Were / finish', 'Did / finish', 'Harakat fe\'li bilan \'were\' ishlatilmaydi.', 'A1')">Were / finish</button>
+        </div>
+        <div id="fb-g-19" class="feedback-box"></div>
+      </div>
+
+      <!-- G20 -->
+      <div class="card" id="card-g-20">
+        <span class="tier-badge tier-A1">A1 Elementary</span>
+        <div class="q-text">20. We ______ to visit our grandparents next weekend. We have already planned it.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 20, 'will', 'are going', 'Oldindan rejalashtirilgan niyat uchun \'are going to\' ishlatiladi.', 'A1')">will</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 20, 'are going', 'are going', 'Oldindan rejalashtirilgan niyat uchun \'are going to\' ishlatiladi.', 'A1')">are going</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 20, 'go', 'are going', 'Kelajak reja uchun oddiy \'go to visit\' deyilmaydi.', 'A1')">go</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 20, 'shall', 'are going', '\'are going to visit\' to\'g\'ri shakl.', 'A1')">shall</button>
+        </div>
+        <div id="fb-g-20" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <!-- A1+/A2 PRE-INTERMEDIATE (21-30) -->
+    <div style="margin-bottom: 24px;">
+      <h3 style="color: #fbbf24; font-size: 1rem; margin-bottom: 12px; font-weight: 800;">🔹 3-Bosqich: A1+ va A2 Zamonlar & Tuzilmalar (21–30)</h3>
+
+      <!-- G21 -->
+      <div class="card" id="card-g-21">
+        <span class="tier-badge tier-A2">A1+/A2 Daraja</span>
+        <div class="q-text">21. While I ______ a shower, the phone suddenly ______.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 21, 'was taking / rang', 'was taking / rang', '\'While\' bilan davomli harakat (was taking), uni kesib o\'tgan qisqa harakat esa Past Simple (rang).', 'A2')">was taking / rang</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 21, 'took / was ringing', 'was taking / rang', 'Dush qabul qilish jarayon edi, qo\'ng\'iroq esa bir lahzada bo\'ldi.', 'A2')">took / was ringing</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 21, 'was taking / was ringing', 'was taking / rang', 'Telefon birdan chalindi (bir lahzalik hodisa: rang).', 'A2')">was taking / was ringing</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 21, 'took / rang', 'was taking / rang', 'Jarayon ifodalash uchun Past Continuous kerak.', 'A2')">took / rang</button>
+        </div>
+        <div id="fb-g-21" class="feedback-box"></div>
+      </div>
+
+      <!-- G22 -->
+      <div class="card" id="card-g-22">
+        <span class="tier-badge tier-A2">A1+/A2 Daraja</span>
+        <div class="q-text">22. What ______ you ______ when the accident happened?</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 22, 'did / do', 'were / doing', 'Hodisa sodir bo\'lgan paytda nima ish bilan band edingiz? (Past Continuous: were you doing).', 'A2')">did / do</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 22, 'were / doing', 'were / doing', 'Hodisa sodir bo\'lgan paytda nima ish bilan band edingiz? (Past Continuous: were you doing).', 'A2')">were / doing</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 22, 'was / doing', 'were / doing', '\'you\' bilan \'were\' ishlatiladi (was emas).', 'A2')">was / doing</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 22, 'are / doing', 'were / doing', '\'happened\' o\'tgan zamonda, shuning uchun o\'tgan zamon kerak.', 'A2')">are / doing</button>
+        </div>
+        <div id="fb-g-22" class="feedback-box"></div>
+      </div>
+
+      <!-- G23 -->
+      <div class="card" id="card-g-23">
+        <span class="tier-badge tier-A2">A1+/A2 Daraja</span>
+        <div class="q-text">23. I ______ never ______ to London in my life.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 23, 'did / go', 'have / been', 'Hayotiy tajriba uchun Present Perfect ishlatiladi: \'have never been\'.', 'A2')">did / go</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 23, 'have / been', 'have / been', 'Hayotiy tajriba uchun Present Perfect ishlatiladi: \'have never been\'.', 'A2')">have / been</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 23, 'have / went', 'have / been', 'Present Perfect da V3 (been) bo\'ladi, V2 (went) emas.', 'A2')">have / went</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 23, 'am / been', 'have / been', 'Present Perfect have/has bilan yasaladi.', 'A2')">am / been</button>
+        </div>
+        <div id="fb-g-23" class="feedback-box"></div>
+      </div>
+
+      <!-- G24 -->
+      <div class="card" id="card-g-24">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">24. She ______ her keys. Now she can't open the door.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 24, 'lost', 'has lost', 'Hozirgi natijaga bog\'liq o\'tgan harakat: Present Perfect (\'has lost\').', 'A2')">lost</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 24, 'has lost', 'has lost', 'Hozirgi natijaga bog\'liq o\'tgan harakat: Present Perfect (\'has lost\').', 'A2')">has lost</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 24, 'is losing', 'has lost', 'Kalit allaqachon yo\'qolgan, jarayon emas.', 'A2')">is losing</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 24, 'loses', 'has lost', 'Oddiy hozirgi zamon mos kelmaydi.', 'A2')">loses</button>
+        </div>
+        <div id="fb-g-24" class="feedback-box"></div>
+      </div>
+
+      <!-- G25 -->
+      <div class="card" id="card-g-25">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">25. If it ______ tomorrow, we ______ stay at home.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 25, 'rains / will', 'rains / will', 'First Conditional: If + Present Simple (rains), Main clause: will + V1.', 'A2')">rains / will</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 25, 'will rain / will', 'rains / will', '\'if\' dan keyin hech qachon kelajakda \'will\' ishlatilmaydi.', 'A2')">will rain / will</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 25, 'rains / would', 'rains / will', '1-shart maylida \'will\' bo\'ladi, \'would\' 2-shartda.', 'A2')">rains / would</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 25, 'rain / will', 'rains / will', '\'it\' uchun fe\'lga -s qo\'shiladi (\'rains\').', 'A2')">rain / will</button>
+        </div>
+        <div id="fb-g-25" class="feedback-box"></div>
+      </div>
+
+      <!-- G26 -->
+      <div class="card" id="card-g-26">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">26. You ______ wear a helmet when riding a motorbike. It is the law.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 26, 'can', 'must', 'Qonuniy majburiyat: \'must\' (shart/majbur).', 'A2')">can</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 26, 'must', 'must', 'Qonuniy majburiyat: \'must\' (shart/majbur).', 'A2')">must</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 26, 'might', 'must', '\'might\' ehtimol bildiradi, qonun emas.', 'A2')">might</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 26, 'should to', 'must', '\'should\' dan keyin \'to\' kelmaydi.', 'A2')">should to</button>
+        </div>
+        <div id="fb-g-26" class="feedback-box"></div>
+      </div>
+
+      <!-- G27 -->
+      <div class="card" id="card-g-27">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">27. I decided ______ a new language because it is interesting.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 27, 'learning', 'to learn', '\'decide\' fe\'lidan keyin infinitive (\'to learn\') keladi.', 'A2')">learning</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 27, 'to learn', 'to learn', '\'decide\' fe\'lidan keyin infinitive (\'to learn\') keladi.', 'A2')">to learn</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 27, 'learn', 'to learn', '\'to\' siz qo\'yilmaydi.', 'A2')">learn</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 27, 'for learn', 'to learn', 'Ingliz tilida \'decide for learn\' deyilmaydi.', 'A2')">for learn</button>
+        </div>
+        <div id="fb-g-27" class="feedback-box"></div>
+      </div>
+
+      <!-- G28 -->
+      <div class="card" id="card-g-28">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">28. This phone is ______ expensive than that one, but it is not as fast ______ mine.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 28, 'more / as', 'more / as', '\'more expensive than\' va tenglik qiyosida \'as fast as\'.', 'A2')">more / as</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 28, 'most / like', 'more / as', '\'most expensive than\' xato, qiyosiyda \'more\' kerak.', 'A2')">most / like</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 28, 'much / than', 'more / as', '\'as...as\' tuzilmasi kerak.', 'A2')">much / than</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 28, 'very / as', 'more / as', '\'very expensive than\' deyilmaydi.', 'A2')">very / as</button>
+        </div>
+        <div id="fb-g-28" class="feedback-box"></div>
+      </div>
+
+      <!-- G29 -->
+      <div class="card" id="card-g-29">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">29. I haven't seen Anvar ______ last Christmas. We haven't spoken ______ months.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 29, 'since / for', 'since / for', 'Aniq boshlang\'ich nuqta uchun \'since\', vaqt davomiyligi uchun \'for\'.', 'A2')">since / for</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 29, 'for / since', 'since / for', '\'last Christmas\' boshlanish nuqtasi, \'since\' oladi.', 'A2')">for / since</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 29, 'from / for', 'since / for', 'Present Perfect da \'from last Christmas\' deyilmaydi.', 'A2')">from / for</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 29, 'since / since', 'since / for', '\'months\' davr, \'for months\' bo\'ladi.', 'A2')">since / since</button>
+        </div>
+        <div id="fb-g-29" class="feedback-box"></div>
+      </div>
+
+      <!-- G30 -->
+      <div class="card" id="card-g-30">
+        <span class="tier-badge tier-A2">A2 Pre-Int</span>
+        <div class="q-text">30. This book ______ by a famous British writer in 1997.</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="chooseGrammar(this, 30, 'wrote', 'was written', 'Kitob o\'zi yozmagan, yozilgan: Past Simple Passive (\'was written\').', 'A2')">wrote</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 30, 'was written', 'was written', 'Kitob o\'zi yozmagan, yozilgan: Past Simple Passive (\'was written\').', 'A2')">was written</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 30, 'is written', 'was written', '\'in 1997\' o\'tgan zamon bo\'lgani uchun \'was written\' kerak.', 'A2')">is written</button>
+          <button class="opt-btn" onclick="chooseGrammar(this, 30, 'has written', 'was written', 'Passive Voice da to be + V3 bo\'ladi.', 'A2')">has written</button>
+        </div>
+        <div id="fb-g-30" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2-QISM: LUG'AT BOYLIGI / VOCABULARY (20 TA) -->
+    <!-- ========================================== -->
+    <div class="section-banner emerald">
+      <h2>2-Qism: Lug'at Boyligi / Vocabulary (20 ta So'z)</h2>
+      <p>Berilgan inglizcha so'zning o'zbek tilidagi eng to'g'ri tarjimasini tanlang.</p>
+    </div>
+
+    <div class="vocab-quiz-grid" id="vocabGridContainer">
+      <!-- V1 to V20 generated dynamically / populated cleanly -->
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3-QISM: XATOLARNI TOPISH / ERROR HUNT (5 TA) -->
+    <!-- ========================================== -->
+    <div class="section-banner amber">
+      <h2>3-Qism: Xatolarni Tuzating / Error Hunt (5 ta Tuzoq)</h2>
+      <p>Har bir gapda bitta grammatik xato bor. To'g'ri variantini tanlang.</p>
+    </div>
+
+    <!-- E1 -->
+    <div class="card" id="card-e-1">
+      <div class="q-text">1. ❌ <i>"She don't like drinking cold water."</i> — Ushbu gapdagi xatoni tuzating:</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseError(this, 1, 'She doesn\'t like drinking cold water.', 'She doesn\'t like drinking cold water.', '\'She\' uchun inkor \'doesn\'t\' bo\'ladi, \'don\'t\' emas.')">She doesn't like drinking cold water.</button>
+        <button class="opt-btn" onclick="chooseError(this, 1, 'She not like drinking cold water.', 'She doesn\'t like drinking cold water.', '\'doesn\'t\' yordamchi fe\'li shart.')">She not like drinking cold water.</button>
+        <button class="opt-btn" onclick="chooseError(this, 1, 'She isn\'t like drinking cold water.', 'She doesn\'t like drinking cold water.', 'Oddiy fe\'llar bilan \'isn\'t\' ishlatilmaydi.')">She isn't like drinking cold water.</button>
+        <button class="opt-btn" onclick="chooseError(this, 1, 'She don\'t likes drinking cold water.', 'She doesn\'t like drinking cold water.', 'Ikkala so\'z ham xato.')">She don't likes drinking cold water.</button>
+      </div>
+      <div id="fb-e-1" class="feedback-box"></div>
+    </div>
+
+    <!-- E2 -->
+    <div class="card" id="card-e-2">
+      <div class="q-text">2. ❌ <i>"Yesterday I go to the bazaar and bought some fruit."</i> — Qaysi so'z xato?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseError(this, 2, 'go -> went', 'go -> went', '\'Yesterday\' o\'tgan zamon bo\'lgani uchun \'go\' fe\'li \'went\' bo\'lishi shart.')">go -> went</button>
+        <button class="opt-btn" onclick="chooseError(this, 2, 'bought -> buy', 'go -> went', '\'bought\' to\'g\'ri, o\'tgan zamonda turibdi.')">bought -> buy</button>
+        <button class="opt-btn" onclick="chooseError(this, 2, 'fruit -> fruits', 'go -> went', '\'fruit\' o\'zi to\'g\'ri.')">fruit -> fruits</button>
+        <button class="opt-btn" onclick="chooseError(this, 2, 'to -> at', 'go -> went', '\'go to\' to\'g\'ri birikma.')">to -> at</button>
+      </div>
+      <div id="fb-e-2" class="feedback-box"></div>
+    </div>
+
+    <!-- E3 -->
+    <div class="card" id="card-e-3">
+      <div class="q-text">3. ❌ <i>"He is living in Tashkent since 2018."</i> — To'g'ri grammatik shakl qaysi?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseError(this, 3, 'He has lived in Tashkent since 2018.', 'He has lived in Tashkent since 2018.', '\'since 2018\' bilan Present Continuous emas, Present Perfect (\'has lived\') ishlatiladi.')">He has lived in Tashkent since 2018.</button>
+        <button class="opt-btn" onclick="chooseError(this, 3, 'He lives in Tashkent since 2018.', 'He has lived in Tashkent since 2018.', 'Present Simple davomiylik uchun \'since\' olmaydi.')">He lives in Tashkent since 2018.</button>
+        <button class="opt-btn" onclick="chooseError(this, 3, 'He lived in Tashkent since 2018.', 'He has lived in Tashkent since 2018.', '\'lived\' ish tugaganini bildiradi, hozir yashamayotgan bo\'lib qoladi.')">He lived in Tashkent since 2018.</button>
+        <button class="opt-btn" onclick="chooseError(this, 3, 'He will live in Tashkent since 2018.', 'He has lived in Tashkent since 2018.', '\'since\' kelajak zamon bilan kelmaydi.')">He will live in Tashkent since 2018.</button>
+      </div>
+      <div id="fb-e-3" class="feedback-box"></div>
+    </div>
+
+    <!-- E4 -->
+    <div class="card" id="card-e-4">
+      <div class="q-text">4. ❌ <i>"There is many cars on the street today."</i> — Qanday to'g'rilanadi?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseError(this, 4, 'There are many cars...', 'There are many cars...', '\'many cars\' ko\'plik bo\'lgani uchun \'There are\' bo\'ladi.')">There are many cars...</button>
+        <button class="opt-btn" onclick="chooseError(this, 4, 'There is much cars...', 'There are many cars...', '\'cars\' sanaladi, \'much\' ishlatilmaydi.')">There is much cars...</button>
+        <button class="opt-btn" onclick="chooseError(this, 4, 'There was many cars...', 'There are many cars...', '\'today\' bor, o\'tgan zamon emas.')">There was many cars...</button>
+        <button class="opt-btn" onclick="chooseError(this, 4, 'There have many cars...', 'There are many cars...', '\'There have\' mavjudlik ifodalamaydi.')">There have many cars...</button>
+      </div>
+      <div id="fb-e-4" class="feedback-box"></div>
+    </div>
+
+    <!-- E5 -->
+    <div class="card" id="card-e-5">
+      <div class="q-text">5. ❌ <i>"Did you saw my brother yesterday?"</i> — To'g'ri variant qaysi?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseError(this, 5, 'Did you see my brother yesterday?', 'Did you see my brother yesterday?', '\'Did\' yordamchi fe\'lidan keyin asosiy fe\'l boshlang\'ich shaklda (see) keladi!')">Did you see my brother yesterday?</button>
+        <button class="opt-btn" onclick="chooseError(this, 5, 'Do you saw my brother yesterday?', 'Did you see my brother yesterday?', '\'yesterday\' o\'tgan zamon, Do bo\'lmaydi.')">Do you saw my brother yesterday?</button>
+        <button class="opt-btn" onclick="chooseError(this, 5, 'Did you seen my brother yesterday?', 'Did you see my brother yesterday?', '\'seen\' V3 shakli, \'did\' bilan V1 kerak.')">Did you seen my brother yesterday?</button>
+        <button class="opt-btn" onclick="chooseError(this, 5, 'Were you see my brother yesterday?', 'Did you see my brother yesterday?', '\'see\' harakat fe\'li bilan \'were\' ishlatilmaydi.')">Were you see my brother yesterday?</button>
+      </div>
+      <div id="fb-e-5" class="feedback-box"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4-QISM: O'QIB TUSHUNISH / READING (6 TA)    -->
+    <!-- ========================================== -->
+    <div class="section-banner sky">
+      <h2>4-Qism: O'qib Tushunish / Reading Comprehension (6 ta Savol)</h2>
+      <p>Ikkita qisqa matnni o'qing va ostidagi savollarga to'g'ri javobni tanlang.</p>
+    </div>
+
+    <!-- TEXT 1 -->
+    <div class="reading-box">
+      <div class="reading-title">📖 Matn 1: Sardor's Daily Routine (A1)</div>
+      Sardor is 22 years old and he lives in Samarkand. He works in a small IT company as a junior graphic designer. Every morning, he wakes up at 6:30 AM, drinks a cup of green tea, and goes for a short run in the park. He starts work at 9:00 AM and finishes at 6:00 PM. In the evenings, he is learning English online because he wants to find a remote job in an international company next year. On weekends, he usually visits his grandparents or plays football with his friends.
+    </div>
+
+    <!-- R1 -->
+    <div class="card" id="card-r-1">
+      <div class="q-text">1. What does Sardor do in the IT company?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 1, 'Junior graphic designer', 'Junior graphic designer')">Junior graphic designer</button>
+        <button class="opt-btn" onclick="chooseReading(this, 1, 'Senior programmer', 'Junior graphic designer')">Senior programmer</button>
+        <button class="opt-btn" onclick="chooseReading(this, 1, 'English teacher', 'Junior graphic designer')">English teacher</button>
+        <button class="opt-btn" onclick="chooseReading(this, 1, 'Hotel manager', 'Junior graphic designer')">Hotel manager</button>
+      </div>
+      <div id="fb-r-1" class="feedback-box"></div>
+    </div>
+
+    <!-- R2 -->
+    <div class="card" id="card-r-2">
+      <div class="q-text">2. Why is Sardor learning English online?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 2, 'To pass an exam at school', 'To find a remote job in an international company')">To pass an exam at school</button>
+        <button class="opt-btn" onclick="chooseReading(this, 2, 'To find a remote job in an international company', 'To find a remote job in an international company')">To find a remote job in an international company</button>
+        <button class="opt-btn" onclick="chooseReading(this, 2, 'Because his parents told him to', 'To find a remote job in an international company')">Because his parents told him to</button>
+        <button class="opt-btn" onclick="chooseReading(this, 2, 'To travel to Turkey on holiday', 'To find a remote job in an international company')">To travel to Turkey on holiday</button>
+      </div>
+      <div id="fb-r-2" class="feedback-box"></div>
+    </div>
+
+    <!-- R3 -->
+    <div class="card" id="card-r-3">
+      <div class="q-text">3. What does he do on weekends?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 3, 'He works extra hours at the office', 'He visits grandparents or plays football with friends')">He works extra hours at the office</button>
+        <button class="opt-btn" onclick="chooseReading(this, 3, 'He visits grandparents or plays football with friends', 'He visits grandparents or plays football with friends')">He visits grandparents or plays football with friends</button>
+        <button class="opt-btn" onclick="chooseReading(this, 3, 'He sleeps all day', 'He visits grandparents or plays football with friends')">He sleeps all day</button>
+        <button class="opt-btn" onclick="chooseReading(this, 3, 'He travels to Tashkent', 'He visits grandparents or plays football with friends')">He travels to Tashkent</button>
+      </div>
+      <div id="fb-r-3" class="feedback-box"></div>
+    </div>
+
+    <!-- TEXT 2 -->
+    <div class="reading-box" style="margin-top: 24px;">
+      <div class="reading-title">📖 Matn 2: A Weekend Trip to the Mountains (A1+/A2)</div>
+      Last month, Nilufar and her family decided to spend the weekend in Chimgan mountains. The weather was sunny and warm when they arrived on Saturday morning. While her father was pitching the tent, Nilufar and her younger brother were collecting dry wood for the fire. Suddenly, dark clouds covered the sky and heavy rain started. They ran into a wooden cabin nearby. Although it was raining heavily outside, they were drinking hot tea and telling funny stories inside. Nilufar said it was the most memorable trip of her summer.
+    </div>
+
+    <!-- R4 -->
+    <div class="card" id="card-r-4">
+      <div class="q-text">4. What was Nilufar's father doing when they arrived?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 4, 'He was pitching the tent', 'He was pitching the tent')">He was pitching the tent</button>
+        <button class="opt-btn" onclick="chooseReading(this, 4, 'He was collecting dry wood', 'He was pitching the tent')">He was collecting dry wood</button>
+        <button class="opt-btn" onclick="chooseReading(this, 4, 'He was cooking dinner', 'He was pitching the tent')">He was cooking dinner</button>
+        <button class="opt-btn" onclick="chooseReading(this, 4, 'He was sleeping in the car', 'He was pitching the tent')">He was sleeping in the car</button>
+      </div>
+      <div id="fb-r-4" class="feedback-box"></div>
+    </div>
+
+    <!-- R5 -->
+    <div class="card" id="card-r-5">
+      <div class="q-text">5. What did the family do when heavy rain started?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 5, 'They went back home to Tashkent', 'They ran into a wooden cabin nearby')">They went back home to Tashkent</button>
+        <button class="opt-btn" onclick="chooseReading(this, 5, 'They ran into a wooden cabin nearby', 'They ran into a wooden cabin nearby')">They ran into a wooden cabin nearby</button>
+        <button class="opt-btn" onclick="chooseReading(this, 5, 'They stayed under a big tree', 'They ran into a wooden cabin nearby')">They stayed under a big tree</button>
+        <button class="opt-btn" onclick="chooseReading(this, 5, 'They called an ambulance', 'They ran into a wooden cabin nearby')">They called an ambulance</button>
+      </div>
+      <div id="fb-r-5" class="feedback-box"></div>
+    </div>
+
+    <!-- R6 -->
+    <div class="card" id="card-r-6">
+      <div class="q-text">6. How did Nilufar describe the trip?</div>
+      <div class="options-grid">
+        <button class="opt-btn" onclick="chooseReading(this, 6, 'It was boring and cold', 'The most memorable trip of her summer')">It was boring and cold</button>
+        <button class="opt-btn" onclick="chooseReading(this, 6, 'The most memorable trip of her summer', 'The most memorable trip of her summer')">The most memorable trip of her summer</button>
+        <button class="opt-btn" onclick="chooseReading(this, 6, 'A terrible mistake', 'The most memorable trip of her summer')">A terrible mistake</button>
+        <button class="opt-btn" onclick="chooseReading(this, 6, 'Too expensive for her family', 'The most memorable trip of her summer')">Too expensive for her family</button>
+      </div>
+      <div id="fb-r-6" class="feedback-box"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5-QISM: TARJIMA DRILLI (5 TA GAP)          -->
+    <!-- ========================================== -->
+    <div class="section-banner emerald">
+      <h2>5-Qism: Tarjima Drilli (5 ta Gap)</h2>
+      <p>Quyidagi o'zbekcha gaplarni ingliz tiliga tarjima qilib yozing.</p>
+    </div>
+
+    <div class="trans-card">
+      <div class="trans-uz">1. Mening opam har kuni soat 8 da ishga boradi.</div>
+      <div class="trans-hint">Foydali so'zlar: sister, every day, go to work, at 8 o'clock</div>
+      <input type="text" id="trans-1" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()">
+    </div>
+
+    <div class="trans-card">
+      <div class="trans-uz">2. Kecha men do'stimni ko'rdim va biz birga kitob o'qidik.</div>
+      <div class="trans-hint">Foydali so'zlar: yesterday, see (saw), friend, read (read) books together</div>
+      <input type="text" id="trans-2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()">
+    </div>
+
+    <div class="trans-card">
+      <div class="trans-uz">3. Ular hozir oshxonada tushlik tayyorlashmoqda.</div>
+      <div class="trans-hint">Foydali so'zlar: they, right now, in the kitchen, prepare/cook lunch</div>
+      <input type="text" id="trans-3" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()">
+    </div>
+
+    <div class="trans-card">
+      <div class="trans-uz">4. Siz ilgari hech qachon samolyotda uchganmisiz?</div>
+      <div class="trans-hint">Foydali so'zlar: have you ever, fly (flown) by plane, before</div>
+      <input type="text" id="trans-4" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()">
+    </div>
+
+    <div class="trans-card">
+      <div class="trans-uz">5. Biz kelasi yozda oilamiz bilan Antalyaga bormoqchimiz.</div>
+      <div class="trans-hint">Foydali so'zlar: next summer, be going to go to Antalya, with family</div>
+      <input type="text" id="trans-5" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()">
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 6-QISM: O'ZINGIZ HAQIDA QISQA INSHO        -->
+    <!-- ========================================== -->
+    <div class="section-banner sky">
+      <h2>6-Qism: O'zingiz Haqida Qisqa Insho (Self-Introduction)</h2>
+      <p>Ingliz tilida o'zingiz haqingizda 5–8 ta gap yozing. Qancha ko'p yozsangiz, ustozingiz yozma darajangizni shuncha aniq baholay oladi.</p>
+    </div>
+
+    <div class="essay-card">
+      <div class="essay-prompts">
+        💡 <b>Yordamchi savollar:</b><br>
+        • What is your name and where are you from? (Ismingiz va qayerdansiz?)<br>
+        • What do you do? (Kasbingiz yoki o'qishingiz?)<br>
+        • What do you like doing in your free time? (Bo'sh vaqtingizda nima qilasiz?)<br>
+        • What did you do yesterday? (Kecha nima qildingiz?)<br>
+        • Why do you want to learn English? (Nega ingliz tilini o'rganmoqchisiz?)
+      </div>
+      <textarea id="essayInput" rows="6" placeholder="Write about yourself here in English..." oninput="updateWordCount(); saveDraft();"></textarea>
+      <div class="word-counter" id="wordCountLabel">0 ta so'z yozildi</div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 7-QISM: YAKUNIY DIAGNOSTIKA & NATIJA KARTASI -->
+    <!-- ========================================== -->
+    <div class="final-report-card" id="finalReportCard">
+      <div class="report-header">🏆 Haqiqiy Darajangiz Natijasi</div>
+      <div class="report-level-big" id="reportLevelBig">A0 Starter (0%)</div>
+      <p style="color: #94a3b8; font-size: 0.95rem;">Test natijalari 61 ta ob'ektiv savollar orqali real vaqtda tahlil qilindi.</p>
+
+      <div class="report-matrix">
+        <div class="matrix-box">
+          <div class="matrix-label">A0 Starter</div>
+          <div class="matrix-val" id="matA0">0 / 10</div>
+        </div>
+        <div class="matrix-box">
+          <div class="matrix-label">A1 Elementary</div>
+          <div class="matrix-val" id="matA1">0 / 10</div>
+        </div>
+        <div class="matrix-box">
+          <div class="matrix-label">A1+/A2 Pre-Int</div>
+          <div class="matrix-val" id="matA2">0 / 10</div>
+        </div>
+        <div class="matrix-box">
+          <div class="matrix-label">Lug'at (Vocab)</div>
+          <div class="matrix-val" id="matVocab">0 / 20</div>
+        </div>
+        <div class="matrix-box">
+          <div class="matrix-label">Reading & Errors</div>
+          <div class="matrix-val" id="matReadErr">0 / 11</div>
+        </div>
+        <div class="matrix-box">
+          <div class="matrix-label">Umumiy Natija</div>
+          <div class="matrix-val" style="color: #34d399;" id="matTotal">0 / 61 (0%)</div>
+        </div>
+      </div>
+
+      <div class="roadmap-box">
+        <div class="roadmap-title">🗺️ Siz Uchun Maxsus O'quv Rejasi (Roadmap):</div>
+        <div id="reportRoadmap">Testni yechishni boshlang. Savollarga berilgan javoblaringiz asosida bu yerda sizga eng mos o'quv dasturi avtomatik shakllanadi.</div>
+      </div>
+
+      <button id="btnSubmitTelegram" class="btn-submit-main" onclick="submitLevelCheck()">
+        <span>Natijani Ustozga Topshirish</span> 📨
+      </button>
+      <div id="submitStatus" class="submit-status-msg"></div>
+    </div>
+  </div>
+
+  <script>
+    // BOT CONFIG: Verified working tokens & teacher IDs
+    const BOT_TOKEN_1 = '8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw'; // teacherOS_tg_bot
+    const BOT_TOKEN_2 = '8828359607:AAFEpXaJusqaorQtIhd2sDMm4enaVWxnmuY'; // english_ulunur_bot
+    const TEACHER_ID_1 = '6315515792';
+    const TEACHER_ID_2 = '7957347033';
+
+    // VOCABULARY DATA (20 essential words spanning A0, A1, A2)
+    const VOCAB_DATA = [
+      { w: "always", pos: "adv", cor: "har doim", opts: ["har doim", "ba'zan", "hech qachon", "kamdan-kam"] },
+      { w: "sometimes", pos: "adv", cor: "ba'zida", opts: ["har doim", "ba'zida", "kecha", "har kuni"] },
+      { w: "hungry", pos: "adj", cor: "och qolgan", opts: ["chanqagan", "och qolgan", "charchagan", "kasal"] },
+      { w: "thirsty", pos: "adj", cor: "chanqagan", opts: ["chanqagan", "och", "xursand", "uyqusiragan"] },
+      { w: "expensive", pos: "adj", cor: "qimmat", opts: ["arzon", "qimmat", "chiroyli", "foydali"] },
+      { w: "cheap", pos: "adj", cor: "arzon", opts: ["qimmat", "arzon", "eski", "og'ir"] },
+      { w: "delicious", pos: "adj", cor: "mazali", opts: ["achchiq", "mazali", "shirin", "issiq"] },
+      { w: "weather", pos: "noun", cor: "ob-havo", opts: ["fasl", "ob-havo", "tabiat", "yomg'ir"] },
+      { w: "receive", pos: "verb", cor: "qabul qilmoq", opts: ["jo'natmoq", "qabul qilmoq", "yo'qotmoq", "sotib olmoq"] },
+      { w: "decide", pos: "verb", cor: "qaror qilmoq", opts: ["o'ylamoq", "qaror qilmoq", "unutmoq", "boshlamoq"] },
+      { w: "arrive", pos: "verb", cor: "yetib kelmoq", opts: ["ketmoq", "yetib kelmoq", "uchmoq", "qolmoq"] },
+      { w: "borrow", pos: "verb", cor: "qarzga olmoq", opts: ["qarz bermoq", "qarzga olmoq", "sotmoq", "bermoq"] },
+      { w: "lend", pos: "verb", cor: "qarzga bermoq", opts: ["qarzga bermoq", "qarz olmoq", "ishlamoq", "topmoq"] },
+      { w: "immediately", pos: "adv", cor: "darhol, tezda", opts: ["asta-sekin", "darhol, tezda", "kechroq", "ertaga"] },
+      { w: "healthy", pos: "adj", cor: "sog'lom", opts: ["kasal", "sog'lom", "kuchli", "toza"] },
+      { w: "accident", pos: "noun", cor: "halokat, falokat", opts: ["sayohat", "halokat, falokat", "bayram", "uchrashuv"] },
+      { w: "improve", pos: "verb", cor: "yaxshilamoq", opts: ["buzmoq", "yaxshilamoq", "o'rganmoq", "boshlamoq"] },
+      { w: "experience", pos: "noun", cor: "tajriba", opts: ["bilim", "tajriba", "xato", "ish"] },
+      { w: "opportunity", pos: "noun", cor: "imkoniyat", opts: ["imkoniyat", "muammo", "rejalar", "vaqt"] },
+      { w: "successful", pos: "adj", cor: "muvaffaqiyatli", opts: ["mashhur", "muvaffaqiyatli", "boy", "qiziqarli"] }
+    ];
+
+    // ANSWER TRACKERS
+    let grammarAnswers = {}; // id -> { tier, ok, selected, correct }
+    let vocabAnswers = {};   // id -> { ok, selected, correct }
+    let errorAnswers = {};   // id -> { ok, selected, correct }
+    let readingAnswers = {}; // id -> { ok, selected, correct }
+
+    // RENDER VOCABULARY CARDS
+    function initVocabCards() {
+      const cont = document.getElementById('vocabGridContainer');
+      cont.innerHTML = '';
+      VOCAB_DATA.forEach((item, idx) => {
+        const id = idx + 1;
+        const card = document.createElement('div');
+        card.className = 'vocab-quiz-card';
+        card.id = 'v-card-' + id;
+        
+        let optsHtml = '';
+        item.opts.forEach(opt => {
+          optsHtml += `<button class="vocab-opt-btn" onclick="chooseVocab(this, ${id}, '${opt.replace(/'/g, "\\'")}', '${item.cor.replace(/'/g, "\\'")}')">${opt}</button>`;
+        });
+
+        card.innerHTML = `
+          <div class="vocab-quiz-word">
+            <span>${id}. ${item.w}</span>
+            <span class="vocab-pos">${item.pos}</span>
+          </div>
+          <div class="vocab-opts">${optsHtml}</div>
+          <div id="fb-v-${id}" class="feedback-box"></div>
+        `;
+        cont.appendChild(card);
+      });
+    }
+
+    // GRAMMAR SELECTION
+    function chooseGrammar(btn, id, selected, correct, expl, tier) {
+      const card = document.getElementById('card-g-' + id);
+      const btns = card.querySelectorAll('.opt-btn');
+      const fb = document.getElementById('fb-g-' + id);
+      const isOk = (selected === correct);
+
+      btns.forEach(b => {
+        b.classList.remove('correct', 'wrong');
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === selected && !isOk) b.classList.add('wrong');
+      });
+
+      grammarAnswers[id] = { tier, ok: isOk, selected, correct };
+      fb.className = 'feedback-box show ' + (isOk ? 'correct' : 'wrong');
+      fb.innerHTML = (isOk ? '✅ <b>To\'g\'ri!</b> ' : '❌ <b>Noto\'g\'ri.</b> ') + expl;
+
+      updateAllScores();
+      saveDraft();
+    }
+
+    // VOCAB SELECTION
+    function chooseVocab(btn, id, selected, correct) {
+      const card = document.getElementById('v-card-' + id);
+      const btns = card.querySelectorAll('.vocab-opt-btn');
+      const fb = document.getElementById('fb-v-' + id);
+      const isOk = (selected === correct);
+
+      btns.forEach(b => {
+        b.classList.remove('correct', 'wrong');
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === selected && !isOk) b.classList.add('wrong');
+      });
+
+      vocabAnswers[id] = { ok: isOk, selected, correct };
+      fb.className = 'feedback-box show ' + (isOk ? 'correct' : 'wrong');
+      fb.innerHTML = isOk ? '✅ <b>To\'g\'ri!</b>' : `❌ <b>Noto\'g\'ri. To\'g\'ri javob:</b> "${correct}"`;
+
+      updateAllScores();
+      saveDraft();
+    }
+
+    // ERROR HUNT SELECTION
+    function chooseError(btn, id, selected, correct, expl) {
+      const card = document.getElementById('card-e-' + id);
+      const btns = card.querySelectorAll('.opt-btn');
+      const fb = document.getElementById('fb-e-' + id);
+      const isOk = (selected === correct);
+
+      btns.forEach(b => {
+        b.classList.remove('correct', 'wrong');
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === selected && !isOk) b.classList.add('wrong');
+      });
+
+      errorAnswers[id] = { ok: isOk, selected, correct };
+      fb.className = 'feedback-box show ' + (isOk ? 'correct' : 'wrong');
+      fb.innerHTML = (isOk ? '✅ <b>Ajoyib!</b> ' : '❌ <b>Xato.</b> ') + expl;
+
+      updateAllScores();
+      saveDraft();
+    }
+
+    // READING SELECTION
+    function chooseReading(btn, id, selected, correct) {
+      const card = document.getElementById('card-r-' + id);
+      const btns = card.querySelectorAll('.opt-btn');
+      const fb = document.getElementById('fb-r-' + id);
+      const isOk = (selected === correct);
+
+      btns.forEach(b => {
+        b.classList.remove('correct', 'wrong');
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === selected && !isOk) b.classList.add('wrong');
+      });
+
+      readingAnswers[id] = { ok: isOk, selected, correct };
+      fb.className = 'feedback-box show ' + (isOk ? 'correct' : 'wrong');
+      fb.innerHTML = isOk ? '✅ <b>To\'g\'ri tushundingiz!</b>' : `❌ <b>Noto\'g\'ri. To\'g\'ri javob:</b> "${correct}"`;
+
+      updateAllScores();
+      saveDraft();
+    }
+
+    // SCORE & LEVEL CALCULATION ENGINE
+    function updateAllScores() {
+      let a0Count = 0, a1Count = 0, a2Count = 0;
+      for (let k in grammarAnswers) {
+        if (grammarAnswers[k].ok) {
+          if (grammarAnswers[k].tier === 'A0') a0Count++;
+          else if (grammarAnswers[k].tier === 'A1') a1Count++;
+          else if (grammarAnswers[k].tier === 'A2') a2Count++;
+        }
+      }
+
+      let vCount = 0;
+      for (let k in vocabAnswers) { if (vocabAnswers[k].ok) vCount++; }
+
+      let eCount = 0;
+      for (let k in errorAnswers) { if (errorAnswers[k].ok) eCount++; }
+
+      let rCount = 0;
+      for (let k in readingAnswers) { if (readingAnswers[k].ok) rCount++; }
+
+      const totalCorrect = a0Count + a1Count + a2Count + vCount + eCount + rCount;
+      const totalPossible = 61; // 30 G + 20 V + 5 E + 6 R
+      const percent = Math.round((totalCorrect / totalPossible) * 100);
+
+      // Determine Level Accurately
+      let levelTitle = "";
+      let levelClass = "";
+      let roadmap = "";
+
+      if (totalCorrect <= 18) {
+        levelTitle = "A0 Starter (Mutlaq Boshlang'ich)";
+        levelClass = "tier-A0";
+        roadmap = "Sizda ingliz tili asoslarini (harflar, to be zamoni, olmoshlar, a/an va eng oddiy so'zlar) noldan tartibli o'rganish zarurati bor. Darslarni 'A0 Starter Foundation' bosqichidan boshlash tavsiya etiladi.";
+      } else if (totalCorrect <= 35) {
+        levelTitle = "A1- Elementary (Zaif Boshlang'ich)";
+        levelClass = "tier-A0";
+        roadmap = "Siz asosiy to be va oddiy so'zlarni bilasiz, lekin Present Simple (s/es, don't/doesn't), so'roq tuzish va sanaladigan/sanalmaydigan otlarda adashyapsiz. Dastur: 'A1 Intensive Core'.";
+      } else if (totalCorrect <= 48) {
+        levelTitle = "A1 Solid Elementary (Mustahkam Boshlang'ich)";
+        levelClass = "tier-A1";
+        roadmap = "A1 darajangiz juda mustahkam! Hozirgi zamon va oddiy so'z boyligi shakllangan. Endi o'tgan zamonlar (Past Simple, Past Continuous) va noto'g'ri fe'llarni chuqur o'rganib, tezda A2 darajasiga sakrash mumkin.";
+      } else {
+        levelTitle = "A1+ / A2 Pre-Intermediate (O'rta-Quyi Bosqich)";
+        levelClass = "tier-A2";
+        roadmap = "Ajoyib natija! Siz A1 darajasidan to'liq o'tgansiz. O'tgan zamonlar, lug'at va matn tushunish a'lo darajada. Siz to'g'ridan-to'g'ri A2 Pre-Intermediate kursiga tayyorsiz!";
+      }
+
+      // Update Sticky HUD
+      document.getElementById('hudScore').textContent = `${totalCorrect} / ${totalPossible}`;
+      document.getElementById('hudLevelBadge').textContent = `${levelTitle.split(' ')[0]} (${percent}%)`;
+      document.getElementById('hudProgressFill').style.width = percent + '%';
+
+      // Update Final Report Matrix
+      document.getElementById('reportLevelBig').textContent = `${levelTitle} — ${percent}%`;
+      document.getElementById('matA0').textContent = `${a0Count} / 10`;
+      document.getElementById('matA1').textContent = `${a1Count} / 10`;
+      document.getElementById('matA2').textContent = `${a2Count} / 10`;
+      document.getElementById('matVocab').textContent = `${vCount} / 20`;
+      document.getElementById('matReadErr').textContent = `${eCount + rCount} / 11`;
+      document.getElementById('matTotal').textContent = `${totalCorrect} / ${totalPossible} (${percent}%)`;
+      document.getElementById('reportRoadmap').textContent = roadmap;
+    }
+
+    function updateWordCount() {
+      const text = (document.getElementById('essayInput').value || '').trim();
+      const count = text ? text.split(/\s+/).length : 0;
+      document.getElementById('wordCountLabel').textContent = count + " ta so'z yozildi";
+    }
+
+    function saveDraft() {
+      const draft = {
+        name: document.getElementById('studentName').value,
+        contact: document.getElementById('studentContact').value,
+        essay: document.getElementById('essayInput').value,
+        t1: document.getElementById('trans-1').value,
+        t2: document.getElementById('trans-2').value,
+        t3: document.getElementById('trans-3').value,
+        t4: document.getElementById('trans-4').value,
+        t5: document.getElementById('trans-5').value
+      };
+      localStorage.setItem('tos_new_student_level_check_v2', JSON.stringify(draft));
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem('tos_new_student_level_check_v2');
+      if (!raw) return;
+      try {
+        const d = JSON.parse(raw);
+        if (d.name) document.getElementById('studentName').value = d.name;
+        if (d.contact) document.getElementById('studentContact').value = d.contact;
+        if (d.essay) {
+          document.getElementById('essayInput').value = d.essay;
+          updateWordCount();
+        }
+        if (d.t1) document.getElementById('trans-1').value = d.t1;
+        if (d.t2) document.getElementById('trans-2').value = d.t2;
+        if (d.t3) document.getElementById('trans-3').value = d.t3;
+        if (d.t4) document.getElementById('trans-4').value = d.t4;
+        if (d.t5) document.getElementById('trans-5').value = d.t5;
+      } catch(e) {}
+    }
+
+    // HTML ESCAPING FOR TELEGRAM
+    function esc(s) {
+      if (!s) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    // TELEGRAM SUBMISSION FUNCTION
+    async function submitLevelCheck() {
+      const name = (document.getElementById('studentName').value || '').trim();
+      const contact = (document.getElementById('studentContact').value || '').trim();
+      const btn = document.getElementById('btnSubmitTelegram');
+      const status = document.getElementById('submitStatus');
+
+      if (!name) {
+        alert("⚠️ Iltimos, avval Ism va Familiyangizni kiriting!");
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      // Count scores
+      let a0Count = 0, a1Count = 0, a2Count = 0;
+      for (let k in grammarAnswers) {
+        if (grammarAnswers[k].ok) {
+          if (grammarAnswers[k].tier === 'A0') a0Count++;
+          else if (grammarAnswers[k].tier === 'A1') a1Count++;
+          else if (grammarAnswers[k].tier === 'A2') a2Count++;
+        }
+      }
+      let vCount = 0;
+      for (let k in vocabAnswers) { if (vocabAnswers[k].ok) vCount++; }
+      let eCount = 0;
+      for (let k in errorAnswers) { if (errorAnswers[k].ok) eCount++; }
+      let rCount = 0;
+      for (let k in readingAnswers) { if (readingAnswers[k].ok) rCount++; }
+
+      const totalCorrect = a0Count + a1Count + a2Count + vCount + eCount + rCount;
+      const totalPossible = 61;
+      const percent = Math.round((totalCorrect / totalPossible) * 100);
+      const level = document.getElementById('reportLevelBig').textContent;
+
+      // Translations summary
+      const t1 = (document.getElementById('trans-1').value || '').trim();
+      const t2 = (document.getElementById('trans-2').value || '').trim();
+      const t3 = (document.getElementById('trans-3').value || '').trim();
+      const t4 = (document.getElementById('trans-4').value || '').trim();
+      const t5 = (document.getElementById('trans-5').value || '').trim();
+
+      const transList = [t1, t2, t3, t4, t5];
+      const filledTrans = transList.filter(t => t.length > 2).length;
+
+      let transText = "";
+      transList.forEach((t, i) => {
+        if (t) transText += `• ${i + 1}) <i>${esc(t)}</i>\n`;
+      });
+      if (!transText) transText = "<i>(Bajarilmadi)</i>\n";
+
+      // Essay
+      const essay = (document.getElementById('essayInput').value || '').trim();
+      const essayWords = essay ? essay.split(/\s+/).length : 0;
+
+      // Construct Telegram Payload
+      const tgHtml = `📊 <b>YANGI O'QUVCHI LEVEL CHECK HISOBOTI</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `👤 <b>O'quvchi:</b> ${esc(name)}\n` +
+        `📞 <b>Aloqa:</b> ${esc(contact || 'Kiritilmadi')}\n` +
+        `📅 <b>Sana:</b> ${new Date().toLocaleDateString('uz-UZ')}\n` +
+        `🎯 <b>ANIQLANGAN DARAJA:</b> <b>${esc(level)}</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n\n` +
+        `📈 <b>MODULLAR BO'YICHA TAHLIL:</b>\n` +
+        `• <b>1. A0 Starter Asoslari:</b> ${a0Count}/10\n` +
+        `• <b>2. A1 Elementary Grammatika:</b> ${a1Count}/10\n` +
+        `• <b>3. A1+/A2 Tuzilmalar & Zamonlar:</b> ${a2Count}/10\n` +
+        `• <b>4. Lug'at Boyligi (Vocab):</b> ${vCount}/20\n` +
+        `• <b>5. Xatolar & Reading:</b> ${eCount + rCount}/11\n` +
+        `• <b>JAMI OB'EKTIV BALL:</b> <b>${totalCorrect} / ${totalPossible} (${percent}%)</b>\n\n` +
+        `🌐 <b>TARJIMALAR (${filledTrans}/5):</b>\n${transText}\n` +
+        `✍️ <b>O'QUVCHINING INSHOSI (${essayWords} ta so'z):</b>\n` +
+        `<i>"${essay ? esc(essay.substring(0, 1500)) : '(Insho yozilmadi)'}"</i>\n\n` +
+        `🗺️ <b>TAVSIYA ETILGAN DASTUR:</b>\n` +
+        `<i>${esc(document.getElementById('reportRoadmap').textContent)}</i>\n\n` +
+        `🤖 <i>TeacherOS Diagnostic Engine</i>`;
+
+      btn.disabled = true;
+      btn.textContent = "Ustoz botiga yuborilmoqda... ⏳";
+      status.style.color = "#38bdf8";
+      status.textContent = "Natijalar Telegram botlariga uzatilmoqda...";
+
+      // Helper function to send
+      async function trySend(token, chatId) {
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: tgHtml, parse_mode: 'HTML' })
+          });
+          const data = await res.json();
+          return data.ok;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      // Send to BOTH BOT1 & BOT2, and BOTH TEACHER1 & TEACHER2
+      let success1 = await trySend(BOT_TOKEN_1, TEACHER_ID_1);
+      let success2 = await trySend(BOT_TOKEN_1, TEACHER_ID_2);
+      
+      // If needed, also fallback to Bot 2
+      if (!success1 && !success2) {
+        await trySend(BOT_TOKEN_2, TEACHER_ID_2);
+      }
+
+      if (success1 || success2) {
+        status.style.color = "#34d399";
+        status.innerHTML = "🎉 <b>Ajoyib! Natijangiz va darajangiz ustozingizga muvaffaqiyatli topshirildi!</b>";
+        btn.textContent = "Muvaffaqiyatli Topshirildi ✅";
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        }
+      } else {
+        // Fallback plain text if HTML had entity issue
+        const plainText = `Yangi o'quvchi Level Check: ${name} (${contact}). Natija: ${level}. Ball: ${totalCorrect}/${totalPossible} (${percent}%). Insho: ${essay.substring(0, 300)}`;
+        try {
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN_1}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: TEACHER_ID_1, text: plainText })
+          });
+          status.style.color = "#34d399";
+          status.innerHTML = "🎉 <b>Natijangiz topshirildi!</b>";
+          btn.textContent = "Topshirildi ✅";
+          if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 60 });
+        } catch(e) {
+          status.style.color = "#f87171";
+          status.innerHTML = "⚠️ Xatolik yuz berdi. Internetni tekshirib, qayta urinib ko'ring.";
+          btn.disabled = false;
+          btn.textContent = "Qayta yuborish 🔄";
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initVocabCards();
+      loadDraft();
+      updateAllScores();
+    });
+  </script>
+</body>
+</html>

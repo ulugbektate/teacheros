@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A1 Master Grammar Trainer • 100% Mastery Loop (11 Topics)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070d18;
+      --card-bg: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #0ea5e9;
+      --primary: #0ea5e9;
+      --primary-hover: #0284c7;
+      --primary-glow: rgba(14, 165, 233, 0.35);
+      --accent: #6366f1;
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6;
+      background-image: radial-gradient(circle at 10% 15%, rgba(14, 165, 233, 0.12) 0%, transparent 45%),
+                        radial-gradient(circle at 90% 85%, rgba(99, 102, 241, 0.1) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    .container { max-width: 1040px; margin: 0 auto; padding: 20px 16px 80px; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #082f49 0%, #0f172a 60%, #1e1b4b 100%);
+      border: 1px solid rgba(14, 165, 233, 0.35);
+      border-radius: var(--radius-lg); padding: 24px 26px; margin-bottom: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 30px var(--primary-glow);
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .badge {
+      font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-a1 { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.35); }
+    .badge-loop { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(110, 231, 183, 0.35); }
+    .badge-sync { background: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(165, 180, 252, 0.35); }
+
+    h1 {
+      font-size: 1.85rem; font-weight: 900; margin-bottom: 6px; line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 40%, #bae6fd 80%, #38bdf8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--text-muted); font-size: 0.92rem; }
+
+    /* STUDENT INPUT / IDENTITY CARD */
+    .student-bar {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 14px 18px; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .student-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 260px; }
+    .student-icon {
+      width: 42px; height: 42px; border-radius: 12px; background: rgba(14, 165, 233, 0.18);
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1px solid rgba(14, 165, 233, 0.35);
+    }
+    .student-name-input {
+      background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); color: #fff;
+      padding: 9px 14px; border-radius: var(--radius-sm); font-size: 0.92rem; font-weight: 600;
+      outline: none; transition: border-color 0.2s; width: 100%; max-width: 260px;
+    }
+    .student-name-input:focus { border-color: var(--border-focus); box-shadow: 0 0 10px var(--primary-glow); }
+
+    .overall-progress-card {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .progress-bar-outer {
+      width: 140px; height: 10px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; width: 0%; background: linear-gradient(90deg, #0ea5e9, #10b981);
+      transition: width 0.4s ease;
+    }
+    .progress-txt { font-size: 0.82rem; font-weight: 700; color: #bae6fd; font-family: 'JetBrains Mono', monospace; }
+
+    /* STAGE SECTION */
+    .stage-section { margin-bottom: 34px; }
+    .stage-header {
+      display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .stage-title { font-size: 1.15rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .stage-badge {
+      font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;
+      background: rgba(14, 165, 233, 0.15); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.25);
+    }
+    .stage-count { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+
+    /* TOPIC GRID */
+    .topics-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px;
+    }
+
+    .topic-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 16px 18px; cursor: pointer; transition: all 0.25s ease; position: relative;
+      overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px;
+    }
+    .topic-card:hover {
+      background: var(--card-hover); border-color: rgba(14, 165, 233, 0.45);
+      transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+    }
+    .topic-card.mastered {
+      border-color: rgba(16, 185, 129, 0.5); background: linear-gradient(145deg, #0f172a 0%, #064e3b22 100%);
+    }
+
+    .topic-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .topic-num {
+      font-size: 0.75rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+      padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.06); color: #7dd3fc;
+    }
+    .topic-badge-status {
+      font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    }
+    .status-mastered { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .status-progress { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35); }
+    .status-new { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); }
+
+    .topic-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 4px; line-height: 1.35; }
+    .topic-desc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+
+    .topic-bottom {
+      display: flex; justify-content: space-between; align-items: center; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.78rem;
+    }
+    .topic-q-count { color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .topic-score-pill { font-weight: 800; font-family: 'JetBrains Mono', monospace; color: #bae6fd; }
+
+    /* VIEW 2: DRILL / PRACTICE SCREEN */
+    #drillView { display: none; }
+    .drill-header {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 16px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .drill-progress-wrap { display: flex; align-items: center; gap: 12px; }
+    .drill-counter { font-weight: 800; font-family: 'JetBrains Mono', monospace; color: #7dd3fc; font-size: 0.95rem; }
+    .drill-bar-bg { width: 140px; height: 8px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
+    .drill-bar-fill { height: 100%; width: 0%; background: #0ea5e9; transition: width 0.3s; }
+
+    .btn-back {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff;
+      padding: 7px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+
+    /* QUESTION CARD */
+    .question-card {
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4); margin-bottom: 20px;
+    }
+    .q-type-badge {
+      font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #7dd3fc;
+      background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(125, 211, 252, 0.25);
+      padding: 3px 10px; border-radius: 6px; display: inline-block; margin-bottom: 14px;
+    }
+    .q-sentence {
+      font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 22px; line-height: 1.5;
+    }
+
+    .q-options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
+    @media (min-width: 640px) {
+      .q-options-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .q-opt-btn {
+      background: rgba(15, 23, 42, 0.75); border: 1.5px solid rgba(255,255,255,0.08);
+      color: #e2e8f0; padding: 14px 18px; border-radius: var(--radius-md); font-size: 0.98rem;
+      font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .q-opt-btn:hover:not(:disabled) {
+      background: rgba(14, 165, 233, 0.12); border-color: var(--primary);
+      transform: translateY(-1px); color: #fff;
+    }
+    .q-opt-btn.correct {
+      background: rgba(16, 185, 129, 0.2) !important; border-color: #10b981 !important; color: #6ee7b7 !important;
+    }
+    .q-opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important; border-color: #ef4444 !important; color: #fca5a5 !important;
+    }
+
+    /* FEEDBACK CARD */
+    .drill-feedback {
+      background: rgba(15, 23, 42, 0.9); border-radius: var(--radius-md); padding: 14px 18px;
+      font-size: 0.92rem; line-height: 1.5; display: none; margin-bottom: 18px;
+    }
+    .drill-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+    .drill-feedback.correct { border-left: 4px solid #10b981; color: #a7f3d0; background: rgba(16, 185, 129, 0.08); }
+    .drill-feedback.wrong { border-left: 4px solid #ef4444; color: #fecaca; background: rgba(239, 68, 68, 0.08); }
+
+    .drill-footer { display: flex; justify-content: flex-end; }
+    .btn-next {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none; color: #fff;
+      padding: 12px 28px; border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 800;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4); display: none;
+    }
+    .btn-next.show { display: inline-flex; align-items: center; gap: 8px; animation: bounceIn 0.3s; }
+
+    /* VIEW 3: RESULTS SCREEN & RETAKE BREAKDOWN */
+    #resultView { display: none; }
+    .result-hero {
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px;
+      text-align: center; margin-bottom: 24px; box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+    }
+    .result-score-big {
+      font-size: 3.2rem; font-weight: 900; font-family: 'JetBrains Mono', monospace;
+      margin: 8px 0 6px; background: linear-gradient(135deg, #fff, #7dd3fc, #38bdf8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .result-msg { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 22px; max-width: 580px; margin-left: auto; margin-right: auto; }
+
+    .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn-retake-mistakes {
+      background: linear-gradient(135deg, #ef4444, #dc2626); border: none; color: #fff;
+      padding: 13px 24px; border-radius: var(--radius-md); font-size: 0.95rem; font-weight: 800;
+      cursor: pointer; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35); display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-retake-all {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff;
+      padding: 13px 22px; border-radius: var(--radius-md); font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-submit-teacher {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none; color: #fff;
+      padding: 13px 24px; border-radius: var(--radius-md); font-size: 0.95rem; font-weight: 800;
+      cursor: pointer; box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35); display: inline-flex; align-items: center; gap: 8px;
+    }
+
+    .mistakes-section-title { font-size: 1.15rem; font-weight: 800; color: #fca5a5; margin: 24px 0 14px; }
+    .mistake-card {
+      background: var(--card-bg); border-left: 4px solid #ef4444; border-radius: var(--radius-sm);
+      padding: 14px 16px; margin-bottom: 12px; font-size: 0.92rem;
+    }
+    .mistake-q { font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .mistake-your { color: #f87171; font-size: 0.85rem; margin-bottom: 4px; }
+    .mistake-correct { color: #34d399; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    .mistake-expl { color: var(--text-muted); font-size: 0.84rem; line-height: 1.4; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceIn { 0% { transform: scale(0.9); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ============================================== -->
+    <!-- VIEW 1: HUB / ALL 11 TOPICS                   -->
+    <!-- ============================================== -->
+    <div id="hubView">
+      <header>
+        <div class="badge-row">
+          <span class="badge badge-a1">A1 Level Mastery</span>
+          <span class="badge badge-loop">100% Retake Loop</span>
+          <span class="badge badge-sync">Telegram Synced</span>
+        </div>
+        <h1>A1 Grammar Mastery Trainer</h1>
+        <p class="subtitle">A1 talaba uchun o'tilgan barcha 11 ta grammatika mavzusi • Xatolar ustida ishlab 100% ga erishish tizimi</p>
+      </header>
+
+      <div class="student-bar">
+        <div class="student-info">
+          <div class="student-icon">🎓</div>
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Talaba Ismi</div>
+            <input type="text" id="studentNameInput" class="student-name-input" placeholder="Ismingizni kiriting..." onchange="saveStudentName()">
+          </div>
+        </div>
+        <div class="overall-progress-card">
+          <div>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">100% O'ZLASHGAN</div>
+            <div class="progress-txt" id="overallMasteryTxt">0 / 11 (0%)</div>
+          </div>
+          <div class="progress-bar-outer">
+            <div class="progress-bar-fill" id="overallMasteryFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 TOPICS -->
+      <div class="stage-section">
+        <div class="stage-header">
+          <div class="stage-title">
+            <span>📚 O'tilgan 11 ta Asosiy Mavzu</span>
+            <span class="stage-badge">A1 Complete Syllabus</span>
+          </div>
+          <div class="stage-count">11 ta mavzu</div>
+        </div>
+        <div class="topics-grid" id="topicsGrid"></div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- VIEW 2: INTERACTIVE DRILL SCREEN               -->
+    <!-- ============================================== -->
+    <div id="drillView">
+      <div class="drill-header">
+        <button class="btn-back" onclick="exitToHub()">⬅ Barcha Mavzular</button>
+        <div style="font-weight:800; font-size:1.05rem; color:#fff;" id="drillTopicTitle">#1 Present Continuous</div>
+        <div class="drill-progress-wrap">
+          <div class="drill-counter" id="drillCounter">1 / 30</div>
+          <div class="drill-bar-bg">
+            <div class="drill-bar-fill" id="drillBarFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="q-type-badge" id="qTypeBadge">SITUATIONAL DRILL</div>
+        <div class="q-sentence" id="qSentence">Loading question...</div>
+        <div class="q-options-grid" id="qOptionsGrid"></div>
+        <div class="drill-feedback" id="drillFeedback"></div>
+
+        <div class="drill-footer">
+          <button class="btn-next" id="btnNext" onclick="nextQuestion()">Keyingisi ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- VIEW 3: RESULT & RETAKE BREAKDOWN             -->
+    <!-- ============================================== -->
+    <div id="resultView">
+      <div class="result-hero">
+        <div style="font-size:0.85rem; font-weight:800; color:#7dd3fc; text-transform:uppercase;">Mavzu Bo'yicha Natija</div>
+        <div class="result-score-big" id="resultScoreBig">28 / 30 (93%)</div>
+        <div class="result-msg" id="resultMsg">Yaxshi, lekin 100% ga yetkazish uchun xatolar ustida ishlang!</div>
+
+        <div class="result-actions">
+          <button class="btn-retake-mistakes" id="btnRetakeMistakes" onclick="startMistakesOnly()">
+            <span>🎯 Faqat Xatolarni Qayta Yechish</span>
+          </button>
+          <button class="btn-retake-all" onclick="restartCurrentTopic()">
+            <span>🔁 Butun Testni Qayta Topshirish</span>
+          </button>
+          <button class="btn-submit-teacher" onclick="sendScoreToTelegram()">
+            <span>📨 Ustozga Yuborish</span>
+          </button>
+          <button class="btn-back" onclick="exitToHub()">
+            <span>⬅ Mavzular Ro'yxatiga Qaytish</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="mistakesSection">
+        <div class="mistakes-section-title">🔍 Xatolar Tahlili (Nega xato qildingiz?):</div>
+        <div id="mistakesListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TOPICS_DATA = [{"id":1,"num":"#1","title":"Present continuous","desc":"actions happening now"},{"id":2,"num":"#2","title":"Present simple","desc":"routines, habits, facts, states"},{"id":3,"num":"#3","title":"Present continuous versus present simple","desc":"temporary vs permanent situations"},{"id":4,"num":"#4","title":"Stative verbs","desc":"know, like, believe, need, understand"},{"id":5,"num":"#5","title":"Past simple","desc":"finished past events"},{"id":6,"num":"#6","title":"Past continuous","desc":"actions in progress in the past"},{"id":7,"num":"#7","title":"Past simple versus past continuous","desc":"interruptions and background actions"},{"id":8,"num":"#8","title":"Present perfect simple","desc":"experience and recent events"},{"id":19,"num":"#19","title":"Present continuous for future arrangements","desc":"fixed appointments and personal plans"},{"id":20,"num":"#20","title":"Present simple for timetables and schedules","desc":"official schedules, transport, events"},{"id":21,"num":"#21","title":"Be going to","desc":"plans, intentions, and visible evidence"}];
+    const ALL_QUESTIONS = {"1":[{"id":1,"q":"Look! The cat ______ on the sofa right now.","opts":["are sleeping","is sleep","is sleeping","sleeps"],"ans":"is sleeping","expl":"Ayni lahzada bo'layotgan ish: The cat (it) + is + V-ing."},{"id":2,"q":"Listen! Somebody ______ the piano in the next room.","opts":["plays","are playing","playing","is playing"],"ans":"is playing","expl":"Listen! - hozir eshitilayotgan jarayon: is playing."},{"id":3,"q":"Please be quiet. The baby ______.","opts":["is sleep","sleep","sleeps","is sleeping"],"ans":"is sleeping","expl":"Hozir tinchlik kerak, chunki chaqaloq uxlayapti: is sleeping."},{"id":4,"q":"Where is Malika? — She ______ dinner in the kitchen.","opts":["cooks","is cook","cook","is cooking"],"ans":"is cooking","expl":"Hozir oshxonada nima qilayotganini ko'rsatadi: is cooking."},{"id":5,"q":"They ______ football in the park at the moment.","opts":["plays","is playing","are playing","are play"],"ans":"are playing","expl":"'They' uchun 'are' + V-ing: are playing."},{"id":6,"q":"I ______ an interesting book today.","opts":["reads","is reading","am reading","read"],"ans":"am reading","expl":"'I' uchun: am reading."},{"id":7,"q":"Why ______ you ______ a coat? It is hot outside!","opts":["are / wearing","is / wearing","are / wear","do / wear"],"ans":"are / wearing","expl":"Hozirgi holat bo'yicha so'roq: Why are you wearing...?"},{"id":8,"q":"We ______ TV right now. We are doing homework.","opts":["isn't watching","aren't watching","not watching","don't watch"],"ans":"aren't watching","expl":"Present Continuous inkori: aren't watching."},{"id":9,"q":"Look at the window! It ______ outside.","opts":["is raining","rains","rain","is rain"],"ans":"is raining","expl":"Hozir yog'ayotgan yomg'ir: is raining."},{"id":10,"q":"My father ______ his car in the garage now.","opts":["is washing","wash","is wash","washes"],"ans":"is washing","expl":"Hozir mashina yuvyapti: is washing."},{"id":11,"q":"______ your brother ______ right now?","opts":["Is / studying","Does / study","Is / study","Are / studying"],"ans":"Is / studying","expl":"Your brother (he) -> Is your brother studying?"},{"id":12,"q":"What ______ you ______ on your phone right now?","opts":["are / doing","is / doing","are / do","do / do"],"ans":"are / doing","expl":"Hozir nima qilyapsan? -> What are you doing?"},{"id":13,"q":"The boys ______ in the swimming pool.","opts":["is swimming","are swiming","swims","are swimming"],"ans":"are swimming","expl":"The boys (ko'plik) -> are swimming (m ikkilanadi)."},{"id":14,"q":"Shh! I ______ to the teacher.","opts":["am listening","is listening","listen","am listen"],"ans":"am listening","expl":"I am listening."},{"id":15,"q":"She ______ an email to her friend at the moment.","opts":["is writing","is writeing","write","writes"],"ans":"is writing","expl":"write -> writing (e tushib qoladi)."},{"id":16,"q":"We ______ for the bus at the bus stop.","opts":["are wait","are waiting","is waiting","waits"],"ans":"are waiting","expl":"We are waiting."},{"id":17,"q":"Anvar ______ a blue T-shirt today.","opts":["wear","is wearing","is wear","wears"],"ans":"is wearing","expl":"Bugun kiyib olgan: is wearing."},{"id":18,"q":"The children ______ their breakfast right now.","opts":["eat","is eating","are eating","eats"],"ans":"are eating","expl":"Children (bolalar) -> are eating."},{"id":19,"q":"Tarjima: 'Men hozir dars qilyapman.'","opts":["I do my homework now.","I am do homework now.","I doing my homework now.","I am doing my homework now."],"ans":"I am doing my homework now.","expl":"Present Continuous: I am doing."},{"id":20,"q":"❌ 'She is cook dinner now.' — Xatoni tuzating:","opts":["is cooking","cooked","are cooking","cooks"],"ans":"is cooking","expl":"is dan keyin fe'lga -ing qo'shilishi shart: is cooking."},{"id":21,"q":"Tom and Jerry ______ across the room.","opts":["is running","are running","are runing","runs"],"ans":"are running","expl":"Tom and Jerry (2 kishi) -> are running (n ikkilanadi)."},{"id":22,"q":"My sister ______ a shower right now.","opts":["is haveing","is having","have","has"],"ans":"is having","expl":"Dush qabul qilyapti: is having a shower."},{"id":23,"q":"I ______ to music with my headphones.","opts":["am listen","listen","is listening","am listening"],"ans":"am listening","expl":"am listening."},{"id":24,"q":"Look! The bus ______!","opts":["is comeing","comes","is coming","come"],"ans":"is coming","expl":"Avtobus kelyapti: is coming (come -> coming)."},{"id":25,"q":"They ______ English right now, they are speaking Uzbek.","opts":["not speaking","don't speak","aren't speaking","isn't speaking"],"ans":"aren't speaking","expl":"Inkor: aren't speaking."},{"id":26,"q":"______ it ______ outside? — No, it isn't.","opts":["Is / snow","Are / snowing","Does / snow","Is / snowing"],"ans":"Is / snowing","expl":"Qor yoqyaptimi? -> Is it snowing?"},{"id":27,"q":"The dog ______ after the ball in the yard.","opts":["runs","is runing","is running","run"],"ans":"is running","expl":"Kuchuk yuguryapti: is running."},{"id":28,"q":"Why ______ the girl ______? — She lost her toy.","opts":["is / crying","is / cry","does / cry","are / crying"],"ans":"is / crying","expl":"Nega qizaloq yig'layapti? -> Why is the girl crying?"},{"id":29,"q":"I ______ a letter to my grandmother right now.","opts":["am write","write","writes","am writing"],"ans":"am writing","expl":"am writing."},{"id":30,"q":"Be careful! You ______ your coffee!","opts":["drop","are dropping","is dropping","drops"],"ans":"are dropping","expl":"Kofeni tushirib yuboryapsan: are dropping."}],"2":[{"id":1,"q":"My father ______ up at 6:30 AM every morning.","opts":["wake","woked","is waking","wakes"],"ans":"wakes","expl":"Har kungi odat (every morning) + He -> wakes (-s)."},{"id":2,"q":"I ______ tea with milk every day.","opts":["drink","drinks","drinked","am drinking"],"ans":"drink","expl":"'I' uchun fe'l o'zgarmaydi: I drink."},{"id":3,"q":"She ______ in a hospital. She is a nurse.","opts":["workes","work","works","is working"],"ans":"works","expl":"'She' uchun 3-shaxs birlikda -s qo'shiladi: works."},{"id":4,"q":"We ______ to school by bus every day.","opts":["are going","goes","go","went"],"ans":"go","expl":"'We' uchun: go."},{"id":5,"q":"My brother ______ football on Sundays.","opts":["is playing","plays","play","plaies"],"ans":"plays","expl":"He plays."},{"id":6,"q":"The sun ______ in the east every morning.","opts":["is rising","rises","rised","rise"],"ans":"rises","expl":"Tabiat qonuni: The sun rises."},{"id":7,"q":"Water ______ at 100 degrees Celsius.","opts":["boils","boil","boiles","is boiling"],"ans":"boils","expl":"Ilmiy fakt: boils."},{"id":8,"q":"Ali ______ meat. He is a vegetarian.","opts":["doesn't eats","doesn't eat","don't eat","isn't eat"],"ans":"doesn't eat","expl":"'Ali' (he) uchun inkor: doesn't + V1 (doesn't eat)."},{"id":9,"q":"They ______ in Tashkent. They live in Bukhara.","opts":["don't live","aren't live","doesn't live","not live"],"ans":"don't live","expl":"'They' uchun inkor: don't live."},{"id":10,"q":"______ you ______ English every day?","opts":["Does / study","Are / study","Do / studies","Do / study"],"ans":"Do / study","expl":"'You' uchun so'roq: Do you study?"},{"id":11,"q":"Where ______ your sister ______?","opts":["do / live","does / lives","is / live","does / live"],"ans":"does / live","expl":"Your sister (she) -> does your sister live?"},{"id":12,"q":"He ______ his teeth twice a day.","opts":["brushes","brush","brushs","is brushing"],"ans":"brushes","expl":"-sh bilan tugagan fe'llarga -es qo'shiladi: brushes."},{"id":13,"q":"My mother ______ delicious plov on Saturdays.","opts":["cooks","cook","is cooking","cookes"],"ans":"cooks","expl":"My mother (she) -> cooks."},{"id":14,"q":"A cat ______ milk.","opts":["is liking","likes to","likes","like"],"ans":"likes","expl":"A cat (it) -> likes."},{"id":15,"q":"Cats ______ water.","opts":["hated","are hating","hates","hate"],"ans":"hate","expl":"Cats (ko'plik) -> hate."},{"id":16,"q":"How often ______ you ______ to the cinema?","opts":["do / go","do / goes","does / go","are / going"],"ans":"do / go","expl":"How often do you go?"},{"id":17,"q":"He never ______ late for school.","opts":["does","is","be","are"],"ans":"is","expl":"To be fe'li: He is never late."},{"id":18,"q":"My parents ______ English, but they speak Russian.","opts":["doesn't speak","don't speak","not speak","aren't speak"],"ans":"don't speak","expl":"My parents (they) -> don't speak."},{"id":19,"q":"❌ 'He watch TV every evening.' — Xatoni toping:","opts":["watch -> watches","He -> Him","every -> all","evening -> evenings"],"ans":"watch -> watches","expl":"He bilan -es qo'shiladi: watches."},{"id":20,"q":"She ______ to school on foot every day.","opts":["gos","is going","go","goes"],"ans":"goes","expl":"go -> goes."},{"id":21,"q":"Tarjima: 'Siz har kuni ertalab qahva ichasizmi?'","opts":["Do you drinks coffee every morning?","Does you drink coffee every morning?","Are you drink coffee every morning?","Do you drink coffee every morning?"],"ans":"Do you drink coffee every morning?","expl":"Present Simple so'rog'i: Do you drink...?"},{"id":22,"q":"Anvar ______ his homework before dinner.","opts":["do","does","is doing","dos"],"ans":"does","expl":"do -> does."},{"id":23,"q":"What time ______ the bank ______?","opts":["does / opens","do / open","does / open","is / open"],"ans":"does / open","expl":"The bank (it) -> does the bank open?"},{"id":24,"q":"Birds ______ in the sky.","opts":["flies","fly","are flying","flys"],"ans":"fly","expl":"Birds (ko'plik) -> fly."},{"id":25,"q":"A plane ______ very fast.","opts":["flys","flies","flying","fly"],"ans":"flies","expl":"A plane (birlik) -> flies (y -> ies)."},{"id":26,"q":"My little brother ______ crying easily.","opts":["start","startes","starts","is starting"],"ans":"starts","expl":"starts."},{"id":27,"q":"We usually ______ lunch at 1:00 PM.","opts":["haves","has","have","are having"],"ans":"have","expl":"We have."},{"id":28,"q":"He usually ______ lunch at 1:30 PM.","opts":["is having","have","haves","has"],"ans":"has","expl":"He has."},{"id":29,"q":"I ______ up early on Sundays. I sleep until 10:00.","opts":["am not waking","don't wake","doesn't wake","not wake"],"ans":"don't wake","expl":"I don't wake."},{"id":30,"q":"She ______ like ice cream. She prefers fruits.","opts":["doesn't","isn't","don't","not"],"ans":"doesn't","expl":"She doesn't like."},{"id":31,"q":"______ he have a car?","opts":["Does","Is","Has","Do"],"ans":"Does","expl":"Does he have...?"},{"id":32,"q":"My grandfather ______ glasses to read books.","opts":["is wearing","weares","wears","wear"],"ans":"wears","expl":"He wears."},{"id":33,"q":"Trains ______ regularly between Tashkent and Samarkand.","opts":["run","runned","runs","are running"],"ans":"run","expl":"Trains (ko'plik) -> run."},{"id":34,"q":"❌ 'Does she works here?' — Xatoni tuzating:","opts":["Do she works here?","Is she work here?","Does she working here?","Does she work here?"],"ans":"Does she work here?","expl":"'Does' bo'lganda asosiy fe'ldan -s tushib qoladi: Does she work?"},{"id":35,"q":"Where ______ your parents live?","opts":["is","are","does","do"],"ans":"do","expl":"parents (they) -> Where do your parents live?"}],"3":[{"id":1,"q":"I usually ______ coffee, but today I ______ tea.","opts":["am drinking / drink","drink / drink","am drinking / am drinking","drink / am drinking"],"ans":"drink / am drinking","expl":"Odat (drink) vs bugungi holat (am drinking)."},{"id":2,"q":"Sardor usually ______ by bus, but today he ______ by taxi.","opts":["is going / is going","goes / is going","goes / goes","is going / goes"],"ans":"goes / is going","expl":"usually -> goes, today -> is going."},{"id":3,"q":"What ______ you ______? — I am an English teacher.","opts":["do / do","are / doing","are / do","do / doing"],"ans":"do / do","expl":"Kasbni so'rash har doim: 'What do you do?'"},{"id":4,"q":"What ______ you ______ right now? — I am writing a message.","opts":["do / doing","are / do","do / do","are / doing"],"ans":"are / doing","expl":"Ayni daqiqadagi ish: 'What are you doing right now?'"},{"id":5,"q":"Look! It ______ outside. But it ______ very often here.","opts":["rains / isn't raining","is raining / isn't raining","rains / doesn't rain","is raining / doesn't rain"],"ans":"is raining / doesn't rain","expl":"Hozir (is raining) vs odatiy fakt (doesn't rain often)."},{"id":6,"q":"She usually ______ jeans, but today she ______ a dress.","opts":["is wearing / is wearing","wears / is wearing","wears / wears","is wearing / wears"],"ans":"wears / is wearing","expl":"usually -> wears, today -> is wearing."},{"id":7,"q":"Please be quiet! My father ______ to sleep.","opts":["tried","try","tries","is trying"],"ans":"is trying","expl":"Ayni paytda: is trying."},{"id":8,"q":"He ______ for 8 hours every single night.","opts":["sleeps","sleeped","is sleeping","sleep"],"ans":"sleeps","expl":"Har kecha (odat): sleeps."},{"id":9,"q":"Where ______ you ______ right now?","opts":["do / going","are / going","are / go","do / go"],"ans":"are / going","expl":"Hozir qayerga ketyapsan? -> are you going?"},{"id":10,"q":"Where ______ you ______ on vacation every summer?","opts":["are / going","do / going","do / go","does / go"],"ans":"do / go","expl":"Har yoz (odat) -> do you go?"},{"id":11,"q":"My brother ______ in London this month.","opts":["lives","is living","live","lived"],"ans":"is living","expl":"'this month' vaqtinchalik holat: is living."},{"id":12,"q":"My brother ______ in Tashkent permanently.","opts":["live","is living","lives","lived"],"ans":"lives","expl":"Doimiy yashash joyi: lives."},{"id":13,"q":"Listen! The birds ______ in the trees.","opts":["is singing","sings","sing","are singing"],"ans":"are singing","expl":"Listen! -> are singing."},{"id":14,"q":"Birds ______ south every autumn.","opts":["flew","fly","flies","are flying"],"ans":"fly","expl":"Har kuz (tabiat qonuni): fly."},{"id":15,"q":"Why ______ you ______? Is something funny?","opts":["do / laugh","are / laugh","are / laughing","does / laugh"],"ans":"are / laughing","expl":"Hozir kulyapsan: are you laughing?"},{"id":16,"q":"He never ______ at jokes.","opts":["laugh","laughs","is laughing","laughed"],"ans":"laughs","expl":"never (odat) -> laughs."},{"id":17,"q":"I ______ for my glasses. Have you seen them?","opts":["am looking","look","looked","looks"],"ans":"am looking","expl":"Hozir qidiryapti: am looking."},{"id":18,"q":"You ______ very smart in that suit.","opts":["look","looks","are looking","looking"],"ans":"look","expl":"Ko'rinish holati: look."},{"id":19,"q":"She ______ dinner right now, so she can't answer the phone.","opts":["cooks","cooked","cook","is cooking"],"ans":"is cooking","expl":"Hozir pishiryapti: is cooking."},{"id":20,"q":"She ______ delicious meals every weekend.","opts":["cooks","is cooking","cook","cooked"],"ans":"cooks","expl":"Har dam olish kuni: cooks."},{"id":21,"q":"Don't turn off the radio! I ______ to it.","opts":["am listen","listens","am listening","listen"],"ans":"am listening","expl":"Hozir eshityapman: am listening."},{"id":22,"q":"I always ______ to the radio in the morning.","opts":["listened","listens","am listening","listen"],"ans":"listen","expl":"always -> listen."},{"id":23,"q":"The water ______! Turn off the stove, please.","opts":["boils","boil","boiled","is boiling"],"ans":"is boiling","expl":"Hozir qaynayapti: is boiling."},{"id":24,"q":"Water ______ at 100 degrees.","opts":["boiled","boil","boils","is boiling"],"ans":"boils","expl":"Umumiy ilmiy haqiqat: boils."},{"id":25,"q":"❌ 'I am playing football every Saturday.' — Xatoni tuzating:","opts":["I plays football every Saturday.","I am play football every Saturday.","I play football every Saturday.","I playing football every Saturday."],"ans":"I play football every Saturday.","expl":"'every Saturday' odat uchun Present Simple: I play."},{"id":26,"q":"❌ 'Look! She walks across the road.' — Xatoni tuzating:","opts":["Look! She walking across the road.","Look! She walk across the road.","Look! She are walking.","Look! She is walking across the road."],"ans":"Look! She is walking across the road.","expl":"'Look!' ayni lahza uchun: is walking."},{"id":27,"q":"Tarjima: 'U odatda avtobusda yuradi, lekin hozir piyoda ketyapti.'","opts":["He usually take the bus, but now he walk.","He is usually taking the bus, but now he walks.","He usually takes the bus, but now he is walking.","He takes bus, but now he is walk."],"ans":"He usually takes the bus, but now he is walking.","expl":"Odat (takes) vs ayni damda (is walking)."},{"id":28,"q":"Why ______ the baby ______? — Because he is hungry.","opts":["does / cry","is / cry","do / cry","is / crying"],"ans":"is / crying","expl":"Hozir yig'layapti: is the baby crying?"},{"id":29,"q":"Babies ______ when they are hungry.","opts":["cry","are crying","cries","crying"],"ans":"cry","expl":"Umumiy haqiqat: Babies cry."},{"id":30,"q":"They ______ a new house this year.","opts":["built","are building","build","builds"],"ans":"are building","expl":"Bu yilgi jarayon: are building."},{"id":31,"q":"They ______ bridges for a living.","opts":["build","built","builds","are building"],"ans":"build","expl":"Kasb/doimiy faoliyat: build."},{"id":32,"q":"I ______ my friend at the cafe right now.","opts":["am meeting","meet","met","meets"],"ans":"am meeting","expl":"Hozir uchrashyapman: am meeting."},{"id":33,"q":"I ______ my friends every Friday evening.","opts":["meets","meet","met","am meeting"],"ans":"meet","expl":"Har juma (odat): meet."},{"id":34,"q":"Look! That man ______ to open your car door!","opts":["is trying","tries","try","tried"],"ans":"is trying","expl":"Look! -> is trying."},{"id":35,"q":"He always ______ his best at school.","opts":["is trying","tries","tried","try"],"ans":"tries","expl":"always -> tries."},{"id":36,"q":"We ______ English now. Don't speak Uzbek.","opts":["spoke","speak","are speaking","speaks"],"ans":"are speaking","expl":"Hozir: are speaking."},{"id":37,"q":"Over 1 billion people ______ English worldwide.","opts":["are speaking","spoke","speaks","speak"],"ans":"speak","expl":"Umumiy fakt: speak."},{"id":38,"q":"Why ______ you ______ at me like that right now?","opts":["are / looking","did / look","do / look","are / look"],"ans":"are / looking","expl":"Hozir qarayapsan: are you looking?"},{"id":39,"q":"He always ______ handsome in photographs.","opts":["is looking","look","looked","looks"],"ans":"looks","expl":"Ko'rinish holati: looks."},{"id":40,"q":"Right now, I ______ dinner, but my sister ______ her room.","opts":["eat / is cleaning","am eating / is cleaning","eat / cleans","am eating / cleans"],"ans":"am eating / is cleaning","expl":"Ikkala ayni lahzadagi ish: am eating / is cleaning."}],"4":[{"id":1,"q":"I ______ the answer to this question now.","opts":["am knowing","know","am know","knowed"],"ans":"know","expl":"'know' holat fe'li, Continuous bo'lmaydi: I know."},{"id":2,"q":"She ______ a glass of water right now.","opts":["wants","wanted","is wanting","want"],"ans":"wants","expl":"'want' holat fe'li: She wants."},{"id":3,"q":"Do you ______ what the teacher is saying?","opts":["understood","understanding","are understanding","understand"],"ans":"understand","expl":"'understand' holat fe'li: Do you understand?"},{"id":4,"q":"I ______ some help with this heavy box.","opts":["needs","need","needed","am needing"],"ans":"need","expl":"'need' Continuous bo'lmaydi: I need."},{"id":5,"q":"He ______ chocolate ice cream very much.","opts":["like","liking","is liking","likes"],"ans":"likes","expl":"'like' holat fe'li: likes."},{"id":6,"q":"We ______ in honest friendship.","opts":["believed","believes","believe","are believing"],"ans":"believe","expl":"'believe' holat fe'li: believe."},{"id":7,"q":"Do you ______ that man over there?","opts":["recognizing","recognize","recognized","are recognizing"],"ans":"recognize","expl":"'recognize' holat fe'li: Do you recognize?"},{"id":8,"q":"This phone ______ to my brother.","opts":["belonged","belong","belongs","is belonging"],"ans":"belongs","expl":"'belong' tegishlilik holati: belongs."},{"id":9,"q":"This soup ______ delicious!","opts":["tastes","taste","tasted","is tasting"],"ans":"tastes","expl":"Ta'm holati: tastes."},{"id":10,"q":"These flowers ______ wonderful.","opts":["are smelling","smelled","smells","smell"],"ans":"smell","expl":"Hid taratish holati: smell."},{"id":11,"q":"I ______ you are completely right.","opts":["think","thinks","thought","am thinking"],"ans":"think","expl":"Fikr bildirish ('menimcha'): I think."},{"id":12,"q":"She ______ very happy today.","opts":["seems","seem","seemed","is seeming"],"ans":"seems","expl":"'seem' tuyulmoq: seems."},{"id":13,"q":"How much ______ this jacket ______?","opts":["does / costs","do / cost","is / costing","does / cost"],"ans":"does / cost","expl":"'cost' narx qiymati: does it cost?"},{"id":14,"q":"I ______ your brother very well.","opts":["remember","remembers","remembered","am remembering"],"ans":"remember","expl":"'remember' xotirlamoq: remember."},{"id":15,"q":"❌ 'I am wanting to go home now.' — Xatoni tuzating:","opts":["I wanting to go home.","I want to go home now.","I wants to go home.","I am want to go home."],"ans":"I want to go home now.","expl":"'want' Continuous olmaydi: I want."},{"id":16,"q":"❌ 'She is knowing three languages.' — Xatoni tuzating:","opts":["She knowing three languages.","She is know three languages.","She know three languages.","She knows three languages."],"ans":"She knows three languages.","expl":"'know' holat fe'li: She knows."},{"id":17,"q":"Tarjima: 'Men sizga ishonaman.'","opts":["I am believing you.","I am believe you.","I believe to you.","I believe you."],"ans":"I believe you.","expl":"I believe you."},{"id":18,"q":"He ______ two brothers and one sister.","opts":["have","has","haves","is having"],"ans":"has","expl":"Egalik ma'nosida 'have' holat fe'li: has."},{"id":19,"q":"Do you ______ this song?","opts":["are liking","liked","like","liking"],"ans":"like","expl":"Do you like...?"},{"id":20,"q":"I ______ you. Can you speak louder?","opts":["doesn't hear","not hear","am not hearing","don't hear"],"ans":"don't hear","expl":"Eshitish qobiliyati: don't hear."},{"id":21,"q":"She ______ very tired today.","opts":["looks","looked","look","is looking"],"ans":"looks","expl":"Ko'rinish holati: looks."},{"id":22,"q":"I ______ this pizza. It is too salty.","opts":["not like","don't like","am not liking","doesn't like"],"ans":"don't like","expl":"don't like."},{"id":23,"q":"He ______ what you are talking about.","opts":["doesn't understand","not understand","don't understand","isn't understanding"],"ans":"doesn't understand","expl":"doesn't understand."},{"id":24,"q":"We ______ more time to finish the test.","opts":["needed","needs","are needing","need"],"ans":"need","expl":"need."},{"id":25,"q":"Do you ______ any brothers or sisters?","opts":["are having","has","have","having"],"ans":"have","expl":"Do you have...?"}],"5":[{"id":1,"q":"Yesterday, I ______ to the supermarket with my mother.","opts":["was go","went","go","goed"],"ans":"went","expl":"go ning o'tgan zamoni: went."},{"id":2,"q":"She ______ a delicious cake for my birthday last week.","opts":["make","was make","made","maked"],"ans":"made","expl":"make -> made."},{"id":3,"q":"They ______ football in the park yesterday afternoon.","opts":["play","plaied","playing","played"],"ans":"played","expl":"play -> played."},{"id":4,"q":"We ______ a very interesting movie last night.","opts":["seen","saw","seed","see"],"ans":"saw","expl":"see -> saw."},{"id":5,"q":"He ______ his homework two hours ago.","opts":["finish","finishing","finished","finishs"],"ans":"finished","expl":"finish -> finished."},{"id":6,"q":"I ______ very tired yesterday after work.","opts":["be","am","was","were"],"ans":"was","expl":"I uchun: was."},{"id":7,"q":"My parents ______ in Samarkand last weekend.","opts":["are","were","was","been"],"ans":"were","expl":"My parents (they) uchun: were."},{"id":8,"q":"Where ______ you ______ last Sunday?","opts":["were / go","did / go","did / went","do / go"],"ans":"did / go","expl":"Past Simple so'rog'i: Did you go? (V1 qaytadi)."},{"id":9,"q":"She ______ to school yesterday because she was sick.","opts":["didn't went","wasn't go","doesn't go","didn't go"],"ans":"didn't go","expl":"Past Simple inkori: didn't go (went emas)."},{"id":10,"q":"I ______ an apple for breakfast this morning.","opts":["eaten","eated","eat","ate"],"ans":"ate","expl":"eat -> ate."},{"id":11,"q":"He ______ a new bicycle last month.","opts":["bought","buy","boughted","buyed"],"ans":"bought","expl":"buy -> bought."},{"id":12,"q":"She ______ me a nice present for New Year.","opts":["give","gave","given","gived"],"ans":"gave","expl":"give -> gave."},{"id":13,"q":"We ______ to Tashkent by train yesterday.","opts":["came","come","coming","comed"],"ans":"came","expl":"come -> came."},{"id":14,"q":"I ______ my keys this morning, but I found them.","opts":["losed","lost","loss","lose"],"ans":"lost","expl":"lose -> lost."},{"id":15,"q":"He ______ his friend 20 dollars yesterday.","opts":["pay","payd","paid","payed"],"ans":"paid","expl":"pay -> paid."},{"id":16,"q":"They ______ a new house in 2021.","opts":["builded","build","built","building"],"ans":"built","expl":"build -> built."},{"id":17,"q":"She ______ three cups of coffee yesterday.","opts":["drink","drinked","drank","drunk"],"ans":"drank","expl":"drink -> drank."},{"id":18,"q":"I ______ well last night.","opts":["sleeps","sleep","slept","sleeped"],"ans":"slept","expl":"sleep -> slept."},{"id":19,"q":"The train ______ at 9:00 AM sharp.","opts":["leaving","left","leaved","leave"],"ans":"left","expl":"leave -> left."},{"id":20,"q":"He ______ a letter to his parents yesterday.","opts":["writed","write","written","wrote"],"ans":"wrote","expl":"write -> wrote."},{"id":21,"q":"She ______ down and hurt her knee.","opts":["fell","fallen","fall","falled"],"ans":"fell","expl":"fall -> fell."},{"id":22,"q":"I ______ a strange noise outside last night.","opts":["heard","heared","hear","hearing"],"ans":"heard","expl":"hear -> heard."},{"id":23,"q":"They ______ dinner at an Italian restaurant yesterday.","opts":["haved","have","had","having"],"ans":"had","expl":"have -> had."},{"id":24,"q":"He ______ his arm when he fell off the bike.","opts":["breaked","broke","break","broken"],"ans":"broke","expl":"break -> broke."},{"id":25,"q":"I ______ English for two hours yesterday.","opts":["studyed","study","studied","studying"],"ans":"studied","expl":"study -> studied (y -> ied)."},{"id":26,"q":"The bus ______ at the red traffic light.","opts":["stoped","stopped","stop","stopping"],"ans":"stopped","expl":"stop -> stopped (p ikkilanadi)."},{"id":27,"q":"She ______ her heavy suitcase to the car.","opts":["carrying","carry","carryed","carried"],"ans":"carried","expl":"carry -> carried."},{"id":28,"q":"We ______ to move to another city last year.","opts":["decide","decideded","decided","deciding"],"ans":"decided","expl":"decide -> decided."},{"id":29,"q":"I ______ TV for an hour yesterday evening.","opts":["watchs","watched","watch","watching"],"ans":"watched","expl":"watch -> watched."},{"id":30,"q":"They ______ the museum last Friday.","opts":["visiting","visited","visit","visitted"],"ans":"visited","expl":"visit -> visited."},{"id":31,"q":"❌ 'I didn't saw him yesterday.' — Xatoni tuzating:","opts":["I didn't see him yesterday.","I didn't seen him yesterday.","I not saw him yesterday.","I wasn't see him yesterday."],"ans":"I didn't see him yesterday.","expl":"didn't dan keyin fe'lning 1-shakli: didn't see."},{"id":32,"q":"❌ 'Did you went to school yesterday?' — Xatoni tuzating:","opts":["Did you goes to school yesterday?","Do you went to school yesterday?","Were you go to school yesterday?","Did you go to school yesterday?"],"ans":"Did you go to school yesterday?","expl":"Did bilan fe'l V1 bo'ladi: Did you go?"},{"id":33,"q":"Tarjima: 'Biz kecha darsga bormadik.'","opts":["We didn't go to the lesson yesterday.","We don't go to the lesson yesterday.","We weren't go to the lesson yesterday.","We didn't went to the lesson yesterday."],"ans":"We didn't go to the lesson yesterday.","expl":"We didn't go."},{"id":34,"q":"Tarjima: 'Siz kecha Anvarni ko'rdingizmi?'","opts":["Do you see Anvar yesterday?","Were you see Anvar yesterday?","Did you saw Anvar yesterday?","Did you see Anvar yesterday?"],"ans":"Did you see Anvar yesterday?","expl":"Did you see...?"},{"id":35,"q":"The weather ______ cold and windy yesterday.","opts":["were","was","is","be"],"ans":"was","expl":"The weather (it) -> was."},{"id":36,"q":"Where ______ you born?","opts":["are","were","was","did"],"ans":"were","expl":"Where were you born? (You bilan were)."},{"id":37,"q":"I ______ born in 2005.","opts":["am","was","did","were"],"ans":"was","expl":"I was born."},{"id":38,"q":"She ______ at home yesterday evening.","opts":["didn't","isn't","wasn't","weren't"],"ans":"wasn't","expl":"She wasn't at home."},{"id":39,"q":"They ______ at the party on Saturday.","opts":["wasn't","weren't","didn't","aren't"],"ans":"weren't","expl":"They weren't."},{"id":40,"q":"He ______ his jacket because it was warm.","opts":["took off","take off","taked off","taken off"],"ans":"took off","expl":"take -> took."},{"id":41,"q":"I ______ the book on the table this morning.","opts":["put","putted","putting","putts"],"ans":"put","expl":"put o'zgarmaydi: put - put - put."},{"id":42,"q":"The price ______ 50 dollars.","opts":["costs","cost","costing","costed"],"ans":"cost","expl":"cost o'zgarmaydi: cost - cost - cost."},{"id":43,"q":"The bird ______ into the tree.","opts":["fly","flyed","flew","flown"],"ans":"flew","expl":"fly -> flew."},{"id":44,"q":"We ______ all our money on vacation.","opts":["spent","spending","spend","spended"],"ans":"spent","expl":"spend -> spent."},{"id":45,"q":"She ______ him the truth yesterday.","opts":["tell","told","telled","telling"],"ans":"told","expl":"tell -> told."},{"id":46,"q":"He ______ the ball to his brother.","opts":["throwed","throw","thrown","threw"],"ans":"threw","expl":"throw -> threw."},{"id":47,"q":"I ______ the exam easily yesterday.","opts":["past","passd","passed","pass"],"ans":"passed","expl":"pass -> passed."},{"id":48,"q":"They ______ in the sea for 30 minutes yesterday.","opts":["swum","swimmed","swam","swim"],"ans":"swam","expl":"swim -> swam."},{"id":49,"q":"The dog ______ loudly all night.","opts":["barked","barkt","barking","bark"],"ans":"barked","expl":"bark -> barked."},{"id":50,"q":"We ______ our grandmother last Sunday.","opts":["visited","visit","visitted","visiting"],"ans":"visited","expl":"visited."}],"6":[{"id":1,"q":"At 8:00 PM yesterday, I ______ for my exam in my room.","opts":["was studying","am studying","studied","were studying"],"ans":"was studying","expl":"Kecha soat 8:00 dagi jarayon: was studying."},{"id":2,"q":"What ______ you ______ at 3:00 PM yesterday?","opts":["was / doing","were / doing","did / do","are / doing"],"ans":"were / doing","expl":"You bilan: were you doing?"},{"id":3,"q":"They ______ football when it started to rain.","opts":["played","are playing","was playing","were playing"],"ans":"were playing","expl":"They uchun: were playing."},{"id":4,"q":"She ______ TV all evening yesterday.","opts":["is watching","watched","was watching","were watching"],"ans":"was watching","expl":"She uchun: was watching."},{"id":5,"q":"The children ______ their homework at 6:00 PM.","opts":["did","were doing","was doing","are doing"],"ans":"were doing","expl":"Children (ko'plik) -> were doing."},{"id":6,"q":"I ______ to music, so I didn't hear the doorbell.","opts":["listened","am listening","were listening","was listening"],"ans":"was listening","expl":"Eshitish paytidagi jarayon: was listening."},{"id":7,"q":"It ______ heavily when I woke up this morning.","opts":["were raining","rained","was raining","is raining"],"ans":"was raining","expl":"Uyg'onganimdagi holat: was raining."},{"id":8,"q":"My mother ______ dinner while my father was reading the news.","opts":["cooked","is cooking","was cooking","were cooking"],"ans":"was cooking","expl":"Bir vaqtdagi jarayon: was cooking."},{"id":9,"q":"We ______ along the street when we saw a car accident.","opts":["were walking","was walking","are walking","walked"],"ans":"were walking","expl":"We were walking."},{"id":10,"q":"He ______ his car at 10:00 AM yesterday.","opts":["washed","were washing","was washing","is washing"],"ans":"was washing","expl":"He was washing."},{"id":11,"q":"Why ______ she ______ when you entered the room?","opts":["was / crying","were / crying","did / cry","is / crying"],"ans":"was / crying","expl":"Why was she crying?"},{"id":12,"q":"I ______ sleeping at midnight. I was reading a book.","opts":["didn't","weren't","wasn't","am not"],"ans":"wasn't","expl":"I wasn't sleeping."},{"id":13,"q":"They ______ sleeping when the thief broke into the house.","opts":["were","did","are","was"],"ans":"were","expl":"They were sleeping."},{"id":14,"q":"At this time yesterday, we ______ on the beach.","opts":["lay","was lying","lieing","were lying"],"ans":"were lying","expl":"were lying."},{"id":15,"q":"The teacher ______ the rule, but nobody was listening.","opts":["explained","was explaining","were explaining","is explaining"],"ans":"was explaining","expl":"was explaining."},{"id":16,"q":"Who ______ you ______ to on the phone at 9:00 PM?","opts":["were / talking","did / talk","was / talking","are / talking"],"ans":"were / talking","expl":"were you talking?"},{"id":17,"q":"The sun ______ brightly all morning yesterday.","opts":["is shining","were shining","shone","was shining"],"ans":"was shining","expl":"was shining."},{"id":18,"q":"I ______ a shower when the phone rang.","opts":["am having","had","was having","were having"],"ans":"was having","expl":"was having a shower."},{"id":19,"q":"The boys ______ in the pool all afternoon.","opts":["was swimming","were swimming","swam","are swimming"],"ans":"were swimming","expl":"were swimming."},{"id":20,"q":"My brother ______ video games while I was doing homework.","opts":["was playing","is playing","played","were playing"],"ans":"was playing","expl":"was playing."},{"id":21,"q":"❌ 'We was watching a film at 7 PM.' — Xatoni tuzating:","opts":["watching -> watched","was -> were","film -> films","at -> on"],"ans":"was -> were","expl":"We bilan 'were' bo'ladi: We were watching."},{"id":22,"q":"❌ 'He were reading a book.' — Xatoni tuzating:","opts":["book -> books","He -> They","reading -> read","were -> was"],"ans":"were -> was","expl":"He bilan 'was' bo'ladi: He was reading."},{"id":23,"q":"Tarjima: 'Kecha soat 5 da men kitob o'qiyotgan edim.'","opts":["I were reading a book at 5 o'clock.","I read a book at 5 o'clock yesterday.","I was reading a book at 5 o'clock yesterday.","I am reading a book at 5 o'clock."],"ans":"I was reading a book at 5 o'clock yesterday.","expl":"I was reading."},{"id":24,"q":"What ______ he ______ when you saw him?","opts":["is / doing","was / doing","were / doing","did / do"],"ans":"was / doing","expl":"What was he doing?"},{"id":25,"q":"Snow ______ quietly outside the window.","opts":["fell","is falling","was falling","were falling"],"ans":"was falling","expl":"Snow was falling."},{"id":26,"q":"We ______ for the bus for 30 minutes in the rain.","opts":["were waiting","waited","was waiting","are waiting"],"ans":"were waiting","expl":"We were waiting."},{"id":27,"q":"She ______ a blue dress at the party yesterday.","opts":["wore","is wearing","were wearing","was wearing"],"ans":"was wearing","expl":"was wearing."},{"id":28,"q":"I ______ a sweet dream when the alarm clock rang.","opts":["am having","had","was having","were having"],"ans":"was having","expl":"was having."},{"id":29,"q":"They ______ about their holiday all evening.","opts":["was talking","talked","are talking","were talking"],"ans":"were talking","expl":"were talking."},{"id":30,"q":"The baby ______ loudly at 2:00 AM.","opts":["cried","was crying","is crying","were crying"],"ans":"was crying","expl":"The baby was crying."}],"7":[{"id":1,"q":"I ______ a shower when the telephone ______.","opts":["was having / was ringing","was having / rang","had / was ringing","had / rang"],"ans":"was having / rang","expl":"Uzoq jarayon (was having) to'satdan qisqa ish bilan bo'lindi (rang)."},{"id":2,"q":"While we ______ in the park, it ______ to rain.","opts":["walked / was starting","were walking / started","were walking / was starting","walked / started"],"ans":"were walking / started","expl":"While + jarayon (were walking), asosiy gap qisqa ish (started)."},{"id":3,"q":"She ______ her finger while she ______ vegetables.","opts":["cut / was chopping","was cutting / was chopping","was cutting / chopped","cut / chopped"],"ans":"cut / was chopping","expl":"cut (qisqa voqea) + was chopping (uzoq jarayon)."},{"id":4,"q":"When I ______ home, my brother ______ computer games.","opts":["was arriving / played","arrived / was playing","was arriving / was playing","arrived / played"],"ans":"arrived / was playing","expl":"Yetib kelganimda (arrived) u o'ynayotgan edi (was playing)."},{"id":5,"q":"He ______ down the stairs and ______ his leg.","opts":["was falling / broke","fell / broke","was falling / was breaking","fell / was breaking"],"ans":"fell / broke","expl":"Ketma-ket sodir bo'lgan qisqa ishlar: fell and broke (ikkalasi ham Past Simple)."},{"id":6,"q":"What ______ you ______ when the lights ______ out?","opts":["did / do / were going","were / doing / went","were / doing / were going","did / do / went"],"ans":"were / doing / went","expl":"Chiroq o'chganda (went out) nima qilayotgan edingiz? (were doing)."},{"id":7,"q":"The car ______ a tree while the driver ______ on his phone.","opts":["was hitting / was talking","was hitting / talked","hit / talked","hit / was talking"],"ans":"hit / was talking","expl":"hit (qisqa zarba) + was talking (jarayon)."},{"id":8,"q":"While my mother ______ dinner, my father ______ the car.","opts":["cooked / was washing","was cooking / washed","was cooking / was washing","cooked / washed"],"ans":"was cooking / was washing","expl":"Bir vaqtda parallel davom etgan 2 ta jarayon: was cooking / was washing."},{"id":9,"q":"I ______ Anvar yesterday while I ______ for the bus.","opts":["saw / waited","saw / was waiting","was seeing / was waiting","was seeing / waited"],"ans":"saw / was waiting","expl":"saw (ko'rib qoldim) + was waiting (kutayotgan edim)."},{"id":10,"q":"The teacher ______ into the classroom while the students ______ noise.","opts":["came / were making","was coming / were making","was coming / made","came / made"],"ans":"came / were making","expl":"came (kirdi) + were making (shovqin solayotgan edilar)."},{"id":11,"q":"He ______ his keys while he ______ for his train.","opts":["lost / was running","was losing / was running","lost / ran","was losing / ran"],"ans":"lost / was running","expl":"lost (yo'qotib qo'ydi) + was running (yugurayotganda)."},{"id":12,"q":"When the postman ______ the bell, I ______ breakfast.","opts":["rang / was having","rang / had","was ringing / was having","was ringing / had"],"ans":"rang / was having","expl":"rang (chaldi) + was having (nonushta qilayotgan edim)."},{"id":13,"q":"We ______ along the beach when we ______ a dolphin.","opts":["walked / were seeing","were walking / saw","were walking / were seeing","walked / saw"],"ans":"were walking / saw","expl":"were walking + saw."},{"id":14,"q":"She ______ off her bicycle while she ______ down the hill.","opts":["fell / was riding","was falling / rode","fell / rode","was falling / was riding"],"ans":"fell / was riding","expl":"fell + was riding."},{"id":15,"q":"While I ______ the street, a red car suddenly ______.","opts":["was crossing / was stopping","was crossing / stopped","crossed / stopped","crossed / was stopping"],"ans":"was crossing / stopped","expl":"was crossing + stopped."},{"id":16,"q":"I ______ to music, so I ______ hear your call.","opts":["was listening / didn't","was listening / wasn't","listened / didn't","listened / wasn't"],"ans":"was listening / didn't","expl":"was listening + didn't hear."},{"id":17,"q":"When the earthquake ______, everyone ______ out of the building.","opts":["was happening / was running","was happening / ran","happened / ran","happened / was running"],"ans":"happened / ran","expl":"Ketma-ket sodir bo'lgan voqealar: happened / ran."},{"id":18,"q":"What ______ you ______ when I ______ you yesterday?","opts":["did / do / was calling","were / doing / was calling","were / doing / called","did / do / called"],"ans":"were / doing / called","expl":"were you doing when I called?"},{"id":19,"q":"The sun ______ and the birds ______ when I woke up.","opts":["shone / sang","was shining / were singing","shone / were singing","was shining / sang"],"ans":"was shining / were singing","expl":"Ertalabki fon manzarasi: was shining / were singing."},{"id":20,"q":"He ______ his homework, ______ a shower, and went to bed.","opts":["finished / was having","was finishing / was having","was finishing / had","finished / had"],"ans":"finished / had","expl":"Ketma-ket tugallangan harakatlar: finished / had."},{"id":21,"q":"❌ 'I was seeing him while I walked.' — Xatoni tuzating:","opts":["I was see him while I walk.","I see him while walking.","I saw him while I walked.","I saw him while I was walking."],"ans":"I saw him while I was walking.","expl":"see Continuous bo'lmaydi (saw) + while dan keyin was walking."},{"id":22,"q":"❌ 'When the phone was ringing, I answered it.' — Xatoni tuzating:","opts":["When the phone rang, I was answering it.","While phone rang, I answered.","Phone was ringing so I answer.","When the phone rang, I answered it."],"ans":"When the phone rang, I answered it.","expl":"Qo'ng'iroq chalinganda: rang."},{"id":23,"q":"Tarjima: 'Men kitob o'qiyotganimda, chiroq o'chib qoldi.'","opts":["While I was reading a book, the lights went out.","When I was read, lights went out.","While I read a book, the lights were going out.","I read book while lights went out."],"ans":"While I was reading a book, the lights went out.","expl":"While I was reading... the lights went out."},{"id":24,"q":"Tarjima: 'Ular choy ichayotganlarida, eshik taqilladi.'","opts":["When they were have tea, knocked door.","While they had tea, somebody was knocking.","While they were having tea, somebody knocked on the door.","They had tea while someone knocked."],"ans":"While they were having tea, somebody knocked on the door.","expl":"were having tea + knocked."},{"id":25,"q":"The police ______ him while he ______ to steal the car.","opts":["caught / tried","caught / was trying","was catching / was trying","was catching / tried"],"ans":"caught / was trying","expl":"caught + was trying."},{"id":26,"q":"I ______ my old teacher while I ______ in the market.","opts":["met / was shopping","was meeting / was shopping","met / shopped","was meeting / shopped"],"ans":"met / was shopping","expl":"met + was shopping."},{"id":27,"q":"He ______ his head while he ______ into the car.","opts":["was bumping / got","was bumping / was getting","bumped / was getting","bumped / got"],"ans":"bumped / was getting","expl":"bumped + was getting."},{"id":28,"q":"We ______ tennis when the storm ______.","opts":["were playing / began","were playing / was beginning","played / was beginning","played / began"],"ans":"were playing / began","expl":"were playing + began."},{"id":29,"q":"She ______ her favorite plate while she ______ the dishes.","opts":["dropped / was washing","was dropping / was washing","dropped / washed","was dropping / washed"],"ans":"dropped / was washing","expl":"dropped + was washing."},{"id":30,"q":"While he ______ the road, he ______ over a stone.","opts":["was crossing / was tripping","was crossing / tripped","crossed / was tripping","crossed / tripped"],"ans":"was crossing / tripped","expl":"was crossing + tripped."},{"id":31,"q":"They ______ quietly when the teacher ______ into the room.","opts":["talked / walked","were talking / walked","talked / was walking","were talking / was walking"],"ans":"were talking / walked","expl":"were talking + walked."},{"id":32,"q":"I ______ the email, ______ the computer, and went home.","opts":["sent / shut down","was sending / was shutting down","was sending / shut down","sent / was shutting down"],"ans":"sent / shut down","expl":"Ketma-ket ishlar: sent / shut down."},{"id":33,"q":"While you ______ asleep, someone ______ this package for you.","opts":["were / left","was / left","were / was leaving","was / was leaving"],"ans":"were / left","expl":"were asleep + left."},{"id":34,"q":"A strange dog ______ into the garden while the children ______.","opts":["ran / played","ran / were playing","was running / played","was running / were playing"],"ans":"ran / were playing","expl":"ran + were playing."},{"id":35,"q":"She ______ a photograph of me while I ______ looking.","opts":["was taking / wasn't","took / didn't","was taking / didn't","took / wasn't"],"ans":"took / wasn't","expl":"took + wasn't looking."},{"id":36,"q":"When I ______ up, the clock ______ 8:30 AM.","opts":["woke / was showing","was waking / showed","woke / showed","was waking / was showing"],"ans":"woke / showed","expl":"woke / showed."},{"id":37,"q":"The fire ______ while the residents ______ on the second floor.","opts":["started / slept","was starting / slept","started / were sleeping","was starting / were sleeping"],"ans":"started / were sleeping","expl":"started + were sleeping."},{"id":38,"q":"He ______ coffee on his shirt while he ______ to work.","opts":["was spilling / was driving","was spilling / drove","spilt / drove","spilt / was driving"],"ans":"spilt / was driving","expl":"spilt + was driving."},{"id":39,"q":"While the students ______ the test, the headmaster ______ the room.","opts":["wrote / was entering","were writing / entered","wrote / entered","were writing / was entering"],"ans":"were writing / entered","expl":"were writing + entered."},{"id":40,"q":"I ______ on the ice and ______ my wrist.","opts":["was slipping / was spraining","slipped / was spraining","slipped / sprained","was slipping / sprained"],"ans":"slipped / sprained","expl":"Ketma-ket harakatlar: slipped / sprained."}],"8":[{"id":1,"q":"______ you ever ______ to London in your life?","opts":["Are / been","Did / go","Have / went","Have / been"],"ans":"Have / been","expl":"Hayotiy tajriba: Have you ever been to...?"},{"id":2,"q":"She has ______ two novels this year.","opts":["wrote","write","written","writed"],"ans":"written","expl":"has + V3 (write -> wrote -> written)."},{"id":3,"q":"I have ______ eaten sushi before. This is my first time.","opts":["yet","never","ever","already"],"ans":"never","expl":"Hech qachon yemaganman: have never eaten."},{"id":4,"q":"Look! I have ______ finished my homework!","opts":["yet","never","just","ever"],"ans":"just","expl":"Hozirgina tugatdim: have just finished."},{"id":5,"q":"Have you ______ visited Samarkand?","opts":["yet","ever","already","never"],"ans":"ever","expl":"Savolda 'hech qachon borganmisiz': Have you ever visited...?"},{"id":6,"q":"He hasn't called me ______.","opts":["ever","already","just","yet"],"ans":"yet","expl":"Inkor gap oxirida 'hali': hasn't called yet."},{"id":7,"q":"We have ______ bought the tickets. We are ready!","opts":["never","already","ever","yet"],"ans":"already","expl":"Allaqachon olib bo'ldik: have already bought."},{"id":8,"q":"My brother has ______ three medals this season.","opts":["winned","winning","won","win"],"ans":"won","expl":"win -> won (V3)."},{"id":9,"q":"______ she ______ her keys yet?","opts":["Has / found","Did / find","Have / found","Has / find"],"ans":"Has / found","expl":"She uchun: Has she found...?"},{"id":10,"q":"They have ______ here for 10 years.","opts":["living","lives","live","lived"],"ans":"lived","expl":"have lived."},{"id":11,"q":"I have ______ my mobile phone! Can you call it?","opts":["losing","lose","lost","losed"],"ans":"lost","expl":"lose -> lost."},{"id":12,"q":"The bus has ______ arrived. Look, the door is opening.","opts":["ever","yet","just","never"],"ans":"just","expl":"Hozirgina keldi: has just arrived."},{"id":13,"q":"Have you done the dishes ______?","opts":["ever","just","yet","already"],"ans":"yet","expl":"Savol oxirida: yet."},{"id":14,"q":"Ali has ______ seen the snow before because he lived in Africa.","opts":["yet","already","ever","never"],"ans":"never","expl":"Hech qachon ko'rmagan: has never seen."},{"id":15,"q":"I have ______ that movie three times. It is wonderful.","opts":["see","seed","saw","seen"],"ans":"seen","expl":"have seen (V3)."},{"id":16,"q":"She has ______ her arm, so she can't write today.","opts":["break","broke","breaked","broken"],"ans":"broken","expl":"has broken."},{"id":17,"q":"We haven't decided ______ where to go for holiday.","opts":["yet","never","already","just"],"ans":"yet","expl":"haven't decided yet."},{"id":18,"q":"______ your parents ______ abroad?","opts":["Have / travel","Have / traveled","Has / traveled","Did / travel"],"ans":"Have / traveled","expl":"your parents (they) -> Have they traveled?"},{"id":19,"q":"He has ______ to the supermarket. He will be back in 20 minutes.","opts":["went","go","gone","been"],"ans":"gone","expl":"gone to = ketgan va hali qaytmagan."},{"id":20,"q":"She has ______ to Paris twice. She loved the Eiffel Tower.","opts":["go","been","went","gone"],"ans":"been","expl":"been to = borib qaytgan (tajriba)."},{"id":21,"q":"❌ 'I have saw that movie last night.' — Xatoni tuzating:","opts":["I am seeing that movie last night.","I have seen that movie last night.","I saw that movie last night.","I see that movie last night."],"ans":"I saw that movie last night.","expl":"'last night' aniq o'tgan vaqt bo'lgani uchun Past Simple kerak: I saw."},{"id":22,"q":"❌ 'She has already went home.' — Xatoni tuzating:","opts":["is already went","has already go","has already gone","has already been"],"ans":"has already gone","expl":"has + V3 bo'lishi shart: has already gone."},{"id":23,"q":"Tarjima: 'Siz hech qachon ot minganmisiz?'","opts":["Did you ever ride a horse?","Have you ever ridden a horse?","Are you ever ridden a horse?","Have you ever rode a horse?"],"ans":"Have you ever ridden a horse?","expl":"Have you ever ridden a horse?"},{"id":24,"q":"Tarjima: 'Men hozirgina tushlik qildim.'","opts":["I have just lunch.","I have just had lunch.","I just did lunch.","I had just lunch."],"ans":"I have just had lunch.","expl":"I have just had lunch."},{"id":25,"q":"The train has ______ left the station.","opts":["ever","already","yet","any"],"ans":"already","expl":"has already left."},{"id":26,"q":"Have you ______ Chinese food before?","opts":["tryed","trying","tried","try"],"ans":"tried","expl":"Have you tried...?"},{"id":27,"q":"I haven't ______ my homework yet.","opts":["finished","finish","finishes","finishing"],"ans":"finished","expl":"haven't finished."},{"id":28,"q":"He has ______ a lot of interesting people in his career.","opts":["meet","met","meeting","meeted"],"ans":"met","expl":"meet -> met (V3)."},{"id":29,"q":"We have ______ three cups of coffee this morning.","opts":["drinked","drunk","drank","drink"],"ans":"drunk","expl":"have drunk."},{"id":30,"q":"The teacher hasn't checked our tests ______.","opts":["ever","yet","already","just"],"ans":"yet","expl":"hasn't checked yet."},{"id":31,"q":"Has the movie ______ started?","opts":["never","yet","already","ever"],"ans":"already","expl":"Has it already started?"},{"id":32,"q":"I have ______ known him since primary school.","opts":["know","knew","known","knowing"],"ans":"known","expl":"have known."},{"id":33,"q":"She has ______ all her exams with grade A!","opts":["passed","passing","past","pass"],"ans":"passed","expl":"has passed."},{"id":34,"q":"They have ______ to a new apartment in the center.","opts":["moved","move","moves","moving"],"ans":"moved","expl":"have moved."},{"id":35,"q":"Have you ______ heard this song? It's popular.","opts":["ever","never","yet","already"],"ans":"ever","expl":"Have you ever heard...?"}],"19":[{"id":1,"q":"I ______ to Dubai tomorrow morning. I already bought my tickets.","opts":["will fly","am flying","flying","fly"],"ans":"am flying","expl":"Chipta olingan, kelishilgan reja: am flying."},{"id":2,"q":"We ______ dinner with our grandparents on Saturday evening.","opts":["are have","are having","will have","have"],"ans":"are having","expl":"Kelishilgan uchrashuv: are having."},{"id":3,"q":"She ______ the dentist at 3:00 PM tomorrow. She has an appointment.","opts":["sees","will see","see","is seeing"],"ans":"is seeing","expl":"Shifokor bilan uchrashuv belgilangan: is seeing."},{"id":4,"q":"What ______ you ______ tonight? Do you want to watch a movie?","opts":["are / do","do / do","are / doing","will / do"],"ans":"are / doing","expl":"Bugun oqshomgi rejangiz: What are you doing tonight?"},{"id":5,"q":"They ______ married next month. All the invitations are sent.","opts":["are getting","got","get","will get"],"ans":"are getting","expl":"To'y sanasi aniq: are getting married."},{"id":6,"q":"I ______ football with my friends this Friday afternoon.","opts":["will play","am playing","playing","play"],"ans":"am playing","expl":"Kelishilgan o'yin: am playing."},{"id":7,"q":"Anvar ______ a new job on Monday. His contract is signed.","opts":["starts","is starting","will start","started"],"ans":"is starting","expl":"is starting."},{"id":8,"q":"We ______ anywhere this weekend. We are staying home.","opts":["don't go","aren't going","not go","won't go"],"ans":"aren't going","expl":"aren't going."},{"id":9,"q":"Where ______ she ______ her birthday this Sunday?","opts":["is / celebrate","will / celebrate","is / celebrating","does / celebrate"],"ans":"is / celebrating","expl":"is she celebrating?"},{"id":10,"q":"I ______ Tom at the airport at 5:00 PM.","opts":["am meeting","meeting","meet","will meet"],"ans":"am meeting","expl":"am meeting."},{"id":11,"q":"❌ 'I will play tennis with Bob tomorrow — we booked the court.' — Qaysi zamon to'g'riroq?","opts":["I playing tennis.","I play tennis with Bob tomorrow.","I am play tennis with Bob tomorrow.","I am playing tennis with Bob tomorrow."],"ans":"I am playing tennis with Bob tomorrow.","expl":"Kort band qilingan shaxsiy kelishuv uchun Present Continuous ishlatiladi: am playing."},{"id":12,"q":"Tarjima: 'Biz ertaga kechqurun kinoga boryapmiz (chipta olingan).'","opts":["We will go to cinema tomorrow evening.","We are go to cinema.","We go to cinema tomorrow.","We are going to the cinema tomorrow evening."],"ans":"We are going to the cinema tomorrow evening.","expl":"We are going."},{"id":13,"q":"Are you ______ anything special this weekend?","opts":["doing","did","does","do"],"ans":"doing","expl":"Are you doing...?"},{"id":14,"q":"My sister ______ home from university this Friday.","opts":["is coming","will come","comes","come"],"ans":"is coming","expl":"is coming."},{"id":15,"q":"They ______ a party on Saturday night.","opts":["are having","will have","have","has"],"ans":"are having","expl":"are having."},{"id":16,"q":"I ______ to work tomorrow because it's a holiday.","opts":["am not going","won't go","don't go","not going"],"ans":"am not going","expl":"am not going."},{"id":17,"q":"Who ______ with you to the concert tonight?","opts":["is coming","will come","come","comes"],"ans":"is coming","expl":"is coming?"},{"id":18,"q":"He ______ lunch with the manager at 1:00 PM today.","opts":["has","have","is having","will have"],"ans":"is having","expl":"is having."},{"id":19,"q":"We ______ to a new house next weekend.","opts":["are moving","moved","will move","move"],"ans":"are moving","expl":"are moving."},{"id":20,"q":"She ______ her grandmother this Sunday afternoon.","opts":["visits","is visiting","visit","will visit"],"ans":"is visiting","expl":"is visiting."},{"id":21,"q":"I ______ my driving test tomorrow morning at 9:00.","opts":["will take","took","am taking","take"],"ans":"am taking","expl":"am taking."},{"id":22,"q":"They ______ for London tomorrow on the 8:00 AM train.","opts":["left","leave","will leave","are leaving"],"ans":"are leaving","expl":"are leaving."},{"id":23,"q":"What time ______ you ______ for dinner tonight?","opts":["are / meeting","will / meet","are / meet","do / meet"],"ans":"are / meeting","expl":"are you meeting?"},{"id":24,"q":"My uncle ______ with us for three days next week.","opts":["will stay","stayed","is staying","stays"],"ans":"is staying","expl":"is staying."},{"id":25,"q":"I ______ my hairdresser tomorrow afternoon.","opts":["saw","am seeing","will see","see"],"ans":"am seeing","expl":"am seeing."}],"20":[{"id":1,"q":"The train to Samarkand ______ at 8:00 AM tomorrow morning.","opts":["leave","leaves","will leave","is leaving"],"ans":"leaves","expl":"Poyezd jadvali (rasmiy doimiy jadval): leaves (Present Simple)."},{"id":2,"q":"What time ______ the flight to Istanbul ______ tonight?","opts":["does / departs","is / departing","will / depart","does / depart"],"ans":"does / depart","expl":"Reys jadvali bo'yicha: does it depart?"},{"id":3,"q":"The movie ______ at 7:30 PM this evening.","opts":["start","is starting","starts","will start"],"ans":"starts","expl":"Kino seansi jadvali: starts."},{"id":4,"q":"School ______ on September 2nd after the holidays.","opts":["begin","will begin","begins","is beginning"],"ans":"begins","expl":"Darslar boshlanish jadvali: begins."},{"id":5,"q":"The bank ______ at 9:00 AM tomorrow and closes at 5:00 PM.","opts":["opens","is opening","will open","open"],"ans":"opens","expl":"Bank ish jadvali: opens."},{"id":6,"q":"The match ______ at 8:00 PM sharp tonight.","opts":["kick off","is kicking off","kicks off","will kick off"],"ans":"kicks off","expl":"O'yin jadvali: kicks off."},{"id":7,"q":"What time ______ the supermarket close tonight?","opts":["does","do","is","will"],"ans":"does","expl":"Supermarket jadvali: does the supermarket close?"},{"id":8,"q":"Our English lesson ______ at 10:00 AM tomorrow.","opts":["finishes","is finishing","finish","will finish"],"ans":"finishes","expl":"Dars jadvali: finishes."},{"id":9,"q":"The museum ______ open until 6:00 PM today.","opts":["is remaining","remains","will remain","remain"],"ans":"remains","expl":"remains."},{"id":10,"q":"The concert ______ at 9:00 PM and ends at 11:00 PM.","opts":["is starting","will start","start","starts"],"ans":"starts","expl":"starts."},{"id":11,"q":"When ______ the next bus to the airport ______?","opts":["is / arriving","will / arrive","do / arrive","does / arrive"],"ans":"does / arrive","expl":"Avtobus jadvali: does the bus arrive?"},{"id":12,"q":"The plane ______ in London at 11:45 PM tonight.","opts":["lands","is landing","land","will land"],"ans":"lands","expl":"lands."},{"id":13,"q":"Tomorrow ______ Friday.","opts":["will be","is","is being","was"],"ans":"is","expl":"Taqvim faktlari: Tomorrow is Friday."},{"id":14,"q":"The exhibition ______ next Monday.","opts":["is closing","close","will close","closes"],"ans":"closes","expl":"closes."},{"id":15,"q":"What time ______ the sun rise tomorrow morning?","opts":["does","will","do","is"],"ans":"does","expl":"Astronomik jadval: does the sun rise?"},{"id":16,"q":"The ferry ______ every two hours between the ports.","opts":["runs","will run","is running","run"],"ans":"runs","expl":"runs."},{"id":17,"q":"❌ 'The train will leave at 8:00 AM tomorrow.' — Qaysi zamon to'g'riroq?","opts":["The train leaves at 8:00 AM tomorrow.","The train leave at 8:00 AM.","The train is leaving at 8:00 AM.","The train leaving."],"ans":"The train leaves at 8:00 AM tomorrow.","expl":"Jadvallar uchun rasman Present Simple qo'llaniladi: leaves."},{"id":18,"q":"Tarjima: 'Dars ertaga soat 9 da boshlanadi.' (jadval)","opts":["The class starts at 9:00 AM tomorrow.","The class is start at 9:00.","The class will start at 9:00 tomorrow.","The class starting at 9:00."],"ans":"The class starts at 9:00 AM tomorrow.","expl":"The class starts at 9:00 AM."},{"id":19,"q":"The pharmacy ______ open all night.","opts":["will stay","stay","stays","is staying"],"ans":"stays","expl":"stays."},{"id":20,"q":"What time ______ the store open on Sundays?","opts":["does","do","will","is"],"ans":"does","expl":"does the store open?"},{"id":21,"q":"The library ______ at 5:00 PM on Saturdays.","opts":["closes","will close","close","is closing"],"ans":"closes","expl":"closes."},{"id":22,"q":"The flight ______ at 6:30 AM tomorrow.","opts":["is departing","depart","departs","will depart"],"ans":"departs","expl":"departs."},{"id":23,"q":"Next Monday ______ a national holiday.","opts":["was","is being","will be","is"],"ans":"is","expl":"is."},{"id":24,"q":"The restaurant ______ dinner at 6:00 PM.","opts":["serves","is serving","will serve","serve"],"ans":"serves","expl":"serves."},{"id":25,"q":"When ______ the train arrive?","opts":["will","is","does","are"],"ans":"does","expl":"does the train arrive?"}],"21":[{"id":1,"q":"Look at those dark black clouds in the sky! It ______.","opts":["is raining","will rain","rains","is going to rain"],"ans":"is going to rain","expl":"Ko'rinib turgan aniq dalil (qora bulutlar) -> is going to rain."},{"id":2,"q":"I have saved money. I ______ a new laptop next month.","opts":["will buy","buy","am buying","am going to buy"],"ans":"am going to buy","expl":"Oldindan qilingan niyat va reja: am going to buy."},{"id":3,"q":"Watch out! That ladder ______!","opts":["fell","will fall","is going to fall","falls"],"ans":"is going to fall","expl":"Ko'z o'ngimizdagi yaqqol xavf: is going to fall!"},{"id":4,"q":"What ______ you ______ to do after you graduate?","opts":["do / go","will / do","are / going","are / go"],"ans":"are / going","expl":"Kelajakdagi niyatni so'rash: What are you going to do?"},{"id":5,"q":"She ______ to study medicine at university. It is her dream.","opts":["goes","is going","will","is"],"ans":"is going","expl":"is going to study."},{"id":6,"q":"Be careful! You ______ drop your phone!","opts":["are","shall","will","are going to"],"ans":"are going to","expl":"are going to drop."},{"id":7,"q":"We ______ visit our relatives in Bukhara this autumn.","opts":["are going to","shall","are","will"],"ans":"are going to","expl":"are going to visit."},{"id":8,"q":"Look at that runner! He is way ahead — he ______ win the race!","opts":["will","shall","is winning","is going to"],"ans":"is going to","expl":"Dalil ko'rinib turibdi: is going to win."},{"id":9,"q":"I ______ going to eat fast food anymore. I want to be healthy.","opts":["am not","am","will not","don't"],"ans":"am not","expl":"am not going to eat."},{"id":10,"q":"Are they ______ to move to another house?","opts":["gone","going","will","go"],"ans":"going","expl":"Are they going to move?"},{"id":11,"q":"He has a lot of work. He ______ to work late tonight.","opts":["will","is","is going","goes"],"ans":"is going","expl":"is going to work."},{"id":12,"q":"Look at the baby! He ______ to take his first step!","opts":["is going","is","will","shall"],"ans":"is going","expl":"is going to take."},{"id":13,"q":"❌ 'Look at the sky, it will rain!' — Qaysi shakl to'g'riroq?","opts":["Look at the sky, it rain!","Look at the sky, it is going to rain!","Look at the sky, it rains!","Look at the sky, it raining!"],"ans":"Look at the sky, it is going to rain!","expl":"Ko'z oldimizdagi dalil (osmon) bo'lganda 'be going to' ishlatiladi."},{"id":14,"q":"Tarjima: 'Men yangi til o'rganmoqchiman (niyatim bor).'","opts":["I will learn a new language.","I am learn a new language.","I am going to learn a new language.","I going to learn language."],"ans":"I am going to learn a new language.","expl":"I am going to learn."},{"id":15,"q":"I feel sick. I think I ______ throw up.","opts":["shall","will","am going to","am"],"ans":"am going to","expl":"Jismoniy dalil bor: am going to."},{"id":16,"q":"She ______ buy a new car because she passed her test.","opts":["is","shall","is going to","will"],"ans":"is going to","expl":"is going to buy."},{"id":17,"q":"They ______ spend their holiday in the mountains.","opts":["are going to","will","are","shall"],"ans":"are going to","expl":"are going to spend."},{"id":18,"q":"The car has no fuel! It ______ stop soon!","opts":["will","is","is going to","shall"],"ans":"is going to","expl":"is going to stop."},{"id":19,"q":"What ______ she ______ to wear for the party?","opts":["is / going","is / go","will / wear","does / go"],"ans":"is / going","expl":"What is she going to wear?"},{"id":20,"q":"We ______ not going to watch this boring movie.","opts":["will","have","are","do"],"ans":"are","expl":"We are not going to..."},{"id":21,"q":"Watch out! The dog ______ bite you!","opts":["will","is","shall","is going to"],"ans":"is going to","expl":"is going to bite."},{"id":22,"q":"I ______ to start going to the gym from next Monday.","opts":["shall","am","am going","will"],"ans":"am going","expl":"am going to start."},{"id":23,"q":"He ______ to call his parents tonight.","opts":["is going","shall","is","will"],"ans":"is going","expl":"is going to call."},{"id":24,"q":"Look! The boat has a hole! It ______ sink!","opts":["will","is","is going to","shall"],"ans":"is going to","expl":"is going to sink!"},{"id":25,"q":"Are you ______ to clean your room today?","opts":["did","go","will","going"],"ans":"going","expl":"Are you going to clean...?"},{"id":26,"q":"I ______ going to sell my old bicycle.","opts":["am","will","do","shall"],"ans":"am","expl":"I am going to sell."},{"id":27,"q":"They ______ to build a new hospital here.","opts":["are","are going","will","shall"],"ans":"are going","expl":"are going to build."},{"id":28,"q":"Careful! You ______ spill your tea!","opts":["are going to","are","will","shall"],"ans":"are going to","expl":"are going to spill."},{"id":29,"q":"She ______ to bake some cookies for the children.","opts":["shall","will","is going","is"],"ans":"is going","expl":"is going to bake."},{"id":30,"q":"The sun is very strong. You ______ get sunburned!","opts":["will","are","are going to","shall"],"ans":"are going to","expl":"are going to get."}]};
+
+    let currentTopicId = null;
+    let activeQuestionSet = [];
+    let currentQIndex = 0;
+    let userAnswers = {};
+    let mistakesInCurrentSession = [];
+
+    const BOT_TOKEN = '8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw';
+    const TEACHER_ID = '6315515792';
+
+    // Local Storage helpers
+    function getStoredProgress() {
+      try {
+        const raw = localStorage.getItem('a1_mastery_progress_v1');
+        return raw ? JSON.parse(raw) : {};
+      } catch(e) {
+        return {};
+      }
+    }
+
+    function saveProgress(topicId, percent, total, correct) {
+      const prog = getStoredProgress();
+      const prev = prog[topicId] || { bestPercent: 0 };
+      prog[topicId] = {
+        lastPercent: percent,
+        bestPercent: Math.max(prev.bestPercent || 0, percent),
+        total,
+        correct,
+        lastAttemptDate: new Date().toISOString()
+      };
+      localStorage.setItem('a1_mastery_progress_v1', JSON.stringify(prog));
+      updateMasteryCounter();
+    }
+
+    function saveStudentName() {
+      const val = document.getElementById('studentNameInput').value;
+      localStorage.setItem('a1_student_name', val.trim());
+    }
+
+    function loadStudentName() {
+      const val = localStorage.getItem('a1_student_name');
+      if (val) document.getElementById('studentNameInput').value = val;
+    }
+
+    function updateMasteryCounter() {
+      const prog = getStoredProgress();
+      let masteredCount = 0;
+      TOPICS_DATA.forEach(t => {
+        if (prog[t.id] && prog[t.id].bestPercent === 100) masteredCount++;
+      });
+      const pct = Math.round((masteredCount / TOPICS_DATA.length) * 100);
+      document.getElementById('overallMasteryTxt').textContent = masteredCount + ' / ' + TOPICS_DATA.length + ' (' + pct + '%)';
+      document.getElementById('overallMasteryFill').style.width = pct + '%';
+    }
+
+    function renderHub() {
+      const grid = document.getElementById('topicsGrid');
+      grid.innerHTML = '';
+      const prog = getStoredProgress();
+
+      TOPICS_DATA.forEach(t => {
+        const p = prog[t.id] || null;
+        const best = p ? p.bestPercent : 0;
+        const qCount = (ALL_QUESTIONS[t.id] || []).length;
+
+        let statusClass = 'status-new';
+        let statusText = 'Boshlanmagan';
+        if (best === 100) {
+          statusClass = 'status-mastered';
+          statusText = '🏆 100% Mastered';
+        } else if (best > 0) {
+          statusClass = 'status-progress';
+          statusText = best + "% O'zlashdi";
+        }
+
+        const card = document.createElement('div');
+        card.className = 'topic-card' + (best === 100 ? ' mastered' : '');
+        card.onclick = () => startTopic(t.id);
+        card.innerHTML = `
+          <div>
+            <div class="topic-top">
+              <span class="topic-num">${t.num}</span>
+              <span class="topic-badge-status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="topic-title">${t.title}</div>
+            <div class="topic-desc">${t.desc}</div>
+          </div>
+          <div class="topic-bottom">
+            <span class="topic-q-count">⚡ ${qCount} ta savol</span>
+            <span class="topic-score-pill">${best > 0 ? ('Eng yuqori: ' + best + '%') : 'Boshlash ➔'}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Drill Lifecycle
+    function startTopic(id) {
+      currentTopicId = id;
+      const topic = TOPICS_DATA.find(t => t.id === id);
+      activeQuestionSet = [...(ALL_QUESTIONS[id] || [])];
+      currentQIndex = 0;
+      userAnswers = {};
+      mistakesInCurrentSession = [];
+
+      document.getElementById('hubView').style.display = 'none';
+      document.getElementById('resultView').style.display = 'none';
+      document.getElementById('drillView').style.display = 'block';
+
+      document.getElementById('drillTopicTitle').textContent = topic.num + ' ' + topic.title;
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const q = activeQuestionSet[currentQIndex];
+      const total = activeQuestionSet.length;
+
+      document.getElementById('drillCounter').textContent = (currentQIndex + 1) + ' / ' + total;
+      document.getElementById('drillBarFill').style.width = (((currentQIndex + 1) / total) * 100) + '%';
+
+      document.getElementById('qTypeBadge').textContent = 'A1 GRAMMAR DRILL';
+      document.getElementById('qSentence').textContent = q.q;
+
+      const optsContainer = document.getElementById('qOptionsGrid');
+      optsContainer.innerHTML = '';
+      const fb = document.getElementById('drillFeedback');
+      fb.className = 'drill-feedback';
+      fb.innerHTML = '';
+      document.getElementById('btnNext').className = 'btn-next';
+
+      q.opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'q-opt-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(btn, opt, q);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(btn, chosen, q) {
+      const isCorrect = (chosen === q.ans);
+      const allBtns = document.querySelectorAll('.q-opt-btn');
+      allBtns.forEach(b => {
+        b.disabled = true;
+        if (b.textContent === q.ans) b.classList.add('correct');
+        else if (b.textContent === chosen && !isCorrect) b.classList.add('wrong');
+      });
+
+      userAnswers[q.id] = { selected: chosen, isCorrect, question: q };
+      if (!isCorrect) {
+        mistakesInCurrentSession.push({ q, chosen });
+      }
+
+      const fb = document.getElementById('drillFeedback');
+      fb.className = 'drill-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+      fb.innerHTML = (isCorrect ? "✅ <b>To'g'ri!</b> " : ("❌ <b>Noto'g'ri. To'g'ri javob:</b> &quot;" + q.ans + "&quot;. ")) + q.expl;
+
+      document.getElementById('btnNext').classList.add('show');
+    }
+
+    function nextQuestion() {
+      if (currentQIndex < activeQuestionSet.length - 1) {
+        currentQIndex++;
+        renderCurrentQuestion();
+      } else {
+        finishTopicSession();
+      }
+    }
+
+    function finishTopicSession() {
+      document.getElementById('drillView').style.display = 'none';
+      document.getElementById('resultView').style.display = 'block';
+
+      const total = activeQuestionSet.length;
+      let correct = 0;
+      activeQuestionSet.forEach(q => {
+        if (userAnswers[q.id] && userAnswers[q.id].isCorrect) correct++;
+      });
+
+      const percent = Math.round((correct / total) * 100);
+      saveProgress(currentTopicId, percent, total, correct);
+
+      document.getElementById('resultScoreBig').textContent = correct + ' / ' + total + ' (' + percent + '%)';
+
+      const msgEl = document.getElementById('resultMsg');
+      const btnMistakes = document.getElementById('btnRetakeMistakes');
+
+      if (percent === 100) {
+        msgEl.innerHTML = "🎉 <b>MUKAMMAL NATIJA!</b> Siz ushbu mavzuni 100% aniqlik bilan o'zlashtirdingiz!";
+        btnMistakes.style.display = 'none';
+        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+      } else {
+        msgEl.innerHTML = "💡 Yaxshi harakat! Lekin <b>" + mistakesInCurrentSession.length + " ta xato</b> qildingiz. 100% natijaga erishish uchun xatolarni qayta yeching!";
+        btnMistakes.style.display = 'inline-flex';
+      }
+
+      // Render mistakes breakdown
+      const list = document.getElementById('mistakesListContainer');
+      list.innerHTML = '';
+      if (mistakesInCurrentSession.length === 0) {
+        document.getElementById('mistakesSection').style.display = 'none';
+      } else {
+        document.getElementById('mistakesSection').style.display = 'block';
+        mistakesInCurrentSession.forEach((m, idx) => {
+          const item = document.createElement('div');
+          item.className = 'mistake-card';
+          item.innerHTML = `
+            <div class="mistake-q">${idx + 1}. ${m.q.q}</div>
+            <div class="mistake-your">❌ Sizning javobingiz: ${m.chosen}</div>
+            <div class="mistake-correct">✅ To'g'ri javob: ${m.q.ans}</div>
+            <div class="mistake-expl">💡 <b>Qoida va izoh:</b> ${m.q.expl}</div>
+          `;
+          list.appendChild(item);
+        });
+      }
+    }
+
+    // Retake Mistakes Only Loop
+    function startMistakesOnly() {
+      if (!mistakesInCurrentSession.length) return;
+      activeQuestionSet = mistakesInCurrentSession.map(m => m.q);
+      currentQIndex = 0;
+      userAnswers = {};
+      mistakesInCurrentSession = [];
+
+      document.getElementById('resultView').style.display = 'none';
+      document.getElementById('drillView').style.display = 'block';
+      renderCurrentQuestion();
+    }
+
+    function restartCurrentTopic() {
+      startTopic(currentTopicId);
+    }
+
+    function exitToHub() {
+      document.getElementById('drillView').style.display = 'none';
+      document.getElementById('resultView').style.display = 'none';
+      document.getElementById('hubView').style.display = 'block';
+      renderHub();
+    }
+
+    async function sendScoreToTelegram() {
+      const name = (document.getElementById('studentNameInput').value || '').trim() || 'A1 Student';
+      const topic = TOPICS_DATA.find(t => t.id === currentTopicId);
+      const prog = getStoredProgress()[currentTopicId] || { lastPercent: 0, total: 0, correct: 0 };
+
+      const msg = "🎓 <b>A1 GRAMMAR MASTERY PROGRESS</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzu:</b> " + topic.num + " " + topic.title + "\n" +
+        "🎯 <b>Natija:</b> <b>" + prog.correct + " / " + prog.total + " (" + prog.lastPercent + "%)</b>\n" +
+        "🏆 <b>Eng yaxshi natija:</b> " + prog.bestPercent + "%\n" +
+        "⏰ <b>Vaqt:</b> " + new Date().toLocaleTimeString('uz-UZ') + "\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "🤖 <i>TeacherOS Mastery Engine</i>";
+
+      try {
+        await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TEACHER_ID, text: msg, parse_mode: 'HTML' })
+        });
+        
+      // 1. Direct Cloud Sync to Supabase PostgreSQL (Works 24/7 from ANY phone/browser!)
+      try {
+        fetch('https://myedysrfbijtgttxnhhq.supabase.co/rest/v1/student_submissions', {
+          method: 'POST',
+          headers: {
+            'apikey': 'sb_publishable_47gY7ucKybitgovW_2pEPw_c6fB8djL',
+            'Authorization': 'Bearer sb_publishable_47gY7ucKybitgovW_2pEPw_c6fB8djL',
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            student_name: name,
+            syllabus_level: 'A1',
+            topic_id: currentTopicId,
+            topic_title: topic.title,
+            score: prog.correct,
+            total_questions: prog.total,
+            percent: prog.lastPercent,
+            mistakes: mistakesInCurrentSession
+          })
+        }).catch(function(err) {});
+      } catch(e) {}
+
+      // 2. Local fallback sync
+      try {
+        fetch('/api/submit-score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_name: name,
+            syllabus_level: 'A1',
+            topic_id: currentTopicId,
+            topic_title: topic.title,
+            score: prog.correct,
+            total_questions: prog.total,
+            percent: prog.lastPercent,
+            mistakes: mistakesInCurrentSession
+          })
+        }).catch(function() {});
+      } catch(e) {}
+  alert("🎉 Natijangiz ustozingizga Telegram orqali yuborildi!");
+      } catch(e) {
+        alert("Xatolik yuz berdi. Internetni tekshiring.");
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStudentName();
+      updateMasteryCounter();
+      renderHub();
+    });
+  </script>
+</body>
+</html>

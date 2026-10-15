@@ -1,0 +1,2872 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A1 Intensive Homework • Past Continuous vs Past Simple (when / while / so)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-hover: #17223b;
+      --border: #1e293b;
+      --border-focus: #06b6d4;
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.2);
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      padding-bottom: 90px;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0e172a 0%, #162444 50%, #082f49 100%);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 20px;
+      padding: 32px 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 30px var(--cyan-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .badge-level {
+      background: rgba(6, 182, 212, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .badge-topic {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+
+    .badge-bot {
+      background: rgba(139, 92, 246, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 30%, #7dd3fc 70%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 780px;
+    }
+
+    .student-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .student-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 240px;
+      flex: 1;
+    }
+
+    .input-group label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input[type="text"], textarea {
+      background: #090f1e;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 11px 16px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-tab-btn {
+      background: #111827;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tab-btn:hover {
+      background: var(--card-hover);
+      color: var(--text);
+    }
+
+    .nav-tab-btn.active {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--cyan);
+      color: #38bdf8;
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title-wrap {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .rule-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rule-card.cyan { border-left: 4px solid var(--cyan); }
+    .rule-card.emerald { border-left: 4px solid var(--emerald); }
+    .rule-card.amber { border-left: 4px solid var(--amber); }
+
+    .rule-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rule-card.cyan .rule-title { color: #38bdf8; }
+    .rule-card.emerald .rule-title { color: #34d399; }
+    .rule-card.amber .rule-title { color: #fbbf24; }
+
+    .rule-body {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    .rule-example {
+      background: #090f1e;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #7dd3fc;
+    }
+
+    .trap-box {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
+    .trap-title {
+      color: #f87171;
+      font-weight: 800;
+      font-size: 0.96rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trap-body {
+      color: #fca5a5;
+      font-size: 0.87rem;
+      line-height: 1.5;
+    }
+
+    .verb-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      background: var(--card-bg);
+    }
+
+    table.verb-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    table.verb-table th {
+      background: #0b1324;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.verb-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+      vertical-align: middle;
+    }
+
+    table.verb-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .verb-btn {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #38bdf8;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .verb-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .vocab-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .vocab-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .vocab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .vocab-word {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .vocab-pos {
+      font-size: 0.72rem;
+      background: #1e293b;
+      color: #94a3b8;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .vocab-uz {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .vocab-ex {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+      border-left: 2px solid var(--cyan);
+      padding-left: 8px;
+      margin-top: 4px;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .question-text {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .opt-btn {
+      background: #0d1527;
+      border: 1.5px solid var(--border);
+      color: #e2e8f0;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+    }
+
+    .opt-btn:hover {
+      background: #17233f;
+      border-color: #334155;
+    }
+
+    .opt-btn.correct {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: var(--emerald) !important;
+      color: #34d399 !important;
+      font-weight: 700;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: var(--rose) !important;
+      color: #f87171 !important;
+    }
+
+    .feedback-box {
+      font-size: 0.84rem;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 10px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .feedback-box.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .feedback-box.correct {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    .feedback-box.wrong {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .drill-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+
+    .drill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .drill-sentence {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f8fafc;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .drill-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .drill-inputs input {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .btn-check {
+      background: linear-gradient(135deg, var(--cyan) 0%, #0284c7 100%);
+      color: #041019;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-check:hover {
+      box-shadow: 0 0 16px var(--cyan-glow);
+      transform: translateY(-1px);
+    }
+
+    .drill-feedback {
+      margin-top: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .drill-feedback.show { display: block; }
+    .drill-feedback.ok { color: #34d399; }
+    .drill-feedback.no { color: #f87171; }
+
+    .error-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+
+    .error-wrong {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #f87171;
+      font-weight: 600;
+      font-size: 0.94rem;
+      margin-bottom: 8px;
+    }
+
+    .error-correct {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #34d399;
+      font-weight: 600;
+      font-size: 0.94rem;
+      margin-bottom: 8px;
+    }
+
+    .error-expl {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-left: 26px;
+    }
+
+    .trans-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+
+    .trans-uz {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .trans-hint {
+      font-size: 0.78rem;
+      color: #38bdf8;
+      background: rgba(6, 182, 212, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .writing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .writing-prompt {
+      background: #090f1e;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .writing-prompt h4 {
+      color: #38bdf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .writing-prompt p {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .word-counter {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    .submit-panel {
+      background: linear-gradient(135deg, #0e172a 0%, #1e1b4b 50%, #064e3b 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.4);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 36px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--emerald-glow);
+    }
+
+    .submit-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+
+    .submit-desc {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .btn-submit-telegram {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border: none;
+      padding: 15px 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-submit-telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+    }
+
+    .submit-status {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 1.6rem; }
+      header { padding: 22px 18px; }
+      .student-card { padding: 16px; }
+      .btn-submit-telegram { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-row">
+        <span class="badge badge-level">🚀 A1 Level Intensive</span>
+        <span class="badge badge-topic">⏱️ Past Continuous vs Past Simple</span>
+        <span class="badge badge-bot">🤖 Telegram Bot Sync</span>
+      </div>
+      <h1>Past Continuous: When, While & So</h1>
+      <p class="subtitle">O'tgan davomli zamon va o'tgan oddiy zamon orasidagi farq, to'satdan bo'lgan harakatlar va natijalarni ifodalash bo'yicha to'liq mustahkamlash vazifasi.</p>
+    </header>
+
+    <div class="student-card">
+      <div class="student-inputs">
+        <div class="input-group">
+          <label>O'quvchi Ismi va Familiyasi</label>
+          <input type="text" id="studentName" placeholder="Masalan: Madinaxon Alimova" oninput="saveDraft()">
+        </div>
+        <div class="input-group">
+          <label>Topshirish Sanasi</label>
+          <input type="text" id="submissionDate" value="12-Oktyabr, 2026" readonly>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab-btn active" onclick="switchTab('tab-rules')">📚 1. Qoidalar & Tuzoqlar</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-verbs')">🔥 2. 30 ta Noto'g'ri Fe'l</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-vocab')">💎 3. 15 Yangi So'z</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-mcq')">🎯 4. Testlar (15 ta)</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-brackets')">✏️ 5. Qavslarni Ochish (15 ta)</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-connectors')">🔗 6. When / While / So (10 ta)</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-errors')">🔍 7. Xatolarni Topish (10 ta)</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-translation')">🌐 8. Tarjima (10 ta)</button>
+      <button class="nav-tab-btn" onclick="switchTab('tab-story')">✍️ 9. Hikoya Yozish</button>
+    </nav>
+
+    <!-- TAB 1: RULES -->
+    <div id="tab-rules" class="tab-content active">
+      <div class="section-title-wrap">
+        <h2 class="section-title">📖 Dars Qoidalari & O'zbek Tili Tuzoqlari</h2>
+        <p class="section-desc">Past Continuous (o'tgan davomli zamon) va Past Simple (o'tgan oddiy zamon) formulasini eslab qoling.</p>
+      </div>
+
+      <div class="rule-grid">
+        <div class="rule-card cyan">
+          <h3 class="rule-title">⏱️ Past Continuous (was/were + V-ing)</h3>
+          <div class="rule-body">
+            O'tmishdagi ma'lum bir vaqtda <b>davom etayotgan (uzoq) jarayon</b>ni bildiradi.<br>
+            • <b>I / He / She / It</b> → <b>was</b> + V-ing<br>
+            • <b>We / You / They</b> → <b>were</b> + V-ing
+            <div class="rule-example">At 8 PM yesterday, I was studying English.</div>
+          </div>
+        </div>
+
+        <div class="rule-card emerald">
+          <h3 class="rule-title">⚡ Past Simple (V2 / -ed)</h3>
+          <div class="rule-body">
+            O'tmishda tugallangan, <b>qisqa, to'satdan sodir bo'lgan</b> yoki birin-ketin sodir bo'lgan harakatlar.<br>
+            • Regular verbs: <b>verb + ed</b> (walked, played)<br>
+            • Irregular verbs: <b>V2 ustuni</b> (went, saw, rang)
+            <div class="rule-example">Suddenly, the phone rang.</div>
+          </div>
+        </div>
+
+        <div class="rule-card amber">
+          <h3 class="rule-title">🔗 When vs While vs So</h3>
+          <div class="rule-body">
+            • <b>WHILE</b> + Uzoq jarayon (Past Continuous): <i>While I was cooking...</i><br>
+            • <b>WHEN</b> + Qisqa to'sqinlik qiluvchi harakat (Past Simple): <i>...when the phone rang.</i><br>
+            • <b>SO</b> + Natija (shuning uchun): <i>It was raining, so we stayed home.</i>
+            <div class="rule-example">While I was walking, it rained, so I ran home.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trap-box">
+        <div class="trap-title">⚠️ O'zbek Tili Tuzog'i #1: Holat fe'llari (Stative Verbs)</div>
+        <div class="trap-body">
+          O'zbek tilida "Men eshitayotgan edim", "Men tushunayotgan edim" deyish mumkin. Ammo ingliz tilida sezgi va aqliy fe'llar (hear, see, understand, know, want) <b>hech qachon Continuous bo'lmaydi!</b><br>
+          ❌ <i>I was hearing a sound.</i> &nbsp; ➔ &nbsp; ✅ <b>I heard a sound.</b><br>
+          ❌ <i>She was knowing the answer.</i> &nbsp; ➔ &nbsp; ✅ <b>She knew the answer.</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 30 IRREGULAR VERBS -->
+    <div id="tab-verbs" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">🔥 30 ta Oltin Noto'g'ri Fe'l (Irregular Verbs)</h2>
+        <p class="section-desc">Har dars takrorlanadigan 30 ta eng muhim fe'l. Har birining talaffuzini eshiting va yod oling!</p>
+      </div>
+
+      <div class="verb-table-wrap">
+        <table class="verb-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>V1 (Infinitive)</th>
+              <th>V2 (Past Simple)</th>
+              <th>V3 (Past Participle)</th>
+              <th>O'zbekcha Ma'nosi</th>
+              <th>Audio</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td><b>1</b></td>
+                <td><b style="color:#38bdf8">be</b></td>
+                <td><span style="color:#34d399;font-weight:600">was / were</span></td>
+                <td><span style="color:#c084fc;font-weight:600">been</span></td>
+                <td>bo'lmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('be, was, been')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>2</b></td>
+                <td><b style="color:#38bdf8">go</b></td>
+                <td><span style="color:#34d399;font-weight:600">went</span></td>
+                <td><span style="color:#c084fc;font-weight:600">gone</span></td>
+                <td>bormoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('go, went, gone')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>3</b></td>
+                <td><b style="color:#38bdf8">do</b></td>
+                <td><span style="color:#34d399;font-weight:600">did</span></td>
+                <td><span style="color:#c084fc;font-weight:600">done</span></td>
+                <td>qilmoq, bajarmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('do, did, done')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>4</b></td>
+                <td><b style="color:#38bdf8">have</b></td>
+                <td><span style="color:#34d399;font-weight:600">had</span></td>
+                <td><span style="color:#c084fc;font-weight:600">had</span></td>
+                <td>ega bo'lmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('have, had, had')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>5</b></td>
+                <td><b style="color:#38bdf8">see</b></td>
+                <td><span style="color:#34d399;font-weight:600">saw</span></td>
+                <td><span style="color:#c084fc;font-weight:600">seen</span></td>
+                <td>ko'rmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('see, saw, seen')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>6</b></td>
+                <td><b style="color:#38bdf8">get</b></td>
+                <td><span style="color:#34d399;font-weight:600">got</span></td>
+                <td><span style="color:#c084fc;font-weight:600">got</span></td>
+                <td>olmoq, yetib bormoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('get, got, got')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>7</b></td>
+                <td><b style="color:#38bdf8">make</b></td>
+                <td><span style="color:#34d399;font-weight:600">made</span></td>
+                <td><span style="color:#c084fc;font-weight:600">made</span></td>
+                <td>yasamoq, tayyorlamoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('make, made, made')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>8</b></td>
+                <td><b style="color:#38bdf8">say</b></td>
+                <td><span style="color:#34d399;font-weight:600">said</span></td>
+                <td><span style="color:#c084fc;font-weight:600">said</span></td>
+                <td>aytmoq, demoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('say, said, said')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>9</b></td>
+                <td><b style="color:#38bdf8">come</b></td>
+                <td><span style="color:#34d399;font-weight:600">came</span></td>
+                <td><span style="color:#c084fc;font-weight:600">come</span></td>
+                <td>kelmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('come, came, come')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>10</b></td>
+                <td><b style="color:#38bdf8">take</b></td>
+                <td><span style="color:#34d399;font-weight:600">took</span></td>
+                <td><span style="color:#c084fc;font-weight:600">taken</span></td>
+                <td>olmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('take, took, taken')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>11</b></td>
+                <td><b style="color:#38bdf8">give</b></td>
+                <td><span style="color:#34d399;font-weight:600">gave</span></td>
+                <td><span style="color:#c084fc;font-weight:600">given</span></td>
+                <td>bermoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('give, gave, given')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>12</b></td>
+                <td><b style="color:#38bdf8">buy</b></td>
+                <td><span style="color:#34d399;font-weight:600">bought</span></td>
+                <td><span style="color:#c084fc;font-weight:600">bought</span></td>
+                <td>sotib olmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('buy, bought, bought')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>13</b></td>
+                <td><b style="color:#38bdf8">eat</b></td>
+                <td><span style="color:#34d399;font-weight:600">ate</span></td>
+                <td><span style="color:#c084fc;font-weight:600">eaten</span></td>
+                <td>yemoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('eat, ate, eaten')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>14</b></td>
+                <td><b style="color:#38bdf8">drink</b></td>
+                <td><span style="color:#34d399;font-weight:600">drank</span></td>
+                <td><span style="color:#c084fc;font-weight:600">drunk</span></td>
+                <td>ichmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('drink, drank, drunk')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>15</b></td>
+                <td><b style="color:#38bdf8">sleep</b></td>
+                <td><span style="color:#34d399;font-weight:600">slept</span></td>
+                <td><span style="color:#c084fc;font-weight:600">slept</span></td>
+                <td>uxlamoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('sleep, slept, slept')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>16</b></td>
+                <td><b style="color:#38bdf8">write</b></td>
+                <td><span style="color:#34d399;font-weight:600">wrote</span></td>
+                <td><span style="color:#c084fc;font-weight:600">written</span></td>
+                <td>yozmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('write, wrote, written')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>17</b></td>
+                <td><b style="color:#38bdf8">read</b></td>
+                <td><span style="color:#34d399;font-weight:600">read (red)</span></td>
+                <td><span style="color:#c084fc;font-weight:600">read (red)</span></td>
+                <td>o'qimoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('read, read, read')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>18</b></td>
+                <td><b style="color:#38bdf8">speak</b></td>
+                <td><span style="color:#34d399;font-weight:600">spoke</span></td>
+                <td><span style="color:#c084fc;font-weight:600">spoken</span></td>
+                <td>gapirmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('speak, spoke, spoken')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>19</b></td>
+                <td><b style="color:#38bdf8">meet</b></td>
+                <td><span style="color:#34d399;font-weight:600">met</span></td>
+                <td><span style="color:#c084fc;font-weight:600">met</span></td>
+                <td>uchrashmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('meet, met, met')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>20</b></td>
+                <td><b style="color:#38bdf8">find</b></td>
+                <td><span style="color:#34d399;font-weight:600">found</span></td>
+                <td><span style="color:#c084fc;font-weight:600">found</span></td>
+                <td>topmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('find, found, found')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>21</b></td>
+                <td><b style="color:#38bdf8">tell</b></td>
+                <td><span style="color:#34d399;font-weight:600">told</span></td>
+                <td><span style="color:#c084fc;font-weight:600">told</span></td>
+                <td>aytmoq, so'zlab bermoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('tell, told, told')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>22</b></td>
+                <td><b style="color:#38bdf8">hear</b></td>
+                <td><span style="color:#34d399;font-weight:600">heard</span></td>
+                <td><span style="color:#c084fc;font-weight:600">heard</span></td>
+                <td>eshitmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('hear, heard, heard')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>23</b></td>
+                <td><b style="color:#38bdf8">know</b></td>
+                <td><span style="color:#34d399;font-weight:600">knew</span></td>
+                <td><span style="color:#c084fc;font-weight:600">known</span></td>
+                <td>bilmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('know, knew, known')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>24</b></td>
+                <td><b style="color:#38bdf8">leave</b></td>
+                <td><span style="color:#34d399;font-weight:600">left</span></td>
+                <td><span style="color:#c084fc;font-weight:600">left</span></td>
+                <td>tark etmoq, chiqib ketmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('leave, left, left')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>25</b></td>
+                <td><b style="color:#38bdf8">put</b></td>
+                <td><span style="color:#34d399;font-weight:600">put</span></td>
+                <td><span style="color:#c084fc;font-weight:600">put</span></td>
+                <td>qo'ymoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('put, put, put')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>26</b></td>
+                <td><b style="color:#38bdf8">think</b></td>
+                <td><span style="color:#34d399;font-weight:600">thought</span></td>
+                <td><span style="color:#c084fc;font-weight:600">thought</span></td>
+                <td>o'ylamoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('think, thought, thought')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>27</b></td>
+                <td><b style="color:#38bdf8">bring</b></td>
+                <td><span style="color:#34d399;font-weight:600">brought</span></td>
+                <td><span style="color:#c084fc;font-weight:600">brought</span></td>
+                <td>olib kelmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('bring, brought, brought')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>28</b></td>
+                <td><b style="color:#38bdf8">run</b></td>
+                <td><span style="color:#34d399;font-weight:600">ran</span></td>
+                <td><span style="color:#c084fc;font-weight:600">run</span></td>
+                <td>yugurmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('run, ran, run')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>29</b></td>
+                <td><b style="color:#38bdf8">understand</b></td>
+                <td><span style="color:#34d399;font-weight:600">understood</span></td>
+                <td><span style="color:#c084fc;font-weight:600">understood</span></td>
+                <td>tushunmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('understand, understood, understood')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+              <tr>
+                <td><b>30</b></td>
+                <td><b style="color:#38bdf8">lose</b></td>
+                <td><span style="color:#34d399;font-weight:600">lost</span></td>
+                <td><span style="color:#c084fc;font-weight:600">lost</span></td>
+                <td>yo'qotmoq</td>
+                <td>
+                  <button class="verb-btn" title="Eshitish" onclick="speakText('lose, lost, lost')">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                  </button>
+                </td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: 15 VOCAB -->
+    <div id="tab-vocab" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">💎 15 ta Yangi Mavzuviy So'z (Mavzuga Oid)</h2>
+        <p class="section-desc">Kutilmagan hodisalar, to'satdan voqealar va Past Continuous konteksti uchun yangi so'zlar.</p>
+      </div>
+
+      <div class="vocab-grid">
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">1. interrupt</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">gapini bo'lmoq, xalal bermoq</div>
+            <div class="vocab-ex">"The phone rang and interrupted our lesson."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('interrupt. The phone rang and interrupted our lesson.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">2. slip</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">toyib ketmoq, sirpanmoq</div>
+            <div class="vocab-ex">"She slipped on the wet floor while she was walking."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('slip. She slipped on the wet floor while she was walking.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">3. burn</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">kuydirib olmoq / yonmoq</div>
+            <div class="vocab-ex">"He burned his finger while he was cooking soup."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('burn. He burned his finger while he was cooking soup.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">4. notice</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">payqab qolmoq, sezmoq</div>
+            <div class="vocab-ex">"I was looking out the window when I noticed a strange car."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('notice. I was looking out the window when I noticed a strange car.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">5. drop</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">tushirib yubormoq</div>
+            <div class="vocab-ex">"She dropped her cup while she was washing dishes."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('drop. She dropped her cup while she was washing dishes.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">6. ring</span>
+              <span class="vocab-pos">verb (rang, rung)</span>
+            </div>
+            <div class="vocab-uz">jiringlamoq</div>
+            <div class="vocab-ex">"I was sleeping when the alarm rang loudly."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('ring. I was sleeping when the alarm rang loudly.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">7. cross</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">(yo'lni) kesib o'tmoq</div>
+            <div class="vocab-ex">"A dog ran across the street while we were driving."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('cross. A dog ran across the street while we were driving.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">8. carry</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">ko'tarib bormoq, tashimoq</div>
+            <div class="vocab-ex">"He was carrying heavy bags, so I helped him."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('carry. He was carrying heavy bags, so I helped him.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">9. spill</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">to'kib yubormoq (choy/suv)</div>
+            <div class="vocab-ex">"I was drinking tea when I spilled it on my book."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('spill. I was drinking tea when I spilled it on my book.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">10. knock</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">taqillatmoq (eshikni)</div>
+            <div class="vocab-ex">"Someone knocked on the door while I was studying."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('knock. Someone knocked on the door while I was studying.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">11. accident</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">baxtsiz hodisa, to'qnashuv</div>
+            <div class="vocab-ex">"There was a small car accident on the main road."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('accident. There was a small car accident on the main road.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">12. loud</span>
+              <span class="vocab-pos">adj</span>
+            </div>
+            <div class="vocab-uz">baland, jarangdor (ovoz)</div>
+            <div class="vocab-ex">"We heard a loud noise while we were talking."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('loud. We heard a loud noise while we were talking.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">13. scream</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">qichqirmoq, baqirmoq</div>
+            <div class="vocab-ex">"The boy screamed when he saw a big spider."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('scream. The boy screamed when he saw a big spider.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">14. sudden</span>
+              <span class="vocab-pos">adj</span>
+            </div>
+            <div class="vocab-uz">to'satdan, kutilmagan</div>
+            <div class="vocab-ex">"A sudden noise woke me up at 3 AM."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('sudden. A sudden noise woke me up at 3 AM.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-header">
+              <span class="vocab-word">15. quietly</span>
+              <span class="vocab-pos">adv</span>
+            </div>
+            <div class="vocab-uz">sekin, ovoz chiqarmay, sokin</div>
+            <div class="vocab-ex">"She was reading quietly while her baby was sleeping."</div>
+            <div style="margin-top:6px; display:flex; justify-content:flex-end;">
+              <button class="verb-btn" title="Talaffuz" onclick="speakText('quietly. She was reading quietly while her baby was sleeping.')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- TAB 4: MCQS -->
+    <div id="tab-mcq" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">🎯 15 ta Test Savoli (Past Simple vs Past Continuous)</h2>
+        <p class="section-desc">To'g'ri javobni tanlang. Xato qilsangiz, tushuntirish beriladi.</p>
+      </div>
+
+      <div id="mcqContainer">
+        
+          <div class="question-card" id="mcq-card-0">
+            <div class="question-text">1. I ______ a shower when the telephone rang.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(0, 'was taking', 'was taking', this)">
+                  was taking
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(0, 'took', 'was taking', this)">
+                  took
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(0, 'am taking', 'was taking', this)">
+                  am taking
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(0, 'were taking', 'was taking', this)">
+                  were taking
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-0"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-1">
+            <div class="question-text">2. While we ______ English, my mother was preparing dinner.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(1, 'were studying', 'were studying', this)">
+                  were studying
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(1, 'studied', 'were studying', this)">
+                  studied
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(1, 'was studying', 'were studying', this)">
+                  was studying
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(1, 'study', 'were studying', this)">
+                  study
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-1"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-2">
+            <div class="question-text">3. My father was driving the car ______ he saw an old friend.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(2, 'when', 'when', this)">
+                  when
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(2, 'while', 'when', this)">
+                  while
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(2, 'so', 'when', this)">
+                  so
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(2, 'because', 'when', this)">
+                  because
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-2"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-3">
+            <div class="question-text">4. It was raining heavily outside, ______ we took an umbrella.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(3, 'so', 'so', this)">
+                  so
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(3, 'while', 'so', this)">
+                  while
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(3, 'when', 'so', this)">
+                  when
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(3, 'because', 'so', this)">
+                  because
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-3"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-4">
+            <div class="question-text">5. What ______ you doing yesterday at 8:00 PM?</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(4, 'were', 'were', this)">
+                  were
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(4, 'was', 'were', this)">
+                  was
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(4, 'did', 'were', this)">
+                  did
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(4, 'are', 'were', this)">
+                  are
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-4"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-5">
+            <div class="question-text">6. She was chopping onions when she ______ her finger.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(5, 'cut', 'cut', this)">
+                  cut
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(5, 'was cutting', 'cut', this)">
+                  was cutting
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(5, 'cuts', 'cut', this)">
+                  cuts
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(5, 'were cutting', 'cut', this)">
+                  were cutting
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-5"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-6">
+            <div class="question-text">7. ______ I was walking to school, I met my teacher.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(6, 'While', 'While', this)">
+                  While
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(6, 'When', 'While', this)">
+                  When
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(6, 'So', 'While', this)">
+                  So
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(6, 'Where', 'While', this)">
+                  Where
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-6"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-7">
+            <div class="question-text">8. They ______ football yesterday afternoon because it was sunny.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(7, 'were playing', 'were playing', this)">
+                  were playing
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(7, 'played', 'were playing', this)">
+                  played
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(7, 'was playing', 'were playing', this)">
+                  was playing
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(7, 'play', 'were playing', this)">
+                  play
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-7"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-8">
+            <div class="question-text">9. I was feeling very tired, ______ I went to sleep early.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(8, 'so', 'so', this)">
+                  so
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(8, 'when', 'so', this)">
+                  when
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(8, 'while', 'so', this)">
+                  while
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(8, 'but', 'so', this)">
+                  but
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-8"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-9">
+            <div class="question-text">10. At midnight last night, my brother ______ computer games.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(9, 'was playing', 'was playing', this)">
+                  was playing
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(9, 'played', 'was playing', this)">
+                  played
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(9, 'is playing', 'was playing', this)">
+                  is playing
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(9, 'were playing', 'was playing', this)">
+                  were playing
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-9"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-10">
+            <div class="question-text">11. The teacher was talking, but nobody ______ to him.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(10, 'was listening', 'was listening', this)">
+                  was listening
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(10, 'listened', 'was listening', this)">
+                  listened
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(10, 'were listening', 'was listening', this)">
+                  were listening
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(10, 'is listening', 'was listening', this)">
+                  is listening
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-10"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-11">
+            <div class="question-text">12. She ______ her coffee while she was reading the newspaper.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(11, 'spilled', 'spilled', this)">
+                  spilled
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(11, 'was spilling', 'spilled', this)">
+                  was spilling
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(11, 'spills', 'spilled', this)">
+                  spills
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(11, 'were spilling', 'spilled', this)">
+                  were spilling
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-11"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-12">
+            <div class="question-text">13. The children were laughing ______ the clown was making balloon animals.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(12, 'while', 'while', this)">
+                  while
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(12, 'when', 'while', this)">
+                  when
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(12, 'so', 'while', this)">
+                  so
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(12, 'after', 'while', this)">
+                  after
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-12"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-13">
+            <div class="question-text">14. We ______ to the cinema because the tickets were too expensive.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(13, 'didn\'t go', 'didn\'t go', this)">
+                  didn't go
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(13, 'weren\'t going', 'didn\'t go', this)">
+                  weren't going
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(13, 'wasn\'t going', 'didn\'t go', this)">
+                  wasn't going
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(13, 'not go', 'didn\'t go', this)">
+                  not go
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-13"></div>
+          </div>
+        
+          <div class="question-card" id="mcq-card-14">
+            <div class="question-text">15. I ______ a loud scream when I was opening the front door.</div>
+            <div class="options-grid">
+              
+                <button class="opt-btn" onclick="checkMcq(14, 'heard', 'heard', this)">
+                  heard
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(14, 'was hearing', 'heard', this)">
+                  was hearing
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(14, 'hear', 'heard', this)">
+                  hear
+                </button>
+              
+                <button class="opt-btn" onclick="checkMcq(14, 'heared', 'heard', this)">
+                  heared
+                </button>
+              
+            </div>
+            <div class="feedback-box" id="mcq-fb-14"></div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- TAB 5: BRACKET DRILLS -->
+    <div id="tab-brackets" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">✏️ Qavslarni Ochish (15 ta Mashq)</h2>
+        <p class="section-desc">Fe'lni to'g'ri shaklda yozing: Past Continuous (was/were + V-ing) yoki Past Simple (V2).</p>
+      </div>
+
+      <div id="bracketContainer">
+        
+          <div class="drill-item" id="drill-card-b1">
+            <div class="drill-header">
+              <span>Mashq #1</span>
+              <span style="color:#38bdf8">Maslahat: Mary (she) + was + cook-ing</span>
+            </div>
+            <div class="drill-sentence">While Mary ______ (cook) dinner, her brother arrived home.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b1" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b1', 'was cooking')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b1"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b2">
+            <div class="drill-header">
+              <span>Mashq #2</span>
+              <span style="color:#38bdf8">Maslahat: To'satdan o'chdi (go -> went)</span>
+            </div>
+            <div class="drill-sentence">I was reading a book when the lights suddenly ______ (go) out.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b2" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b2', 'went')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b2"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b3">
+            <div class="drill-header">
+              <span>Mashq #3</span>
+              <span style="color:#38bdf8">Maslahat: They + were + watch-ing</span>
+            </div>
+            <div class="drill-sentence">They ______ (watch) television when someone knocked on the door.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b3" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b3', 'were watching')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b3"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b4">
+            <div class="drill-header">
+              <span>Mashq #4</span>
+              <span style="color:#38bdf8">Maslahat: I + was + walk-ing</span>
+            </div>
+            <div class="drill-sentence">While I ______ (walk) in the park, it started to rain.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b4" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b4', 'was walking')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b4"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b5">
+            <div class="drill-header">
+              <span>Mashq #5</span>
+              <span style="color:#38bdf8">Maslahat: He + was + cross-ing</span>
+            </div>
+            <div class="drill-sentence">He slipped and fell while he ______ (cross) the icy road.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b5" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b5', 'was crossing')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b5"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b6">
+            <div class="drill-header">
+              <span>Mashq #6</span>
+              <span style="color:#38bdf8">Maslahat: The students (ko'plik) + were + writing</span>
+            </div>
+            <div class="drill-sentence">The students ______ (write) a test when the director entered the classroom.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b6" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b6', 'were writing')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b6"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b7">
+            <div class="drill-header">
+              <span>Mashq #7</span>
+              <span style="color:#38bdf8">Maslahat: Qisqa to'satdan voqea: burned yoki burnt</span>
+            </div>
+            <div class="drill-sentence">I ______ (burn) my hand while I was ironing the shirt.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b7" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b7', 'burned')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b7"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b8">
+            <div class="drill-header">
+              <span>Mashq #8</span>
+              <span style="color:#38bdf8">Maslahat: Zilzila yuz berdi (Past Simple): happened</span>
+            </div>
+            <div class="drill-sentence">What were you doing when the earthquake ______ (happen)?</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b8" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b8', 'happened')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b8"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b9">
+            <div class="drill-header">
+              <span>Mashq #9</span>
+              <span style="color:#38bdf8">Maslahat: Sarah + was + sleep-ing</span>
+            </div>
+            <div class="drill-sentence">Sarah ______ (sleep) quietly when her alarm clock rang.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b9" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b9', 'was sleeping')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b9"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b10">
+            <div class="drill-header">
+              <span>Mashq #10</span>
+              <span style="color:#38bdf8">Maslahat: We + were + wait-ing</span>
+            </div>
+            <div class="drill-sentence">While we ______ (wait) for the bus, we saw an accident.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b10" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b10', 'were waiting')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b10"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b11">
+            <div class="drill-header">
+              <span>Mashq #11</span>
+              <span style="color:#38bdf8">Maslahat: Qisqa oqibat (break -> broke)</span>
+            </div>
+            <div class="drill-sentence">He dropped his phone and it ______ (break) into pieces.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b11" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b11', 'broke')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b11"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b12">
+            <div class="drill-header">
+              <span>Mashq #12</span>
+              <span style="color:#38bdf8">Maslahat: My parents (they) + were + having</span>
+            </div>
+            <div class="drill-sentence">My parents ______ (have) breakfast when I woke up.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b12" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b12', 'were having')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b12"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b13">
+            <div class="drill-header">
+              <span>Mashq #13</span>
+              <span style="color:#38bdf8">Maslahat: Natija harakati (Past Simple): walked</span>
+            </div>
+            <div class="drill-sentence">She was carrying hot tea, so she ______ (walk) very carefully.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b13" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b13', 'walked')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b13"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b14">
+            <div class="drill-header">
+              <span>Mashq #14</span>
+              <span style="color:#38bdf8">Maslahat: The birds (ko'plik) + were + sing-ing</span>
+            </div>
+            <div class="drill-sentence">At 7:00 yesterday morning, the birds ______ (sing) outside my window.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b14" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b14', 'were singing')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b14"></div>
+          </div>
+        
+          <div class="drill-item" id="drill-card-b15">
+            <div class="drill-header">
+              <span>Mashq #15</span>
+              <span style="color:#38bdf8">Maslahat: Topib oldim (find -> found)</span>
+            </div>
+            <div class="drill-sentence">I was looking at old photos when I ______ (find) my grandmother's letter.</div>
+            <div class="drill-inputs">
+              <input type="text" id="drill-input-b15" placeholder="Javobingizni yozing..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkDrill('b15', 'found')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="drill-fb-b15"></div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- TAB 6: CONNECTORS -->
+    <div id="tab-connectors" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">🔗 When / While / So Bog'lovchilari (10 ta Mashq)</h2>
+        <p class="section-desc">Nuqtalar o'rniga <b>when</b>, <b>while</b> yoki <b>so</b> so'zlaridan mosini qo'ying.</p>
+      </div>
+
+      <div id="connectorContainer">
+        
+          <div class="drill-item" id="conn-card-c1">
+            <div class="drill-header">
+              <span>Bog'lovchi #1</span>
+              <span style="color:#a78bfa">Ikkita uzoq jarayon bir vaqtda sodir bo'lyapti (While)</span>
+            </div>
+            <div class="drill-sentence">______ I was doing my homework, my brother was listening to music.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c1" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c1', 'while')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c1"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c2">
+            <div class="drill-header">
+              <span>Bog'lovchi #2</span>
+              <span style="color:#a78bfa">To'satdan topib oldim (qisqa harakat oldidan: when)</span>
+            </div>
+            <div class="drill-sentence">I was cleaning the room ______ I found my lost ring.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c2" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c2', 'when')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c2"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c3">
+            <div class="drill-header">
+              <span>Bog'lovchi #3</span>
+              <span style="color:#a78bfa">Sho'rva qaynayotgan edi, SHUNING UCHUN olovni pasaytirdi (so)</span>
+            </div>
+            <div class="drill-sentence">The soup was boiling, ______ she turned down the gas stove.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c3" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c3', 'so')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c3"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c4">
+            <div class="drill-header">
+              <span>Bog'lovchi #4</span>
+              <span style="color:#a78bfa">Idish yuvayotgan paytida (jarayon oldidan: while)</span>
+            </div>
+            <div class="drill-sentence">She dropped the plate ______ she was washing the dishes.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c4" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c4', 'while')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c4"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c5">
+            <div class="drill-header">
+              <span>Bog'lovchi #5</span>
+              <span style="color:#a78bfa">Yomg'ir to'satdan yog'a boshladi (when)</span>
+            </div>
+            <div class="drill-sentence">We were having a picnic ______ it started to rain heavily.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c5" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c5', 'when')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c5"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c6">
+            <div class="drill-header">
+              <span>Bog'lovchi #6</span>
+              <span style="color:#a78bfa">Chiptani yo'qotib qo'ydim, shuning uchun piyoda ketishga to'g'ri keldi (so)</span>
+            </div>
+            <div class="drill-sentence">I lost my bus ticket, ______ I had to walk all the way home.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c6" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c6', 'so')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c6"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c7">
+            <div class="drill-header">
+              <span>Bog'lovchi #7</span>
+              <span style="color:#a78bfa">O'qituvchi tushuntirayotgan paytda (jarayon boshida: While)</span>
+            </div>
+            <div class="drill-sentence">______ the teacher was explaining the rule, nobody said a word.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c7" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c7', 'while')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c7"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c8">
+            <div class="drill-header">
+              <span>Bog'lovchi #8</span>
+              <span style="color:#a78bfa">Tez haydayotgan edi, SHUNING UCHUN to'xtata olmadi (so)</span>
+            </div>
+            <div class="drill-sentence">He was driving fast, ______ he couldn't stop the car in time.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c8" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c8', 'so')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c8"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c9">
+            <div class="drill-header">
+              <span>Bog'lovchi #9</span>
+              <span style="color:#a78bfa">Ovqatlanayotgan paytimizda (jarayon: while)</span>
+            </div>
+            <div class="drill-sentence">The phone rang three times ______ we were eating dinner.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c9" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c9', 'while')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c9"></div>
+          </div>
+        
+          <div class="drill-item" id="conn-card-c10">
+            <div class="drill-header">
+              <span>Bog'lovchi #10</span>
+              <span style="color:#a78bfa">To'satdan mushuk kesib o'tdi (qisqa harakat oldidan: when)</span>
+            </div>
+            <div class="drill-sentence">He was riding his bicycle ______ a black cat crossed the street.</div>
+            <div class="drill-inputs">
+              <input type="text" id="conn-input-c10" placeholder="when / while / so..." oninput="saveDraft()">
+              <button class="btn-check" onclick="checkConnector('c10', 'when')">Tekshirish ✓</button>
+            </div>
+            <div class="drill-feedback" id="conn-fb-c10"></div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- TAB 7: ERROR HUNTS -->
+    <div id="tab-errors" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">🔍 Xatolarni Tahlil Qilish (10 ta Tuzoq)</h2>
+        <p class="section-desc">Har bir gapdagi odatiy xatolarni ko'rib chiqing va nima uchun noto'g'riligini o'rganing.</p>
+      </div>
+
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "While I saw him, he was running to the bus stop."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "When I saw him, he was running to the bus stop. (yoki: While he was running, I saw him.)"</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> 'See' qisqa harakat, shuning uchun 'While I saw' emas, 'When I saw' yoki 'While he was running' bo'ladi.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "I was watching TV when my friend was calling me."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "I was watching TV when my friend called me."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> 'When' dan keyin to'satdan sodir bo'lgan qisqa harakat keladi: 'called' (Past Simple), 'was calling' emas.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "They was playing tennis yesterday at 5 PM."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "They were playing tennis yesterday at 5 PM."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> 'They' ko'plik olmoshi, shuning uchun 'was' emas, 'were' bo'lishi shart.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "It was cold outside when I put on my warm jacket."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "It was cold outside, so I put on my warm jacket."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> Sovuq bo'lgani sababli, SHUNING UCHUN kiyindim. Bu yerda mantiqiy bog'lovchi 'so' bo'lishi kerak.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "She sliped while she was running on the grass."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "She slipped while she was running on the grass."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> Imlo qoidasi: 'slip' bir bo'g'inli fe'l, unli + undosh bilan tugaganida oxirgi harf ikkilanadi: 'slipped'.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "What did you doing when the lights went out?"</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "What were you doing when the lights went out?"</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> O'sha paytda nima qilayotgan edingiz? Jarayon so'ralganda 'did you doing' emas, 'were you doing' bo'ladi.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "I was hearing a loud noise while I was sleeping."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "I heard a loud noise while I was sleeping."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> 'Hear' holat/sezgi fe'li, continuous shaklda ishlatilmaydi: 'heard' bo'ladi.</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "While my mother cooked, I was cleaning my room."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "While my mother was cooking, I was cleaning my room."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> Ikki bir vaqtda davom etayotgan parallel jarayon: ikkalasi ham Past Continuous ('was cooking' & 'was cleaning').</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "The bell rang, while everyone stopped writing."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "The bell rang, so everyone stopped writing. (yoki: When the bell rang, everyone stopped writing.)"</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> Qo'ng'iroq chalindi, shuning uchun hamma yozishni to'xtatdi (natija: 'so').</div>
+        </div>
+      
+        <div class="error-card">
+          <div class="error-wrong">
+            <span style="font-size:1.1rem">❌</span>
+            <span><b>Xato:</b> "I droped my keys when I was getting into the car."</span>
+          </div>
+          <div class="error-correct">
+            <span style="font-size:1.1rem">✅</span>
+            <span><b>To'g'ri:</b> "I dropped my keys when I was getting into the car."</span>
+          </div>
+          <div class="error-expl">💡 <i>Qoida:</i> Imlo: 'drop' so'ziga -ed qo'shilganda 'p' harfi ikkilanadi: 'dropped'.</div>
+        </div>
+      
+    </div>
+
+    <!-- TAB 8: TRANSLATION -->
+    <div id="tab-translation" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">🌐 O'zbekchadan Inglizchaga Tarjima (10 ta Gap)</h2>
+        <p class="section-desc">Quyidagi gaplarni Past Simple, Past Continuous, when, while va so vositalaridan foydalanib ingliz tiliga tarjima qiling.</p>
+      </div>
+
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">1.</span>
+            <span>Men kitob o'qiyotgan edim, birdan eshik taqilladi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: was reading ... when ... knocked</div>
+          <textarea id="trans-text-1" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">2.</span>
+            <span>Ular tushlik qilayotgan paytda, telefon jiringladi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: While they were having / eating ... rang</div>
+          <textarea id="trans-text-2" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">3.</span>
+            <span>Kecha soat 9 da siz nima qilayotgan edingiz?</span>
+          </div>
+          <div class="trans-hint">Maslahat: What were you doing at 9 ...?</div>
+          <textarea id="trans-text-3" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">4.</span>
+            <span>U qahva to'kib yubordi, shuning uchun yangi ko'ylak kiydi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: spilled ... so she put on ...</div>
+          <textarea id="trans-text-4" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">5.</span>
+            <span>Men ko'chani kesib o'tayotganimda itni ko'rdim.</span>
+          </div>
+          <div class="trans-hint">Maslahat: While I was crossing ... I saw ...</div>
+          <textarea id="trans-text-5" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">6.</span>
+            <span>Oyim ovqat pishirayotgan paytda, dadam yangiliklar tomosha qilayotgan edi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: While ... was cooking, ... was watching</div>
+          <textarea id="trans-text-6" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">7.</span>
+            <span>Yomg'ir juda kuchli yog'ayotgan edi, shuning uchun biz uyda qoldik.</span>
+          </div>
+          <div class="trans-hint">Maslahat: It was raining ... so we stayed ...</div>
+          <textarea id="trans-text-7" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">8.</span>
+            <span>U ko'p xatolar qildi, chunki u darsga e'tibor bermayotgan edi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: made many mistakes ... wasn't paying attention</div>
+          <textarea id="trans-text-8" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">9.</span>
+            <span>Qizaloq sirpanib ketdi va baland ovozda yig'ladi.</span>
+          </div>
+          <div class="trans-hint">Maslahat: slipped and cried loudly (Past Simple ketma-ket harakatlar)</div>
+          <textarea id="trans-text-9" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+        <div class="trans-item">
+          <div class="trans-uz">
+            <span style="color:#38bdf8">10.</span>
+            <span>Siz qo'ng'iroq qilganingizda men uxlayotgan edim.</span>
+          </div>
+          <div class="trans-hint">Maslahat: I was sleeping when you called</div>
+          <textarea id="trans-text-10" rows="2" placeholder="Inglizcha tarjimangizni yozing..." oninput="saveDraft()"></textarea>
+        </div>
+      
+    </div>
+
+    <!-- TAB 9: STORY WRITING -->
+    <div id="tab-story" class="tab-content">
+      <div class="section-title-wrap">
+        <h2 class="section-title">✍️ Ijodiy Hikoya: "The Day Everything Went Crazy"</h2>
+        <p class="section-desc">O'tgan zamondagi barcha yangi qoidalar va so'zlarni birlashtirib qiziqarli hikoya yozing.</p>
+      </div>
+
+      <div class="writing-card">
+        <div class="writing-prompt">
+          <h4>Vazifa Talabi:</h4>
+          <p>
+            Kamida <b>8–10 ta gap</b>dan iborat hikoya yozing. Hikoyangizda quyidagilar bo'lishi shart:<br>
+            • Kamida 4 ta <b>Past Continuous</b> (was/were walking, was cooking...)<br>
+            • Kamida 4 ta <b>Past Simple</b> (rang, noticed, slipped, saw...)<br>
+            • <b>While</b>, <b>When</b> va <b>So</b> bog'lovchilarining har biridan kamida 2 tadan ishlatilsin.<br>
+            • Bugungi yangi 15 ta so'zdan kamida 4 tasini qatnashtiring (masalan: slip, spill, drop, interrupt, loud, accident).
+          </p>
+        </div>
+
+        <textarea id="storyText" rows="9" placeholder="Once upon a time, while I was cooking breakfast..." oninput="updateWordCount(); saveDraft();"></textarea>
+        <div class="word-counter" id="wordCounter">0 ta so'z yozildi</div>
+      </div>
+    </div>
+
+    <!-- SUBMIT PANEL -->
+    <div class="submit-panel">
+      <h3 class="submit-title">🚀 Uyga Vazifani Ustozga Yuborish</h3>
+      <p class="submit-desc">Barcha mashqlarni to'ldirganingizdan so'ng, ushbu tugmani bosing. Natijangiz avtomatik hisoblanib, Telegram orqali ustozga boradi!</p>
+      <button class="btn-submit-telegram" id="btnSubmitTelegram" onclick="submitHomeworkToTelegram()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        Telegram orqali Yuborish
+      </button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+  </div>
+
+  <script>
+    const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+    const TEACHER_ID = "6315515792";
+    const FALLBACK_ID = "7957347033";
+
+    let mcqAnswers = {};
+    let drillAnswers = {};
+    let connectorAnswers = {};
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+
+      const btns = document.querySelectorAll('.nav-tab-btn');
+      btns.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.88;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Brauzeringiz ovozli talaffuzni qo'llab-quvvatlamaydi.");
+      }
+    }
+
+    const mcqData = [{"q":"1. I ______ a shower when the telephone rang.","opts":["was taking","took","am taking","were taking"],"ans":"was taking","expl":"Dush qabul qilish uzoq davom etayotgan harakat (Past Continuous: 'was taking'). Telefon jiringlashi esa uni to'xtatgan qisqa harakat (Past Simple: 'rang')."},{"q":"2. While we ______ English, my mother was preparing dinner.","opts":["were studying","studied","was studying","study"],"ans":"were studying","expl":"'While' ikki parallel uzoq harakatni bog'laydi. 'We' uchun 'were studying' ishlatiladi."},{"q":"3. My father was driving the car ______ he saw an old friend.","opts":["when","while","so","because"],"ans":"when","expl":"Uzoq harakat ('was driving') davomida to'satdan sodir bo'lgan qisqa harakat ('saw') oldidan 'when' qo'yiladi."},{"q":"4. It was raining heavily outside, ______ we took an umbrella.","opts":["so","while","when","because"],"ans":"so","expl":"'so' sababdan kelib chiquvchi natijani (shuning uchun) bildiradi. Kuchli yomg'ir yog'ayotgan edi, shuning uchun soyabon oldik."},{"q":"5. What ______ you doing yesterday at 8:00 PM?","opts":["were","was","did","are"],"ans":"were","expl":"O'tgan zamondagi aniq bir vaqt (at 8:00 PM) dagi davomiy ish so'ralmoqda. 'You' uchun 'were' qo'yiladi: 'What were you doing...?'"},{"q":"6. She was chopping onions when she ______ her finger.","opts":["cut","was cutting","cuts","were cutting"],"ans":"cut","expl":"Piyoz to'g'rayotgan paytda to'satdan barmog'ini kesib oldi. 'Cut' qisqa harakat bo'lib, o'tgan zamoni ham 'cut' (V2)."},{"q":"7. ______ I was walking to school, I met my teacher.","opts":["While","When","So","Where"],"ans":"While","expl":"Uzoq davom etgan jarayon ('I was walking') boshida 'While' (yoki As) qo'yiladi."},{"q":"8. They ______ football yesterday afternoon because it was sunny.","opts":["were playing","played","was playing","play"],"ans":"were playing","expl":"Kechqurun ma'lum vaqt davomida futbol o'ynab turishgan (davomiylik): 'They were playing'."},{"q":"9. I was feeling very tired, ______ I went to sleep early.","opts":["so","when","while","but"],"ans":"so","expl":"Juda charchagan edim, SHUNING UCHUN (so) erta uxlashga yotdim."},{"q":"10. At midnight last night, my brother ______ computer games.","opts":["was playing","played","is playing","were playing"],"ans":"was playing","expl":"'At midnight' — o'tgan zamondagi aniq bir nuqta. 'My brother' = he, shuning uchun 'was playing'."},{"q":"11. The teacher was talking, but nobody ______ to him.","opts":["was listening","listened","were listening","is listening"],"ans":"was listening","expl":"'Nobody' birlik olmosh hisoblanadi (he/she kabi), shuning uchun 'was listening' to'g'ri."},{"q":"12. She ______ her coffee while she was reading the newspaper.","opts":["spilled","was spilling","spills","were spilling"],"ans":"spilled","expl":"Gazeta o'qiyotgan paytda (uzoq ish) birdan qahvani to'kib yubordi (qisqa voqea: Past Simple 'spilled')."},{"q":"13. The children were laughing ______ the clown was making balloon animals.","opts":["while","when","so","after"],"ans":"while","expl":"Ikkala harakat ham bir vaqtda parallel davom etmoqda: bolalar kulayotgan edi, masxaraboz esa sharlardan shakl yasayotgan edi."},{"q":"14. We ______ to the cinema because the tickets were too expensive.","opts":["didn't go","weren't going","wasn't going","not go"],"ans":"didn't go","expl":"Oddiy o'tgan zamondagi yakunlangan fakt: 'didn't go'. Bu yerda davomiylik ma'nosi yo'q."},{"q":"15. I ______ a loud scream when I was opening the front door.","opts":["heard","was hearing","hear","heared"],"ans":"heard","expl":"'Hear' qabul qilish/sezgi fe'li (stative verb), u odatda Continuous shaklda kelmaydi. To'satdan eshitish: 'heard'."}];
+
+    function checkMcq(idx, selected, correct, btn) {
+      const card = document.getElementById('mcq-card-' + idx);
+      const buttons = card.querySelectorAll('.opt-btn');
+      const fb = document.getElementById('mcq-fb-' + idx);
+      const expl = mcqData[idx].expl;
+
+      buttons.forEach(b => {
+        b.disabled = true;
+        if (b.textContent.trim() === correct) {
+          b.classList.add('correct');
+        }
+      });
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        fb.className = 'feedback-box show correct';
+        fb.innerHTML = '✅ <b>Ajoyib! To\'g\'ri javob: ' + correct + '</b><br>' + expl;
+        mcqAnswers[idx] = { selected, correct, ok: true };
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'feedback-box show wrong';
+        fb.innerHTML = '❌ <b>Noto\'g\'ri. To\'g\'ri javob: ' + correct + '</b><br>' + expl;
+        mcqAnswers[idx] = { selected, correct, ok: false };
+      }
+      saveDraft();
+    }
+
+    function checkDrill(id, expected) {
+      const input = document.getElementById('drill-input-' + id);
+      const fb = document.getElementById('drill-fb-' + id);
+      const val = (input.value || '').trim().toLowerCase();
+      const exp = expected.trim().toLowerCase();
+
+      // Allow slight variations like 'burned' or 'burnt' for id b7
+      const isOk = (val === exp) || (id === 'b7' && (val === 'burned' || val === 'burnt'));
+
+      drillAnswers[id] = { val: input.value, expected, ok: isOk };
+
+      if (isOk) {
+        fb.className = 'drill-feedback show ok';
+        fb.textContent = '✅ Barakalla! To\'g\'ri: "' + expected + '"';
+      } else {
+        fb.className = 'drill-feedback show no';
+        fb.textContent = '❌ Noto\'g\'ri. To\'g\'ri javob: "' + expected + '"';
+      }
+      saveDraft();
+    }
+
+    function checkConnector(id, expected) {
+      const input = document.getElementById('conn-input-' + id);
+      const fb = document.getElementById('conn-fb-' + id);
+      const val = (input.value || '').trim().toLowerCase();
+      const exp = expected.trim().toLowerCase();
+
+      const isOk = (val === exp);
+      connectorAnswers[id] = { val: input.value, expected, ok: isOk };
+
+      if (isOk) {
+        fb.className = 'drill-feedback show ok';
+        fb.textContent = '✅ Ajoyib! To\'g\'ri bog\'lovchi: "' + expected + '"';
+      } else {
+        fb.className = 'drill-feedback show no';
+        fb.textContent = '❌ Noto\'g\'ri. To\'g\'ri bog\'lovchi: "' + expected + '"';
+      }
+      saveDraft();
+    }
+
+    function updateWordCount() {
+      const text = document.getElementById('storyText').value.trim();
+      const count = text ? text.split(/\s+/).length : 0;
+      document.getElementById('wordCounter').textContent = count + " ta so'z yozildi";
+    }
+
+    function saveDraft() {
+      const draft = {
+        name: document.getElementById('studentName').value,
+        mcq: mcqAnswers,
+        drill: drillAnswers,
+        connector: connectorAnswers,
+        story: document.getElementById('storyText').value,
+        translations: {}
+      };
+      for (let i = 1; i <= 10; i++) {
+        const el = document.getElementById('trans-text-' + i);
+        if (el) draft.translations[i] = el.value;
+      }
+      localStorage.setItem('a1_past_continuous_hw_draft', JSON.stringify(draft));
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem('a1_past_continuous_hw_draft');
+      if (!raw) return;
+      try {
+        const draft = JSON.parse(raw);
+        if (draft.name) document.getElementById('studentName').value = draft.name;
+        if (draft.story) {
+          document.getElementById('storyText').value = draft.story;
+          updateWordCount();
+        }
+        if (draft.translations) {
+          for (let i = 1; i <= 10; i++) {
+            const el = document.getElementById('trans-text-' + i);
+            if (el && draft.translations[i]) el.value = draft.translations[i];
+          }
+        }
+      } catch(e) {}
+    }
+
+    async function sendTelegramMsg(chatId, text) {
+      const url = 'https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text,
+          parse_mode: 'HTML'
+        })
+      });
+      return res.json();
+    }
+
+    async function submitHomeworkToTelegram() {
+      const name = (document.getElementById('studentName').value || '').trim();
+      const status = document.getElementById('submitStatus');
+      const btn = document.getElementById('btnSubmitTelegram');
+
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      // Calculate Scores
+      let mcqCorrect = 0;
+      for (let k in mcqAnswers) { if (mcqAnswers[k].ok) mcqCorrect++; }
+
+      let drillCorrect = 0;
+      for (let k in drillAnswers) { if (drillAnswers[k].ok) drillCorrect++; }
+
+      let connCorrect = 0;
+      for (let k in connectorAnswers) { if (connectorAnswers[k].ok) connCorrect++; }
+
+      const story = (document.getElementById('storyText').value || '').trim();
+      const storyWords = story ? story.split(/\s+/).length : 0;
+
+      let transFilled = 0;
+      let transSummary = "";
+      for (let i = 1; i <= 10; i++) {
+        const val = (document.getElementById('trans-text-' + i).value || '').trim();
+        if (val) {
+          transFilled++;
+          transSummary += "• #" + i + ": " + val + "\n";
+        }
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Yuborilmoqda... ⏳";
+      status.style.color = "#38bdf8";
+      status.textContent = "Ustoz botiga yuborilmoqda...";
+
+      const msg = "📚 <b>A1 VAZIFA NATIJASI: Past Continuous vs Past Simple</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📅 <b>Sana:</b> 12-Oktyabr, 2026\n\n" +
+        "📊 <b>NATIJALAR:</b>\n" +
+        "• <b>Testlar (MCQs):</b> " + mcqCorrect + " / 15\n" +
+        "• <b>Qavslar ochish (Drills):</b> " + drillCorrect + " / 15\n" +
+        "• <b>When/While/So:</b> " + connCorrect + " / 10\n" +
+        "• <b>Tarjimalar:</b> " + transFilled + " / 10 ta bajarildi\n" +
+        "• <b>Hikoya hajmi:</b> " + storyWords + " ta so'z\n\n" +
+        "🌐 <b>BAJARILGAN TARJIMALAR:</b>\n" + (transSummary || "Tarjima kiritilmadi\n") + "\n" +
+        "✍️ <b>IJODIY HIKOYA:</b>\n" + (story ? ("<i>" + story.substring(0, 1500) + "</i>") : "Hikoya yozilmadi");
+
+      try {
+        let sent = await sendTelegramMsg(TEACHER_ID, msg);
+        if (!sent.ok) {
+          sent = await sendTelegramMsg(FALLBACK_ID, msg);
+        }
+
+        if (sent.ok) {
+          status.style.color = "#34d399";
+          status.innerHTML = "🎉 <b>Ajoyib! Vazifangiz muvaffaqiyatli topshirildi va ustozga yuborildi!</b>";
+          btn.textContent = "Topshirildi ✓";
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+          }
+        } else {
+          throw new Error(sent.description || "Xatolik yuz berdi");
+        }
+      } catch (err) {
+        console.error(err);
+        status.style.color = "#f87171";
+        status.innerHTML = "⚠️ Xatolik yuz berdi. Iltimos internetingizni tekshirib qayta urinib ko'ring.";
+        btn.disabled = false;
+        btn.textContent = "Qayta yuborish 🔄";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDraft();
+    });
+  </script>
+</body>
+</html>

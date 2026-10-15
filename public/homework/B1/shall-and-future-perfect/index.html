@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeacherOS | B1 Kengaytirilgan Birlashgan Uyga Vazifa (Shall & Future Perfect)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --bg: #070d18;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --sky: #0ea5e9;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.9rem 1.5rem;
+    }
+    .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--primary-glow); }
+    .badge-b1 { font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; }
+
+    main { flex: 1; max-width: 960px; width: 100%; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-title { font-size: 1.85rem; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.25; }
+    .hero-sub { color: var(--text-muted); font-size: 0.95rem; }
+
+    .rule-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 1.4rem;
+    }
+    @media(min-width: 768px) { .rule-card-grid { grid-template-columns: 1fr 1fr; } }
+
+    .rule-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 1.3rem;
+      font-size: 0.9rem;
+    }
+    .rule-box.future-rule { border-top-color: var(--emerald); }
+    .rule-box h4 { color: #fff; margin-bottom: 8px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .rule-box p { color: var(--text-muted); margin-bottom: 8px; }
+    .formula-tag {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 4px 0;
+      font-size: 0.82rem;
+      font-family: monospace;
+    }
+    .trap-tag {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      margin-top: 8px;
+    }
+
+    /* VERBS TABLE */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      max-height: 480px;
+      background: rgba(15, 23, 42, 0.6);
+    }
+    table.verb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    table.verb-table th {
+      background: rgba(30, 41, 59, 0.95);
+      padding: 10px 14px;
+      color: #a5b4fc;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+    table.verb-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    table.verb-table tr:hover { background: rgba(99, 102, 241, 0.08); }
+    .v-base { font-weight: 700; color: #fff; }
+    .v-past { font-weight: 700; color: #6ee7b7; }
+    .v-part { font-weight: 700; color: #fbbf24; }
+    .v-uz { color: #cbd5e1; font-size: 0.83rem; }
+
+    /* VOCABULARY GRID */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .vocab-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+    }
+    .vocab-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: rgba(30, 41, 59, 0.85);
+    }
+    .vocab-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .vocab-word-group { display: flex; align-items: center; gap: 8px; }
+    .vocab-word { font-weight: 800; font-size: 1rem; color: #fff; }
+    .vocab-pos { font-size: 0.72rem; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+    .vocab-uz { color: #6ee7b7; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .vocab-ex { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-left: 2px solid rgba(99, 102, 241, 0.4); padding-left: 6px; margin-top: 4px; }
+
+    /* AUDIO BUTTON */
+    .speaker-btn {
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #c7d2fe;
+      cursor: pointer;
+      border-radius: 7px;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.2s ease;
+    }
+    .speaker-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin: 2.8rem 0 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .q-text { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.8rem; color: #fff; }
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    @media(min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+    .option-label {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .option-label:hover { border-color: var(--primary); background: var(--card-hover); }
+    .option-label input { accent-color: var(--primary); }
+
+    .input-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      color: #fff;
+      font-size: 0.93rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus { border-color: var(--border-focus); box-shadow: 0 0 12px var(--primary-glow); }
+    textarea.input-field { min-height: 95px; resize: vertical; }
+
+    .err-box {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid var(--rose);
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.93rem;
+      color: #fca5a5;
+    }
+
+    .student-info-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .submit-bar {
+      margin-top: 3.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.8);
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 16px 42px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 25px var(--primary-glow);
+      transition: all 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px var(--primary-glow);
+    }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .toast {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span>TeacherOS • B1 Intensiv</span>
+          <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Ulunur's English 1-on-1</div>
+        </div>
+      </div>
+      <span class="badge-b1">Birlashgan Vazifa (2-Mavzu)</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+        <span style="font-size:0.78rem; font-weight:800; color:#a5b4fc; text-transform:uppercase; letter-spacing:1px;">
+          📚 B1 DARAJASI • 2 KUNLIK BIRLASHGAN MAJMUAVIY VAZIFA
+        </span>
+        <span style="font-size:0.78rem; font-weight:700; color:#6ee7b7; background:rgba(16,185,129,0.15); padding:3px 10px; border-radius:12px;">
+          Jami 80+ topshiriq
+        </span>
+      </div>
+      <h1 class="hero-title">Modal Verb "Shall" & Future Perfect Simple</h1>
+      <p class="hero-sub">
+        Ushbu vazifada siz <b>Shall</b> modal fe'lining amaliy qo'llanishi (taklif, rasmiy qoidalar, qat'iyat) hamda <b>Future Perfect Simple</b> (kelajakdagi ma'lum nuqtaga qadar tugallanadigan ishlar) mavzularini chuqur o'zlashtirasiz.
+      </p>
+
+      <div class="rule-card-grid">
+        <!-- Rule 1: Shall -->
+        <div class="rule-box">
+          <h4>⚖️ 1. Modal Verb: SHALL</h4>
+          <p>• <b>Shall I...?</b> — Yordam yoki xizmat taklif qilish: <i>"Shall I open the window?"</i> (Oynani ochaymi?)</p>
+          <p>• <b>Shall we...?</b> — Birgalikda nimadir qilishni taklif qilish: <i>"Where shall we meet?"</i> (Qayerda uchrashamiz?)</p>
+          <p>• <b>Rasmiy burch / Shartnomalar:</b> <i>"The tenant shall pay rent on time."</i> (Ijara to'lashga majbur).</p>
+          <p>• <b>Qat'iy ont / Muqarrar kelajak:</b> <i>"We shall overcome."</i> (Biz albatta g'alaba qozonamiz).</p>
+          <div class="formula-tag">Shall I / Shall we + V1 (asl fe'l)</div>
+          <div class="trap-tag">⚠️ <b>O'zbekcha tuzoq:</b> Taklif berganda <i>"Will I help you?"</i> deyilmaydi! Faqat <i>"Shall I help you?"</i> to'g'ri.</div>
+        </div>
+
+        <!-- Rule 2: Future Perfect -->
+        <div class="rule-box future-rule">
+          <h4>⏱️ 2. Future Perfect Simple</h4>
+          <p>• Kelajakdagi ma'lum bir vaqtdan oldin to'liq tugallanadigan ish-harakatlar uchun ishlatiladi.</p>
+          <p>• Kalit vaqt belgilari: <b>by then, by tomorrow, by 2030, by the end of this year, in two weeks' time</b>.</p>
+          <p>• <b>By the time + Present Simple:</b> <i>"By the time you arrive, I will have cooked dinner."</i></p>
+          <div class="formula-tag">Subject + will have + V3 (Past Participle)</div>
+          <div class="trap-tag">⚠️ <b>O'zbekcha tuzoq:</b> <i>"By the time you will come"</i> ❌ emas, <i>"By the time you COME"</i> ✅ bo'ladi!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Name Input -->
+    <div class="student-info-box">
+      <label for="student-name" style="font-weight: 800; font-size: 0.95rem; color: #fff; display: block; margin-bottom: 6px;">
+        👤 O'quvchi Ismi va Familiyasi:
+      </label>
+      <input type="text" id="student-name" class="input-field" placeholder="Masalan: Madinaxon Karimova" style="font-size: 1rem; font-weight: 700;">
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 6px;">
+        💡 Siz yozgan barcha javoblar brauzeringizda avtomatik saqlanib boradi.
+      </p>
+    </div>
+
+    <!-- 30 Irregular Verbs Table -->
+    <div class="section-title">
+      <span>1</span>
+      <div>
+        <h3>30 Ta Eng Muhim Noto'g'ri Fe'llar (Irregular Verbs Drill)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          Har bir fe'lning 3 shaklini talaffuz qiling va eslab qoling (karnay tugmasi orqali eshiting):
+        </p>
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="verb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>V1 (Base Form)</th>
+            <th>V2 (Past Simple)</th>
+            <th>V3 (Past Participle)</th>
+            <th>O'zbekcha Ma'nosi</th>
+            <th>Audio</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">1</td>
+              <td class="v-base">be</td>
+              <td class="v-past">was / were</td>
+              <td class="v-part">been</td>
+              <td class="v-uz">bo'lmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('be, was, been')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">2</td>
+              <td class="v-base">go</td>
+              <td class="v-past">went</td>
+              <td class="v-part">gone</td>
+              <td class="v-uz">bormoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('go, went, gone')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">3</td>
+              <td class="v-base">do</td>
+              <td class="v-past">did</td>
+              <td class="v-part">done</td>
+              <td class="v-uz">qilmoq, bajarmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('do, did, done')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">4</td>
+              <td class="v-base">have</td>
+              <td class="v-past">had</td>
+              <td class="v-part">had</td>
+              <td class="v-uz">ega bo'lmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('have, had, had')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">5</td>
+              <td class="v-base">see</td>
+              <td class="v-past">saw</td>
+              <td class="v-part">seen</td>
+              <td class="v-uz">ko'rmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('see, saw, seen')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">6</td>
+              <td class="v-base">get</td>
+              <td class="v-past">got</td>
+              <td class="v-part">got</td>
+              <td class="v-uz">olmoq, yetib bormoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('get, got, got')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">7</td>
+              <td class="v-base">make</td>
+              <td class="v-past">made</td>
+              <td class="v-part">made</td>
+              <td class="v-uz">yasamoq, tayyorlamoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('make, made, made')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">8</td>
+              <td class="v-base">say</td>
+              <td class="v-past">said</td>
+              <td class="v-part">said</td>
+              <td class="v-uz">aytmoq, demoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('say, said, said')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">9</td>
+              <td class="v-base">come</td>
+              <td class="v-past">came</td>
+              <td class="v-part">come</td>
+              <td class="v-uz">kelmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('come, came, come')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">10</td>
+              <td class="v-base">take</td>
+              <td class="v-past">took</td>
+              <td class="v-part">taken</td>
+              <td class="v-uz">olmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('take, took, taken')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">11</td>
+              <td class="v-base">give</td>
+              <td class="v-past">gave</td>
+              <td class="v-part">given</td>
+              <td class="v-uz">bermoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('give, gave, given')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">12</td>
+              <td class="v-base">buy</td>
+              <td class="v-past">bought</td>
+              <td class="v-part">bought</td>
+              <td class="v-uz">sotib olmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('buy, bought, bought')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">13</td>
+              <td class="v-base">eat</td>
+              <td class="v-past">ate</td>
+              <td class="v-part">eaten</td>
+              <td class="v-uz">yemoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('eat, ate, eaten')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">14</td>
+              <td class="v-base">drink</td>
+              <td class="v-past">drank</td>
+              <td class="v-part">drunk</td>
+              <td class="v-uz">ichmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('drink, drank, drunk')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">15</td>
+              <td class="v-base">sleep</td>
+              <td class="v-past">slept</td>
+              <td class="v-part">slept</td>
+              <td class="v-uz">uxlamoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('sleep, slept, slept')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">16</td>
+              <td class="v-base">write</td>
+              <td class="v-past">wrote</td>
+              <td class="v-part">written</td>
+              <td class="v-uz">yozmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('write, wrote, written')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">17</td>
+              <td class="v-base">read</td>
+              <td class="v-past">read (red)</td>
+              <td class="v-part">read (red)</td>
+              <td class="v-uz">o'qimoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('read, read, read')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">18</td>
+              <td class="v-base">speak</td>
+              <td class="v-past">spoke</td>
+              <td class="v-part">spoken</td>
+              <td class="v-uz">gapirmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('speak, spoke, spoken')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">19</td>
+              <td class="v-base">meet</td>
+              <td class="v-past">met</td>
+              <td class="v-part">met</td>
+              <td class="v-uz">uchrashmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('meet, met, met')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">20</td>
+              <td class="v-base">find</td>
+              <td class="v-past">found</td>
+              <td class="v-part">found</td>
+              <td class="v-uz">topmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('find, found, found')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">21</td>
+              <td class="v-base">tell</td>
+              <td class="v-past">told</td>
+              <td class="v-part">told</td>
+              <td class="v-uz">aytmoq, so'zlab bermoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('tell, told, told')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">22</td>
+              <td class="v-base">hear</td>
+              <td class="v-past">heard</td>
+              <td class="v-part">heard</td>
+              <td class="v-uz">eshitmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('hear, heard, heard')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">23</td>
+              <td class="v-base">know</td>
+              <td class="v-past">knew</td>
+              <td class="v-part">known</td>
+              <td class="v-uz">bilmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('know, knew, known')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">24</td>
+              <td class="v-base">leave</td>
+              <td class="v-past">left</td>
+              <td class="v-part">left</td>
+              <td class="v-uz">tark etmoq, chiqib ketmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('leave, left, left')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">25</td>
+              <td class="v-base">put</td>
+              <td class="v-past">put</td>
+              <td class="v-part">put</td>
+              <td class="v-uz">qo'ymoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('put, put, put')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">26</td>
+              <td class="v-base">think</td>
+              <td class="v-past">thought</td>
+              <td class="v-part">thought</td>
+              <td class="v-uz">o'ylamoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('think, thought, thought')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">27</td>
+              <td class="v-base">bring</td>
+              <td class="v-past">brought</td>
+              <td class="v-part">brought</td>
+              <td class="v-uz">olib kelmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('bring, brought, brought')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">28</td>
+              <td class="v-base">run</td>
+              <td class="v-past">ran</td>
+              <td class="v-part">run</td>
+              <td class="v-uz">yugurmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('run, ran, run')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">29</td>
+              <td class="v-base">understand</td>
+              <td class="v-past">understood</td>
+              <td class="v-part">understood</td>
+              <td class="v-uz">tushunmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('understand, understood, understood')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="color:var(--text-muted); font-weight:700;">30</td>
+              <td class="v-base">lose</td>
+              <td class="v-past">lost</td>
+              <td class="v-part">lost</td>
+              <td class="v-uz">yo'qotmoq</td>
+              <td>
+                <button type="button" class="speaker-btn" onclick="speak('lose, lost, lost')" title="Tinglash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </td>
+            </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 30 Vocabulary Words Grid -->
+    <div class="section-title">
+      <span>2</span>
+      <div>
+        <h3>30 Ta Yangi B1 Lug'at So'zlari (Shall & Future Milestones)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          15 ta 'Shall & Formal English' + 15 ta 'Future Deadlines & Achievements' so'zlari:
+        </p>
+      </div>
+    </div>
+    <div class="vocab-grid">
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">1. propose</span>
+              <button type="button" class="speaker-btn" onclick="speak('propose')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">taklif qilmoq, reja bermoq</div>
+          <div class="vocab-ex">"Shall I propose our alternative solution to the committee?"</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">2. obligation</span>
+              <button type="button" class="speaker-btn" onclick="speak('obligation')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">majburiyat, burch</div>
+          <div class="vocab-ex">"The tenant shall have no financial obligation after contract expiry."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">3. inevitable</span>
+              <button type="button" class="speaker-btn" onclick="speak('inevitable')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">adj</span>
+          </div>
+          <div class="vocab-uz">muqarrar, qochib bo'lmas</div>
+          <div class="vocab-ex">"Change is inevitable, but we shall overcome all obstacles."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">4. stipulate</span>
+              <button type="button" class="speaker-btn" onclick="speak('stipulate')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">shart qilib qo'ymoq (rasmiy)</div>
+          <div class="vocab-ex">"The treaty stipulates that all parties shall maintain peace."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">5. determination</span>
+              <button type="button" class="speaker-btn" onclick="speak('determination')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">qat'iyat, mahkam iroda</div>
+          <div class="vocab-ex">"We shall achieve our mission with unwavering determination."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">6. proceed</span>
+              <button type="button" class="speaker-btn" onclick="speak('proceed')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">davom ettirmoq, oldinga siljimoq</div>
+          <div class="vocab-ex">"Shall we proceed to the next agenda item?"</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">7. voluntary</span>
+              <button type="button" class="speaker-btn" onclick="speak('voluntary')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">adj</span>
+          </div>
+          <div class="vocab-uz">ixtiyoriy</div>
+          <div class="vocab-ex">"Participation is voluntary, but members shall register in advance."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">8. binding</span>
+              <button type="button" class="speaker-btn" onclick="speak('binding')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">adj</span>
+          </div>
+          <div class="vocab-uz">yuridik majburiy, qat'iy</div>
+          <div class="vocab-ex">"This agreement shall be legally binding upon both sides."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">9. courteous</span>
+              <button type="button" class="speaker-btn" onclick="speak('courteous')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">adj</span>
+          </div>
+          <div class="vocab-uz">xushmuomala, odobli</div>
+          <div class="vocab-ex">"'Shall I assist you?' is a courteous way to offer help."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">10. resolve</span>
+              <button type="button" class="speaker-btn" onclick="speak('resolve')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">hal qilmoq, qat'iy qarorga kelmoq</div>
+          <div class="vocab-ex">"We shall resolve this dispute before Friday."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">11. assure</span>
+              <button type="button" class="speaker-btn" onclick="speak('assure')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">ishontirmoq, xotirjam qilmoq</div>
+          <div class="vocab-ex">"I shall assure you that your request will be prioritized."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">12. compliance</span>
+              <button type="button" class="speaker-btn" onclick="speak('compliance')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">qoidalarga rioya qilish, itoat</div>
+          <div class="vocab-ex">"All citizens shall act in strict compliance with the law."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">13. clause</span>
+              <button type="button" class="speaker-btn" onclick="speak('clause')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">shartnoma bandi, modda</div>
+          <div class="vocab-ex">"Clause 4 states that payment shall be made in advance."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">14. undertake</span>
+              <button type="button" class="speaker-btn" onclick="speak('undertake')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">o'z zimmasiga olmoq</div>
+          <div class="vocab-ex">"The supplier shall undertake full maintenance of equipment."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">15. formal</span>
+              <button type="button" class="speaker-btn" onclick="speak('formal')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">adj</span>
+          </div>
+          <div class="vocab-uz">rasmiy, qat'iy qoidali</div>
+          <div class="vocab-ex">"Shall is predominantly used in formal and legal British English."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">16. deadline</span>
+              <button type="button" class="speaker-btn" onclick="speak('deadline')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">oxirgi topshirish muddati</div>
+          <div class="vocab-ex">"By the deadline, I will have finalized all financial audits."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">17. milestone</span>
+              <button type="button" class="speaker-btn" onclick="speak('milestone')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">muhim bosqich, burilish nuqtasi</div>
+          <div class="vocab-ex">"By 2028, the startup will have reached its 1-million user milestone."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">18. accomplish</span>
+              <button type="button" class="speaker-btn" onclick="speak('accomplish')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">muvaffaqiyatli yakunlamoq, uddalamoq</div>
+          <div class="vocab-ex">"She will have accomplished her primary objectives by next quarter."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">19. accumulate</span>
+              <button type="button" class="speaker-btn" onclick="speak('accumulate')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">to'plamoq, jamg'armoq</div>
+          <div class="vocab-ex">"By retirement, he will have accumulated substantial savings."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">20. surpass</span>
+              <button type="button" class="speaker-btn" onclick="speak('surpass')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">ortda qoldirmoq, oshib ketmoq</div>
+          <div class="vocab-ex">"Production will have surpassed last year's record by December."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">21. expire</span>
+              <button type="button" class="speaker-btn" onclick="speak('expire')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">muddati tugamoq</div>
+          <div class="vocab-ex">"By midnight, your current subscription will have expired."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">22. transform</span>
+              <button type="button" class="speaker-btn" onclick="speak('transform')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">butunlay o'zgartirmoq</div>
+          <div class="vocab-ex">"Technology will have transformed education by 2035."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">23. establish</span>
+              <button type="button" class="speaker-btn" onclick="speak('establish')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">asos solmoq, barpo etmoq</div>
+          <div class="vocab-ex">"By next year, they will have established branches in four cities."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">24. complete</span>
+              <button type="button" class="speaker-btn" onclick="speak('complete')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">to'liq yakunlamoq</div>
+          <div class="vocab-ex">"The engineers will have completed the bridge before the rainy season."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">25. by the time</span>
+              <button type="button" class="speaker-btn" onclick="speak('by the time')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">phrase</span>
+          </div>
+          <div class="vocab-uz">...bo'lguncha, ...ga qadar</div>
+          <div class="vocab-ex">"By the time you wake up, our flight will have landed."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">26. publish</span>
+              <button type="button" class="speaker-btn" onclick="speak('publish')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">nashr etmoq, chop qilmoq</div>
+          <div class="vocab-ex">"The author will have published three novels by his thirtieth birthday."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">27. master</span>
+              <button type="button" class="speaker-btn" onclick="speak('master')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">mukammal egallamoq, ustasi bo'lmoq</div>
+          <div class="vocab-ex">"By July, she will have mastered advanced B2 English grammar."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">28. construct</span>
+              <button type="button" class="speaker-btn" onclick="speak('construct')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">qurmoq, bino qilmoq</div>
+          <div class="vocab-ex">"They will have constructed the stadium before the Olympic games start."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">29. achieve</span>
+              <button type="button" class="speaker-btn" onclick="speak('achieve')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">verb</span>
+          </div>
+          <div class="vocab-uz">erishmoq, zabt etmoq</div>
+          <div class="vocab-ex">"He will have achieved financial independence by age thirty-five."</div>
+        </div>
+      
+        <div class="vocab-card">
+          <div class="vocab-head">
+            <div class="vocab-word-group">
+              <span class="vocab-word">30. projection</span>
+              <button type="button" class="speaker-btn" onclick="speak('projection')" title="Tinglash">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+              </button>
+            </div>
+            <span class="vocab-pos">noun</span>
+          </div>
+          <div class="vocab-uz">taxminiy reja, bashorat ko'rsatkichi</div>
+          <div class="vocab-ex">"According to projections, the company will have doubled profits by 2029."</div>
+        </div>
+      
+    </div>
+
+    <!-- Section 1: 20 MCQs -->
+    <div class="section-title">
+      <span>3</span>
+      <div>
+        <h3>20 Ta Grammatika Testi (10 ta Shall + 10 ta Future Perfect)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          Har bir savol uchun to'g'ri variantni belgilang:
+        </p>
+      </div>
+    </div>
+    
+      <div class="card">
+        <div class="q-text">1. It is getting quite cold in this room. ______ I close the window?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q1" value="Shall" data-ans="Shall">
+              <span><b>A)</b> Shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q1" value="Will" data-ans="Shall">
+              <span><b>B)</b> Will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q1" value="Would" data-ans="Shall">
+              <span><b>C)</b> Would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q1" value="Do" data-ans="Shall">
+              <span><b>D)</b> Do</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">2. We haven't decided our evening plans yet. Where ______ we go for dinner?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q2" value="shall" data-ans="shall">
+              <span><b>A)</b> shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q2" value="will" data-ans="shall">
+              <span><b>B)</b> will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q2" value="would" data-ans="shall">
+              <span><b>C)</b> would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q2" value="are" data-ans="shall">
+              <span><b>D)</b> are</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">3. Contract Clause: 'The buyer ______ pay the remaining balance within 30 days.'</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q3" value="shall" data-ans="shall">
+              <span><b>A)</b> shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q3" value="will" data-ans="shall">
+              <span><b>B)</b> will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q3" value="would" data-ans="shall">
+              <span><b>C)</b> would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q3" value="may" data-ans="shall">
+              <span><b>D)</b> may</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">4. You look completely exhausted carrying those heavy bags. ______ I help you?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q4" value="Shall" data-ans="Shall">
+              <span><b>A)</b> Shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q4" value="Will" data-ans="Shall">
+              <span><b>B)</b> Will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q4" value="Would" data-ans="Shall">
+              <span><b>C)</b> Would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q4" value="May" data-ans="Shall">
+              <span><b>D)</b> May</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">5. Qaysi gapda birgalikdagi taklif (joint suggestion) to'g'ri ifodalangan?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q5" value="Shall we discuss this project tomorrow?" data-ans="Shall we discuss this project tomorrow?">
+              <span><b>A)</b> Shall we discuss this project tomorrow?</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q5" value="Will we discuss this project tomorrow?" data-ans="Shall we discuss this project tomorrow?">
+              <span><b>B)</b> Will we discuss this project tomorrow?</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q5" value="Do we discuss this project tomorrow?" data-ans="Shall we discuss this project tomorrow?">
+              <span><b>C)</b> Do we discuss this project tomorrow?</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q5" value="Are we discuss this project tomorrow?" data-ans="Shall we discuss this project tomorrow?">
+              <span><b>D)</b> Are we discuss this project tomorrow?</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">6. Solemn Determination: 'Whatever the hardship, we ______ never surrender our independence.'</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q6" value="shall" data-ans="shall">
+              <span><b>A)</b> shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q6" value="will" data-ans="shall">
+              <span><b>B)</b> will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q6" value="would" data-ans="shall">
+              <span><b>C)</b> would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q6" value="might" data-ans="shall">
+              <span><b>D)</b> might</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">7. Nega taklif bildirganda 'Will I make coffee?' deyish xato hisoblanadi?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q7" value="Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak" data-ans="Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak">
+              <span><b>A)</b> Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q7" value="Chunki 'will' faqat o'tgan zamonda ishlatiladi" data-ans="Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak">
+              <span><b>B)</b> Chunki 'will' faqat o'tgan zamonda ishlatiladi</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q7" value="Chunki 'make' fe'li -ing olishi shart" data-ans="Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak">
+              <span><b>C)</b> Chunki 'make' fe'li -ing olishi shart</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q7" value="Chunki 'I' bilan faqat 'am' ishlatiladi" data-ans="Chunki 'Will I...?' o'z kelajagini birovdan bashorat qilishni so'rashga aylanib qoladi; taklifda 'Shall I...?' kerak">
+              <span><b>D)</b> Chunki 'I' bilan faqat 'am' ishlatiladi</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">8. What time ______ we meet outside the conference hall tomorrow?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q8" value="shall" data-ans="shall">
+              <span><b>A)</b> shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q8" value="will" data-ans="shall">
+              <span><b>B)</b> will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q8" value="would" data-ans="shall">
+              <span><b>C)</b> would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q8" value="did" data-ans="shall">
+              <span><b>D)</b> did</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">9. Official Regulation: 'Passengers ______ not leave luggage unattended at any airport terminal.'</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q9" value="shall" data-ans="shall">
+              <span><b>A)</b> shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q9" value="will" data-ans="shall">
+              <span><b>B)</b> will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q9" value="would" data-ans="shall">
+              <span><b>C)</b> would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q9" value="might" data-ans="shall">
+              <span><b>D)</b> might</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">10. ______ I take your coat, Mr. Anderson?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q10" value="Shall" data-ans="Shall">
+              <span><b>A)</b> Shall</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q10" value="Will" data-ans="Shall">
+              <span><b>B)</b> Will</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q10" value="Would" data-ans="Shall">
+              <span><b>C)</b> Would</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q10" value="Do" data-ans="Shall">
+              <span><b>D)</b> Do</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">11. By this time next year, she ______ her master's degree from Oxford.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q11" value="will have completed" data-ans="will have completed">
+              <span><b>A)</b> will have completed</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q11" value="will complete" data-ans="will have completed">
+              <span><b>B)</b> will complete</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q11" value="completes" data-ans="will have completed">
+              <span><b>C)</b> completes</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q11" value="is completing" data-ans="will have completed">
+              <span><b>D)</b> is completing</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">12. Don't call me at 9 PM tonight. By then, I ______ to sleep.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q12" value="will have gone" data-ans="will have gone">
+              <span><b>A)</b> will have gone</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q12" value="will go" data-ans="will have gone">
+              <span><b>B)</b> will go</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q12" value="go" data-ans="will have gone">
+              <span><b>C)</b> go</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q12" value="have gone" data-ans="will have gone">
+              <span><b>D)</b> have gone</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">13. By 2030, automotive engineers ______ millions of fully autonomous electric cars.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q13" value="will have produced" data-ans="will have produced">
+              <span><b>A)</b> will have produced</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q13" value="will produce" data-ans="will have produced">
+              <span><b>B)</b> will produce</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q13" value="produced" data-ans="will have produced">
+              <span><b>C)</b> produced</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q13" value="have produced" data-ans="will have produced">
+              <span><b>D)</b> have produced</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">14. By the time the train ______ at the central station, we will have packed all our bags.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q14" value="arrives" data-ans="arrives">
+              <span><b>A)</b> arrives</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q14" value="will arrive" data-ans="arrives">
+              <span><b>B)</b> will arrive</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q14" value="arrived" data-ans="arrives">
+              <span><b>C)</b> arrived</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q14" value="is arriving" data-ans="arrives">
+              <span><b>D)</b> is arriving</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">15. In two years' time, the government ______ the new underground metro line.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q15" value="will have constructed" data-ans="will have constructed">
+              <span><b>A)</b> will have constructed</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q15" value="will construct" data-ans="will have constructed">
+              <span><b>B)</b> will construct</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q15" value="constructed" data-ans="will have constructed">
+              <span><b>C)</b> constructed</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q15" value="has constructed" data-ans="will have constructed">
+              <span><b>D)</b> has constructed</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">16. ______ you ______ all your examinations before the summer holiday begins?</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q16" value="Will / have passed" data-ans="Will / have passed">
+              <span><b>A)</b> Will / have passed</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q16" value="Do / pass" data-ans="Will / have passed">
+              <span><b>B)</b> Do / pass</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q16" value="Will / pass" data-ans="Will / have passed">
+              <span><b>C)</b> Will / pass</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q16" value="Have / passed" data-ans="Will / have passed">
+              <span><b>D)</b> Have / passed</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">17. Hurry up! By the time we reach the cinema, the movie ______.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q17" value="will have already started" data-ans="will have already started">
+              <span><b>A)</b> will have already started</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q17" value="already started" data-ans="will have already started">
+              <span><b>B)</b> already started</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q17" value="starts" data-ans="will have already started">
+              <span><b>C)</b> starts</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q17" value="will start" data-ans="will have already started">
+              <span><b>D)</b> will start</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">18. By the end of this month, our company ______ its annual sales target.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q18" value="will have reached" data-ans="will have reached">
+              <span><b>A)</b> will have reached</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q18" value="will reach" data-ans="will have reached">
+              <span><b>B)</b> will reach</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q18" value="reached" data-ans="will have reached">
+              <span><b>C)</b> reached</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q18" value="has reached" data-ans="will have reached">
+              <span><b>D)</b> has reached</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">19. By 10 o'clock tomorrow morning, the surgeon ______ the critical operation.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q19" value="will have finished" data-ans="will have finished">
+              <span><b>A)</b> will have finished</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q19" value="will finish" data-ans="will have finished">
+              <span><b>B)</b> will finish</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q19" value="finishes" data-ans="will have finished">
+              <span><b>C)</b> finishes</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q19" value="finished" data-ans="will have finished">
+              <span><b>D)</b> finished</span>
+            </label>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="q-text">20. By the time she turns thirty, she ______ five foreign languages.</div>
+        <div class="options-grid">
+          
+            <label class="option-label">
+              <input type="radio" name="q20" value="will have learned" data-ans="will have learned">
+              <span><b>A)</b> will have learned</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q20" value="will learn" data-ans="will have learned">
+              <span><b>B)</b> will learn</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q20" value="learns" data-ans="will have learned">
+              <span><b>C)</b> learns</span>
+            </label>
+          
+            <label class="option-label">
+              <input type="radio" name="q20" value="learned" data-ans="will have learned">
+              <span><b>D)</b> learned</span>
+            </label>
+          
+        </div>
+      </div>
+    
+
+    <!-- Section 2: 20 Fill-in-the-gap drills -->
+    <div class="section-title">
+      <span>4</span>
+      <div>
+        <h3>20 Ta Bo'shliqni To'ldirish Drilli (Shall & Future Perfect)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          Qavs ichidagi ko'rsatmaga qarab bo'shliqqa to'g'ri so'zni yozing:
+        </p>
+      </div>
+    </div>
+    
+      <div class="card">
+        <div class="q-text">1. (Shall) '______ I carry your heavy luggage upstairs?' (taklif)</div>
+        <input type="text" name="blk1" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">2. (Shall) 'Where ______ we organize our farewell party?' (birgalikda maslahat)</div>
+        <input type="text" name="blk2" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">3. (Shall) 'The tenant ______ maintain the property in good condition.' (shartnoma qoidasi)</div>
+        <input type="text" name="blk3" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">4. (Shall) 'It is raining outside. ______ we order a taxi?' (taklif)</div>
+        <input type="text" name="blk4" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">5. (Shall) 'We ______ never surrender our hopes for freedom.' (qat'iy qasamyod)</div>
+        <input type="text" name="blk5" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">6. (Shall) '______ I turn off the television so you can concentrate?' (yordam taklifi)</div>
+        <input type="text" name="blk6" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">7. (Shall) 'Contractor ______ complete all renovations by October 15th.' (rasmiy burch)</div>
+        <input type="text" name="blk7" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">8. (Shall) 'What ______ I tell the manager when he calls?' (maslahat so'rash)</div>
+        <input type="text" name="blk8" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">9. (Shall) 'Let's take a short break, ______ we?' (tag question qolipi)</div>
+        <input type="text" name="blk9" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">10. (Shall) 'Passengers ______ remain seated until the plane stops.' (aviasiya qoidasi)</div>
+        <input type="text" name="blk10" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">11. (finish) 'By 6 PM today, I ____________ (finish) all my assignments.'</div>
+        <input type="text" name="blk11" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">12. (graduate) 'By next June, my elder sister ____________ (graduate) from university.'</div>
+        <input type="text" name="blk12" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">13. (leave) 'By the time you wake up tomorrow, our flight ____________ (leave).'</div>
+        <input type="text" name="blk13" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">14. (read) 'By the end of this week, we ____________ (read) all three chapters.'</div>
+        <input type="text" name="blk14" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">15. (build) 'By 2030, engineers ____________ (build) a high-speed railway to Bukhara.'</div>
+        <input type="text" name="blk15" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">16. (arrive) 'By the time the guests ____________ (arrive / Present Simple!), we will have set the table.'</div>
+        <input type="text" name="blk16" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">17. (save) 'In three years' time, he ____________ (save) enough money to buy an apartment.'</div>
+        <input type="text" name="blk17" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">18. (expire) 'By midnight, your current software license ____________ (expire).'</div>
+        <input type="text" name="blk18" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">19. (publish) 'The author ____________ (publish) her second novel before the festival begins.'</div>
+        <input type="text" name="blk19" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">20. (master) 'By December, our students ____________ (master) all advanced tenses.'</div>
+        <input type="text" name="blk20" class="input-field" placeholder="Javobingizni shu yerga yozing...">
+      </div>
+    
+
+    <!-- Section 3: 20 Error Correction Drills -->
+    <div class="section-title">
+      <span>5</span>
+      <div>
+        <h3>20 Ta Xatoni Topish va Tuzatish (Error Hunt Drill)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          Quyidagi gaplarda o'zbek o'quvchilari ko'p qiladigan tipik xatolar bor. Gapni to'g'rilab yozing:
+        </p>
+      </div>
+    </div>
+    
+      <div class="card">
+        <div class="err-box">1. ❌ Will I open the window for you? It's very hot.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Taklif berishda 'Will I' emas, 'Shall I' ishlatiladi.</p>
+        <input type="text" name="err1" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">2. ❌ Shall he to sign the contract right now?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Modal fe'llardan keyin 'to' zarrachasi ishlatilmaydi.</p>
+        <input type="text" name="err2" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">3. ❌ What will we do tonight? Let's decide together.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Birgalikda taklif qilishda 'What shall we do?' to'g'ri.</p>
+        <input type="text" name="err3" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">4. ❌ Will I make you a cup of coffee, sir?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: O'zbekcha 'Kofe damlab beraymi?' taklifida 'Shall I' qo'llaniladi.</p>
+        <input type="text" name="err4" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">5. ❌ Let's go to the museum, will we?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'Let's...' ning tag question shakli doim 'shall we?' bo'ladi.</p>
+        <input type="text" name="err5" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">6. ❌ The buyer shall pays the fee upon arrival.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'shall' modal fe'lidan keyin fe'l qo'shimchasiz asosiy shaklda keladi.</p>
+        <input type="text" name="err6" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">7. ❌ Shall we going for a walk after lunch?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'Shall we' dan keyin fe'lning V1 shakli (go) keladi, -ing emas.</p>
+        <input type="text" name="err7" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">8. ❌ Where will we meet tomorrow? What is your suggestion?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Maslahat va taklifda 'Where shall we meet?' to'g'ri.</p>
+        <input type="text" name="err8" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">9. ❌ Passengers shall not smoking inside the cabin.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Modal fe'l + not + V1: 'shall not smoke'.</p>
+        <input type="text" name="err9" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">10. ❌ Will I carry this box for you?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Yordam taklifida 'Shall I carry' to'g'ri.</p>
+        <input type="text" name="err10" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">11. ❌ By 2030, I will graduate from university.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'By 2030' borligi uchun Future Simple emas, Future Perfect kerak.</p>
+        <input type="text" name="err11" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">12. ❌ By the time you will come, I will have finished dinner.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'By the time' dan keyin kelajak zamonda 'will' ishlatilmaydi, Present Simple ('come') bo'ladi.</p>
+        <input type="text" name="err12" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">13. ❌ She will has written the entire report by 5 PM.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Future Perfectda egadan qat'i nazar 'will have' bo'ladi, 'will has' mavjud emas.</p>
+        <input type="text" name="err13" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">14. ❌ By next summer, they will have build a new hospital.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Fe'lning 3-shakli V3 ishlatilishi shart: build -> built.</p>
+        <input type="text" name="err14" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">15. ❌ In two years' time, we will have be friends for a decade.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: be fe'lining V3 shakli 'been' dir: 'will have been'.</p>
+        <input type="text" name="err15" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">16. ❌ By tomorrow morning, the rain will stopped.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'have' yordamchi fe'li tushirib qoldirilgan: 'will have stopped'.</p>
+        <input type="text" name="err16" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">17. ❌ By the time the doctor will arrive, the patient will have recovered.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: 'By the time' dan keyin 'arrives' (Present Simple) bo'ladi.</p>
+        <input type="text" name="err17" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">18. ❌ He will have finish the marathon before noon.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Fe'l V3 shaklida bo'lishi shart: 'finished'.</p>
+        <input type="text" name="err18" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">19. ❌ By December, I will have learn 500 new English words.</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: learn fe'li V3 shakliga o'tishi kerak: 'learned'.</p>
+        <input type="text" name="err19" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="err-box">20. ❌ By Friday, will you completed the assignment?</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">💡 Maslahat: Future Perfect so'rog'ida 'have' bo'lishi shart: 'will you have completed'.</p>
+        <input type="text" name="err20" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+      </div>
+    
+
+    <!-- Section 4: 20 Translation Drills -->
+    <div class="section-title">
+      <span>6</span>
+      <div>
+        <h3>20 Ta Tarjima Drilli (O'zbekchadan Inglizchaga)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          10 ta Shall va 10 ta Future Perfect qoidasiga asoslangan gaplarni ingliz tiliga tarjima qiling:
+        </p>
+      </div>
+    </div>
+    
+      <div class="card">
+        <div class="q-text">1. Derazani ochaymi? Xona juda issiq bo'lib ketibdi.</div>
+        <input type="text" name="tr1" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">2. Bugun kechqurun qayerga boramiz? Sizda biror taklif bormi?</div>
+        <input type="text" name="tr2" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">3. Shartnoma bandi: 'Ijarachi barcha to'lovlarni o'z vaqtida to'lashi shart.'</div>
+        <input type="text" name="tr3" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">4. Sizga issiq choy damlab beraymi?</div>
+        <input type="text" name="tr4" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">5. Qiyinchiliklarga qaramasdan, biz barcha maqsadlarimizga erishamiz.</div>
+        <input type="text" name="tr5" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">6. Ertaga soat nechada uchrashamiz?</div>
+        <input type="text" name="tr6" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">7. Qoidaga ko'ra, barcha yo'lovchilar xavfsizlik kamarini taqishlari shart.</div>
+        <input type="text" name="tr7" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">8. Sumkangizni ko'tarishga yordam beraymi?</div>
+        <input type="text" name="tr8" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">9. Keling, qahvaxonaga boramiz, maylimi? (tag question)</div>
+        <input type="text" name="tr9" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">10. Rahbariyatga bu loyiha haqida nima deb javob beray?</div>
+        <input type="text" name="tr10" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">11. Kelasi yilning oxirigacha u universitetni tamomlagan bo'ladi.</div>
+        <input type="text" name="tr11" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">12. Bugun kechki soat 8 ga qadar men barcha vazifalarimni tugatib bo'laman.</div>
+        <input type="text" name="tr12" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">13. Siz uyga yetib kelguningizcha, biz kechki ovqatni tayyorlab bo'lgan bo'lamiz.</div>
+        <input type="text" name="tr13" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">14. 2030-yilgacha olimlar ko'plab kasalliklarga davo topgan bo'ladilar.</div>
+        <input type="text" name="tr14" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">15. Juma kuniga qadar siz hisobotni topshirib bo'lasizmi?</div>
+        <input type="text" name="tr15" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">16. Shoshiling! Biz kinoteatrga yetib borgunimizcha film boshlanib bo'ladi.</div>
+        <input type="text" name="tr16" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">17. Uch yildan so'ng ular yangi uy qurib bo'lgan bo'ladilar.</div>
+        <input type="text" name="tr17" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">18. Ertaga ertalabga qadar qor yog'ishi to'xtagan bo'ladi.</div>
+        <input type="text" name="tr18" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">19. U 30 yoshga to'lgunga qadar o'z shaxsiy biznesini yo'lga qo'ygan bo'ladi.</div>
+        <input type="text" name="tr19" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+      <div class="card">
+        <div class="q-text">20. Dekabrga qadar men B1 darajadagi barcha grammatik mavzularni o'zlashtirib bo'laman.</div>
+        <input type="text" name="tr20" class="input-field" placeholder="Inglizcha tarjimasini yozing...">
+      </div>
+    
+
+    <!-- Section 5: 2 Creative Writing Prompts -->
+    <div class="section-title">
+      <span>7</span>
+      <div>
+        <h3>Kengaytirilgan Ijodiy Yozma Vazifalar (Writing Section)</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">
+          Ikkala mavzuni real hayotiy kontekstda erkin qo'llang:
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-text">✍️ 1-Vazifa: "The Official Meeting Protocol & Proposals" (Shall amaliyoti)</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        Tasavvur qiling, siz xalqaro tashkilot yoki kompaniyada uchrashuv o'tkazmoqdasiz. <b>Kamida 4 marta 'Shall I...?' va 'Shall we...?'</b> hamda <b>2 marta rasmiy qoida (shall)</b> ishlatib, 6-8 ta gapdan iborat dialog yoki protokol yozing.
+      </p>
+      <textarea id="essay-shall" class="input-field" placeholder="Masalan: Good morning colleagues! Shall we begin our quarterly review? Shall I present the preliminary financial report?..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="q-text">🚀 2-Vazifa: "My Life & Career Projections by 2030" (Future Perfect amaliyoti)</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        2030-yilga qadar hayotingizda qanday marralarni zabt etgan bo'lasiz? <b>Kamida 5 ta 'will have + V3'</b> va <b>'by the time'</b> iborasini ishlatib, 8-10 ta gapdan iborat kelajak reja inshosini yozing.
+      </p>
+      <textarea id="essay-fp" class="input-field" placeholder="Masalan: By 2030, I will have achieved several major milestones in my life. First of all, by the end of 2027, I will have graduated with honors..."></textarea>
+    </div>
+
+    <!-- Section 6: Question to Teacher -->
+    <div class="card" style="border-left: 4px solid var(--accent);">
+      <div class="q-text">❓ Ustozga Savolingiz Yoki Fikringiz:</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+        Ushbu 2 ta mavzuda sizga eng qiyin tuyulgan nuqta nima bo'ldi? Qaysi so'roq yoki qoidaga ko'proq mashq kerak?
+      </p>
+      <textarea id="teacher-question" class="input-field" style="min-height:75px;" placeholder="Ustoz, 'Shall' ning 'Should' dan farqini yana bir bor tushuntirib bera olasizmi?..."></textarea>
+    </div>
+
+    <!-- Submit Bar -->
+    <div class="submit-bar">
+      <h3 style="font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 8px;">
+        Vazifani Tugatdingizmi?
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 18px;">
+        Tugmani bosganingizda, barcha javoblaringiz tekshirilib, ustozingizning Telegram botiga to'liq hisobot sifatida yetkaziladi!
+      </p>
+      <button id="submit-btn" class="submit-btn" onclick="submitHomework()">
+        Vazifani Ustozga Yuborish 🚀
+      </button>
+      <div id="toast-msg" class="toast"></div>
+    </div>
+  </main>
+
+  <script>
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        u.rate = 0.88;
+        window.speechSynthesis.speak(u);
+      } else {
+        alert("Brauzeringiz ovozli talaffuzni qo'llab-quvvatlamaydi.");
+      }
+    }
+
+    const STORAGE_KEY = "hw_b1_shall_future_perfect";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem(STORAGE_KEY + '_name') || localStorage.getItem('ulunur_student_name');
+      if (savedName) document.getElementById('student-name').value = savedName;
+
+      // Auto restore inputs
+      document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        const key = STORAGE_KEY + '_' + (input.id || input.name);
+        const saved = localStorage.getItem(key);
+        if (saved && !input.value) input.value = saved;
+        input.addEventListener('input', () => {
+          localStorage.setItem(key, input.value);
+        });
+      });
+
+      // Auto restore radios
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const key = STORAGE_KEY + '_' + radio.name;
+        const saved = localStorage.getItem(key);
+        if (saved === radio.value) radio.checked = true;
+        radio.addEventListener('change', () => {
+          localStorage.setItem(key, radio.value);
+        });
+      });
+    });
+
+    function submitHomework() {
+      const nameInput = document.getElementById("student-name");
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem('ulunur_student_name', name);
+      localStorage.setItem(STORAGE_KEY + '_name', name);
+
+      // Evaluate 20 MCQs
+      let mcqScore = 0;
+      for (let i = 1; i <= 20; i++) {
+        const sel = document.querySelector('input[name="q' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          mcqScore++;
+        }
+      }
+
+      // Count completed sections
+      let blankDone = 0;
+      for (let i = 1; i <= 20; i++) {
+        const el = document.querySelector('input[name="blk' + i + '"]');
+        if (el && el.value.trim().length > 0) blankDone++;
+      }
+
+      let errorDone = 0;
+      for (let i = 1; i <= 20; i++) {
+        const el = document.querySelector('input[name="err' + i + '"]');
+        if (el && el.value.trim().length > 0) errorDone++;
+      }
+
+      let transDone = 0;
+      for (let i = 1; i <= 20; i++) {
+        const el = document.querySelector('input[name="tr' + i + '"]');
+        if (el && el.value.trim().length > 0) transDone++;
+      }
+
+      const essayShall = document.getElementById("essay-shall").value.trim();
+      const essayFp = document.getElementById("essay-fp").value.trim();
+      const question = document.getElementById("teacher-question").value.trim();
+
+      const totalPossible = 20;
+      const initialScore = Math.round((mcqScore / totalPossible) * 100);
+
+      const payloadText =
+        "📝 <b>B1 BIRLASHGAN UYGA VAZIFA NATIJASI</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzular:</b> Modal 'Shall' & Future Perfect Simple (B1)\n" +
+        "🎯 <b>MCQ Test Natijasi:</b> <b>" + mcqScore + "/20 (" + initialScore + "%)</b>\n" +
+        "⏰ <b>Topshirilgan Vaqt:</b> " + new Date().toLocaleString() + "\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n\n" +
+        "✏️ <b>Bo'shliqlar:</b> " + blankDone + "/20 ta bajarildi\n" +
+        "❌ <b>Xatolar tuzatildi:</b> " + errorDone + "/20 ta bajarildi\n" +
+        "🌐 <b>Tarjimalar:</b> " + transDone + "/20 ta bajarildi\n\n" +
+        "✍️ <b>1-Insho ('Shall' Protokoli):</b>\n<i>\"" + (essayShall ? essayShall.substring(0, 160) + (essayShall.length > 160 ? '...' : '') : '(Yozilmadi)') + "\"</i>\n\n" +
+        "🚀 <b>2-Insho ('Future Perfect 2030'):</b>\n<i>\"" + (essayFp ? essayFp.substring(0, 160) + (essayFp.length > 160 ? '...' : '') : '(Yozilmadi)') + "\"</i>\n\n" +
+        "❓ <b>Ustozga Savol:</b>\n<i>\"" + (question || '(Savol yoq)') + "\"</i>\n\n" +
+        "🤖 <i>TeacherOS Avtopilot</i>";
+
+      const btn = document.getElementById("submit-btn");
+      const toast = document.getElementById("toast-msg");
+      btn.disabled = true;
+      btn.textContent = "Ustozga yuborilmoqda...";
+
+      const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+      const TEACHER_ID = "6315515792";
+      const FALLBACK_ID = "7957347033";
+
+      fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TEACHER_ID, text: payloadText, parse_mode: "HTML" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          confetti({ particleCount: 150, spread: 85, origin: { y: 0.6 } });
+          toast.style.display = "block";
+          toast.style.background = "rgba(16, 185, 129, 0.15)";
+          toast.style.border = "1px solid var(--emerald)";
+          toast.style.color = "#6ee7b7";
+          toast.innerHTML = "🎉 Ajoyib! 2 kunlik birlashgan vazifangiz ustozingizga muvaffaqiyatli yetkazildi!";
+          btn.textContent = "Yuborildi ✅";
+        } else {
+          return fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: FALLBACK_ID, text: payloadText, parse_mode: "HTML" })
+          }).then(r2 => r2.json()).then(d2 => {
+            if (d2.ok) {
+              confetti({ particleCount: 150, spread: 85, origin: { y: 0.6 } });
+              toast.style.display = "block";
+              toast.style.color = "#6ee7b7";
+              toast.innerHTML = "🎉 Vazifangiz yetkazildi!";
+              btn.textContent = "Yuborildi ✅";
+            } else {
+              toast.style.display = "block";
+              toast.style.color = "#fca5a5";
+              toast.innerHTML = "⚠️ Xatolik: " + (d2.description || d.description);
+              btn.disabled = false;
+              btn.textContent = "Qayta urinish 🔄";
+            }
+          });
+        }
+      })
+      .catch(e => {
+        toast.style.display = "block";
+        toast.style.color = "#fca5a5";
+        toast.innerHTML = "⚠️ Internet aloqasida xatolik.";
+        btn.disabled = false;
+        btn.textContent = "Qayta urinish 🔄";
+      });
+    }
+  </script>
+</body>
+</html>

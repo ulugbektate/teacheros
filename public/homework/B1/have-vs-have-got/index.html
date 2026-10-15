@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Have vs Have Got — Uyga Vazifa (B1 Daraja)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+
+    :root {
+      --bg: #070d18;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.9rem 1.5rem;
+    }
+    .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--primary-glow); }
+    .badge { font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+
+    main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-title { font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero-sub { color: var(--text-muted); font-size: 0.92rem; }
+
+    .rule-box {
+      margin-top: 1.3rem;
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+    }
+    .rule-box h4 { color: #fff; margin-bottom: 6px; font-size: 1rem; }
+    .rule-box p { color: var(--text-muted); margin-bottom: 6px; }
+    .formula-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 4px 0;
+    }
+
+    /* IRREGULAR VERBS TABLE */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    table.verb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+      background: rgba(15, 23, 42, 0.6);
+    }
+    table.verb-table th {
+      background: rgba(30, 41, 59, 0.9);
+      padding: 10px 14px;
+      color: #a5b4fc;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    table.verb-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    table.verb-table tr:hover {
+      background: rgba(99, 102, 241, 0.08);
+    }
+    .v-num { color: var(--text-muted); font-size: 0.75rem; font-weight: 600; }
+    .v-base { font-weight: 700; color: #fff; }
+    .v-past { font-weight: 700; color: #6ee7b7; }
+    .v-part { font-weight: 700; color: #fbbf24; }
+    .v-uz { color: #cbd5e1; font-size: 0.82rem; }
+
+    /* VOCABULARY GRID */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .vocab-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+    }
+    .vocab-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: rgba(30, 41, 59, 0.8);
+    }
+    .vocab-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .vocab-word-group { display: flex; align-items: center; gap: 8px; }
+    .vocab-word { font-weight: 800; font-size: 1rem; color: #fff; }
+    .vocab-pos { font-size: 0.72rem; color: var(--accent); font-weight: 600; text-transform: uppercase; }
+    .vocab-uz { color: #6ee7b7; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .vocab-ex { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-left: 2px solid rgba(99, 102, 241, 0.4); padding-left: 6px; margin-top: 4px; }
+
+    /* SPEAKER BUTTONS (AUDIO PRONUNCIATION) */
+    .speaker-btn {
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #c7d2fe;
+      cursor: pointer;
+      border-radius: 7px;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.2s ease;
+      vertical-align: middle;
+    }
+    .speaker-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: scale(1.12);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .speaker-btn:active {
+      transform: scale(0.95);
+    }
+    .speaker-btn-sm {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin-left: 5px;
+      transition: all 0.15s ease;
+      vertical-align: middle;
+    }
+    .speaker-btn-sm:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: scale(1.15);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .section-title span {
+      background: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .q-text { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.8rem; color: #fff; }
+    .q-context { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+
+    /* MCQs */
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    @media(min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+    .option-label {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .option-label:hover { border-color: var(--primary); background: var(--card-hover); }
+    .option-label input { accent-color: var(--primary); }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus { border-color: var(--border-focus); box-shadow: 0 0 10px var(--primary-glow); }
+    textarea.input-field { min-height: 85px; resize: vertical; }
+
+    .err-box {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid var(--rose);
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.92rem;
+      color: #fca5a5;
+    }
+
+    .student-info-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .submit-bar {
+      margin-top: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      text-align: center;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.8);
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 38px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transition: all 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--primary-glow);
+    }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .toast {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">🤝</div>
+        <span>Ulunur's English</span>
+      </a>
+      <div class="badge">B1 Daraja</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO CARD -->
+    <div class="hero-card">
+      <h1 class="hero-title">Have vs Have Got: Possession, Actions & Differences</h1>
+      <p class="hero-sub">Britaniya va Amerika inglizchasi farqi, o'tgan zamon tuzog'i va iboraviy harakatlar (have breakfast, have a shower)</p>
+
+      <div class="rule-box">
+        <h4>💡 Grammatika Qoidasi va Asosiy Mohiyat:</h4>
+        
+    <p><b>1. Egalik, oilaviy munosabatlar va kasalliklar:</b><br>
+    • <b>Britaniya (UK):</b> <i>have got / has got</i> $\rightarrow$ <i>"I've got a car." / "Have you got a car?" / "I haven't got a car."</i><br>
+    • <b>Amerika (US):</b> <i>have / has</i> $\rightarrow$ <i>"I have a car." / "Do you have a car?" / "I don't have a car."</i></p>
+
+    <div style="margin:10px 0;">
+      <span class="formula-badge">MUHIM 1: O'tgan zamonda 'have got' MUMKIN EMAS!</span><br>
+      O'tmishda egalik uchun faqat <b>had</b> ishlatiladi: <i>"When I was young, I had a bike"</i> ✅ (NOT <i>"I had got a bike"</i> ❌).<br><br>
+      <span class="formula-badge">MUHIM 2: Iboraviy harakatlarda 'have got' QAT'IYAN ISHLATILMAYDI!</span><br>
+      Ovqatlanish, dush, dam olish, sayohat kabilarda faqat <b>have</b> keladi va <b>-ing</b> olishi mumkin:<br>
+      • <i>have breakfast / lunch / dinner</i> (NOT <i>have got breakfast</i> ❌)<br>
+      • <i>have a shower / bath</i> (NOT <i>have got a shower</i> ❌)<br>
+      • <i>"I am having lunch right now."</i> ✅
+    </div>
+  
+      </div>
+    </div>
+
+    <!-- STUDENT INFO BOX -->
+    <div class="student-info-box">
+      <label style="display:block; font-weight:700; margin-bottom:8px; font-size:0.95rem; color:#fff;">
+        👤 O'quvchi Ism va Familiyasi:
+      </label>
+      <input type="text" id="student-name" class="input-field" placeholder="Masalan: Madina Karimova" style="max-width:400px;">
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">
+        Vazifa topshirilganda natijangiz to'g'ridan-to'g'ri ustozingizning Telegramiga boradi.
+      </p>
+    </div>
+
+    <!-- VOCABULARY SECTION WITH AUDIO BUTTONS -->
+    <div class="section-title">
+      <span>📖</span> 15 ta Yangi Mavzu Lug'ati (B1 Daraja • Ovozli Talaffuz 🔊)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        Mavzuni to'liq tushunish uchun ushbu 15 ta kalit so'zni o'rganing. To'g'ri talaffuzni eshitish uchun <b>karnaychani (🔊)</b> bosing:
+      </p>
+      <div class="vocab-grid">
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">possession</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('possession')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">egalik, shaxsiy mulk</div>
+            <div class="vocab-ex">"A passport is your personal possession."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">characteristic</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('characteristic')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">o'ziga xos xususiyat, sifat</div>
+            <div class="vocab-ex">"She has got blue eyes and fair hair."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">appointment</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('appointment')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">belgilangan qabul / uchrashuv</div>
+            <div class="vocab-ex">"I have an appointment with Dr. Brown at 3 PM."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">headache</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('headache')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">bosh og'rig'i</div>
+            <div class="vocab-ex">"I've got a splitting headache today."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">sore throat</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('sore throat')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">tomoq og'rig'i</div>
+            <div class="vocab-ex">"He has got a sore throat and a high fever."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">sibling</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('sibling')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">aka-uka yoki opa-singil</div>
+            <div class="vocab-ex">"How many siblings have you got?"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">spare</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('spare')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adj</span>
+            </div>
+            <div class="vocab-uz">zaxiradagi, ortiqcha</div>
+            <div class="vocab-ex">"Have you got a spare pen I could borrow?"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">routine</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('routine')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">kundalik odatiy rejim</div>
+            <div class="vocab-ex">"Having breakfast is part of my daily routine."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">experience</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('experience')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">verb / noun</span>
+            </div>
+            <div class="vocab-uz">boshdan kechirmoq / tajriba</div>
+            <div class="vocab-ex">"We are having a wonderful experience here."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">habitual</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('habitual')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adj</span>
+            </div>
+            <div class="vocab-uz">odat tusiga kirgan, doimiy</div>
+            <div class="vocab-ex">"Drinking green tea is his habitual morning action."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">argument</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('argument')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">bahs, tortishuv</div>
+            <div class="vocab-ex">"They had a fierce argument about politics yesterday."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">opportunity</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('opportunity')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">qulay imkoniyat</div>
+            <div class="vocab-ex">"Do you have the opportunity to study abroad?"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">symptom</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('symptom')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">kasallik belgisi, simptom</div>
+            <div class="vocab-ex">"Coughing is a common symptom of the flu."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">flu</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('flu')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">gripp</div>
+            <div class="vocab-ex">"She's got the flu and must stay in bed."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">colleague</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('colleague')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">hamkasb</div>
+            <div class="vocab-ex">"I have got several supportive colleagues at work."</div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- VOCABULARY PRACTICE QUIZ -->
+    <div class="section-title">
+      <span>🔤</span> 1-Bo'lim: 15 ta Lug'at Testi (So'zlarni tekshirish)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Yangi 15 ta so'zdan to'g'ri variantni tanlang:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">1. Inson egalik qiladigan shaxsiy mol-mulk yoki ashyo:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="a" data-ans="b">
+                  <span><b>A)</b> appointment</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="b" data-ans="b">
+                  <span><b>B)</b> possession</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="c" data-ans="b">
+                  <span><b>C)</b> argument</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="d" data-ans="b">
+                  <span><b>D)</b> routine</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">2. Tashqi ko'rinish yoki xarakterdagi o'ziga xos xususiyat:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="a" data-ans="d">
+                  <span><b>A)</b> headache</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="b" data-ans="d">
+                  <span><b>B)</b> symptom</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="c" data-ans="d">
+                  <span><b>C)</b> colleague</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="d" data-ans="d">
+                  <span><b>D)</b> characteristic</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">3. Shifokor yoki rasmiy shaxs bilan belgilangan qabul vaqti:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="a" data-ans="a">
+                  <span><b>A)</b> appointment</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="b" data-ans="a">
+                  <span><b>B)</b> possession</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="c" data-ans="a">
+                  <span><b>C)</b> sibling</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="d" data-ans="a">
+                  <span><b>D)</b> spare</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">4. Boshdagi noxush og'riq holati:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="a" data-ans="c">
+                  <span><b>A)</b> sore throat</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="b" data-ans="c">
+                  <span><b>B)</b> flu</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="c" data-ans="c">
+                  <span><b>C)</b> headache</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="d" data-ans="c">
+                  <span><b>D)</b> argument</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">5. Yutinganda tomoqda paydo bo'ladigan og'riq:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="a" data-ans="b">
+                  <span><b>A)</b> headache</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="b" data-ans="b">
+                  <span><b>B)</b> sore throat</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="c" data-ans="b">
+                  <span><b>C)</b> routine</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="d" data-ans="b">
+                  <span><b>D)</b> colleague</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">6. Ota-onasi bir bo'lgan aka-uka yoki opa-singillar umumiy nomi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="a" data-ans="a">
+                  <span><b>A)</b> sibling</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="b" data-ans="a">
+                  <span><b>B)</b> colleague</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="c" data-ans="a">
+                  <span><b>C)</b> spare</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="d" data-ans="a">
+                  <span><b>D)</b> possession</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">7. Hozircha ishlatilmay turgan, ehtiyotdagi zaxira narsa:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="a" data-ans="c">
+                  <span><b>A)</b> habitual</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="b" data-ans="c">
+                  <span><b>B)</b> argument</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="c" data-ans="c">
+                  <span><b>C)</b> spare</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="d" data-ans="c">
+                  <span><b>D)</b> symptom</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">8. Har kuni bir xil vaqtda takrorlanadigan tartib:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="a" data-ans="d">
+                  <span><b>A)</b> opportunity</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="b" data-ans="d">
+                  <span><b>B)</b> flu</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="c" data-ans="d">
+                  <span><b>C)</b> argument</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="d" data-ans="d">
+                  <span><b>D)</b> routine</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">9. Hayotda biror voqeani shaxsan boshdan kechirish:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="a" data-ans="a">
+                  <span><b>A)</b> experience</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="b" data-ans="a">
+                  <span><b>B)</b> spare</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="c" data-ans="a">
+                  <span><b>C)</b> sibling</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="d" data-ans="a">
+                  <span><b>D)</b> characteristic</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">10. Doimiy odat tusiga kirgan (sifat):</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="a" data-ans="b">
+                  <span><b>A)</b> spare</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="b" data-ans="b">
+                  <span><b>B)</b> habitual</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="c" data-ans="b">
+                  <span><b>C)</b> flu</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="d" data-ans="b">
+                  <span><b>D)</b> argument</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">11. Ikki yoki undan ortiq kishi orasidagi jiddiy janjal, bahs:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="a" data-ans="c">
+                  <span><b>A)</b> appointment</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="b" data-ans="c">
+                  <span><b>B)</b> colleague</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="c" data-ans="c">
+                  <span><b>C)</b> argument</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="d" data-ans="c">
+                  <span><b>D)</b> possession</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">12. Biror yaxshi ishni qilish uchun tug'ilgan qulay imkoniyat:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="a" data-ans="b">
+                  <span><b>A)</b> headache</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="b" data-ans="b">
+                  <span><b>B)</b> opportunity</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="c" data-ans="b">
+                  <span><b>C)</b> symptom</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="d" data-ans="b">
+                  <span><b>D)</b> sibling</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">13. Tana a'zosidagi kasallikni bildiruvchi tashqi belgi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="a" data-ans="d">
+                  <span><b>A)</b> routine</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="b" data-ans="d">
+                  <span><b>B)</b> spare</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="c" data-ans="d">
+                  <span><b>C)</b> possession</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="d" data-ans="d">
+                  <span><b>D)</b> symptom</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">14. Isitma, holsizlik va yo'tal keltirib chiqaruvchi virusli kasallik:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="a" data-ans="a">
+                  <span><b>A)</b> flu</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="b" data-ans="a">
+                  <span><b>B)</b> appointment</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="c" data-ans="a">
+                  <span><b>C)</b> colleague</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="d" data-ans="a">
+                  <span><b>D)</b> argument</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">15. Bir korxona yoki idorada birga ishlaydigan xodim:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="a" data-ans="b">
+                  <span><b>A)</b> sibling</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="b" data-ans="b">
+                  <span><b>B)</b> colleague</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="c" data-ans="b">
+                  <span><b>C)</b> characteristic</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="d" data-ans="b">
+                  <span><b>D)</b> possession</span>
+                </label>
+              
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 2: 10 GRAMMAR MCQS (BALANCED OPTIONS) -->
+    <div class="section-title">
+      <span>🎯</span> 2-Bo'lim: 10 ta Tanlov Testi (Grammatika & Nozikliklar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Har bir savolda bitta to'g'ri variant mavjud. Variantlar (A, B, C, D) teng aralashtirilgan:
+      </p>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">1. In British English, how do you ask if someone owns a car?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="a" data-ans="b">
+                <span><b>A)</b> Do you have got a car?</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="b" data-ans="b">
+                <span><b>B)</b> Have you got a car?</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="c" data-ans="b">
+                <span><b>C)</b> Are you having a car?</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="d" data-ans="b">
+                <span><b>D)</b> Did you got a car?</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">2. When I was ten years old, I ______ a fluffy white rabbit.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="a" data-ans="d">
+                <span><b>A)</b> had got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="b" data-ans="d">
+                <span><b>B)</b> was having got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="c" data-ans="d">
+                <span><b>C)</b> have had</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="d" data-ans="d">
+                <span><b>D)</b> had</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">3. Please call back later. We ______ dinner right now.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="a" data-ans="a">
+                <span><b>A)</b> are having</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="b" data-ans="a">
+                <span><b>B)</b> have got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="c" data-ans="a">
+                <span><b>C)</b> are having got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="d" data-ans="a">
+                <span><b>D)</b> had got</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">4. I can't buy this ticket because I ______ any cash on me.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="a" data-ans="c">
+                <span><b>A)</b> not have</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="b" data-ans="c">
+                <span><b>B)</b> don't have got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="c" data-ans="c">
+                <span><b>C)</b> haven't got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="d" data-ans="c">
+                <span><b>D)</b> am not having</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">5. Every morning before work, Rustam ______ a cold shower.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="a" data-ans="b">
+                <span><b>A)</b> has got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="b" data-ans="b">
+                <span><b>B)</b> has</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="c" data-ans="b">
+                <span><b>C)</b> is having got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="d" data-ans="b">
+                <span><b>D)</b> have</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">6. Which of the following sentences is grammatically INCORRECT?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="a" data-ans="d">
+                <span><b>A)</b> Do you have an aspirin?</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="b" data-ans="d">
+                <span><b>B)</b> Have you got an aspirin?</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="c" data-ans="d">
+                <span><b>C)</b> I'm having a party on Saturday.</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="d" data-ans="d">
+                <span><b>D)</b> I've got a shower every morning at 7:00.</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">7. She looks very pale. I think she ______ a high fever.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="a" data-ans="a">
+                <span><b>A)</b> has got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="b" data-ans="a">
+                <span><b>B)</b> is having got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="c" data-ans="a">
+                <span><b>C)</b> have got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="d" data-ans="a">
+                <span><b>D)</b> does have got</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">8. ______ you ______ a good time at the concert last night?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="a" data-ans="c">
+                <span><b>A)</b> Have / got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="b" data-ans="c">
+                <span><b>B)</b> Had / got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="c" data-ans="c">
+                <span><b>C)</b> Did / have</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="d" data-ans="c">
+                <span><b>D)</b> Were / having got</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">9. In American English, how is 'I haven't got any sisters' typically expressed?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="a" data-ans="b">
+                <span><b>A)</b> I haven't any sisters.</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="b" data-ans="b">
+                <span><b>B)</b> I don't have any sisters.</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="c" data-ans="b">
+                <span><b>C)</b> I am not having sisters.</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="d" data-ans="b">
+                <span><b>D)</b> I don't got any sisters.</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">10. Have a nice trip to London! / — Thanks, I ______ you when I land.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="a" data-ans="d">
+                <span><b>A)</b> have got</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="b" data-ans="d">
+                <span><b>B)</b> am having</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="c" data-ans="d">
+                <span><b>C)</b> had</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="d" data-ans="d">
+                <span><b>D)</b> will call</span>
+              </label>
+            
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 3: 10 TRANSLATIONS -->
+    <div class="section-title">
+      <span>🌐</span> 3-Bo'lim: 10 ta Tarjima (O'zbekcha ➔ Inglizcha)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Quyidagi gaplarni mavzu qoidalariga rioya qilgan holda to'liq ingliz tiliga tarjima qiling:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. Mening yangi noutbukim bor. (have got / have bilan yozing)</div>
+          <input type="text" name="tr1" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. Sizda ortiqcha qalam bormi? (Have you got / Do you have)</div>
+          <input type="text" name="tr2" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. Uning (qiz bola) kuchli bosh og'rig'i bor. (headache)</div>
+          <input type="text" name="tr3" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. Men har kuni ertalab soat 7 da dush qabul qilaman. (have a shower - iboraviy harakat!)</div>
+          <input type="text" name="tr4" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. Kecha biz bayramda juda maroqli vaqt o'tkazdik. (had a great time)</div>
+          <input type="text" name="tr5" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. Ular o'tgan yili katta hovliga ega edilar. (had - o'tgan zamonda have got MUMKIN EMAS!)</div>
+          <input type="text" name="tr6" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. Biz hozir restoranda tushlik qilyapmiz, keyinroq qo'ng'iroq qiling. (having lunch)</div>
+          <input type="text" name="tr7" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. Mening hech qanday naqd pulim yo'q. (haven't got / don't have)</div>
+          <input type="text" name="tr8" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Uning ikkita akasi va bitta singlisi bor. (siblings)</div>
+          <input type="text" name="tr9" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. Ertaga soat 3 da shifokor bilan uchrashuvim (qabulim) bor. (have an appointment)</div>
+          <input type="text" name="tr10" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 4: 10 ERROR CORRECTIONS -->
+    <div class="section-title">
+      <span>❌</span> 4-Bo'lim: 10 ta Xatoni Tuzating (Spot & Fix the Mistake)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Har bir gapda bitta aniq grammatik xato bor. Gapni to'g'rilab, to'liq qaytadan yozing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 1. <i>"When I was a child, I had got a red bicycle."</i></div>
+          <input type="text" name="err1" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 2. <i>"I've got a shower every single morning."</i></div>
+          <input type="text" name="err2" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 3. <i>"Do you have got any brothers or sisters?"</i></div>
+          <input type="text" name="err3" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 4. <i>"She doesn't has got a driver's license."</i></div>
+          <input type="text" name="err4" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 5. <i>"We are having got dinner right now."</i></div>
+          <input type="text" name="err5" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 6. <i>"Did you had a good holiday in Spain?"</i></div>
+          <input type="text" name="err6" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 7. <i>"I am having two cars in my garage."</i></div>
+          <input type="text" name="err7" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 8. <i>"He have got a very bad cough today."</i></div>
+          <input type="text" name="err8" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 9. <i>"Have got a wonderful weekend with your family!"</i></div>
+          <input type="text" name="err9" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 10. <i>"Did you have got a pet when you lived in London?"</i></div>
+          <input type="text" name="err10" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 5: 10 FILL-IN-THE-BLANKS -->
+    <div class="section-title">
+      <span>✏️</span> 5-Bo'lim: 10 ta Bo'shliqni To'ldirish (Qavsdagi fe'llar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Qavs ichidagi fe'lni to'g'ri shaklda bo'sh joyga qo'ying:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. Be quiet, please! Father is ______ (have) a rest in the bedroom.</div>
+          <input type="text" name="blk1" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. ______ you ______ (have) any spare change for the parking machine? (UK style)</div>
+          <input type="text" name="blk2" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. Ten years ago, my grandparents ______ (have) a big garden in the countryside.</div>
+          <input type="text" name="blk3" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. Don't call Tom now; he is ______ (have) an important meeting with his director.</div>
+          <input type="text" name="blk4" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. She cannot eat peanuts because she ______ (have) a severe allergy.</div>
+          <input type="text" name="blk5" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. We always ______ (have) breakfast together at 8:00 AM on Sundays.</div>
+          <input type="text" name="blk6" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. I am sorry, but I ______ (not / have) my glasses with me right now.</div>
+          <input type="text" name="blk7" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. What time did you ______ (have) lunch yesterday afternoon?</div>
+          <input type="text" name="blk8" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Look at his new gadget! He has ______ (get) the latest smartwatch.</div>
+          <input type="text" name="blk9" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. Did they ______ (have) an argument during yesterday's discussion?</div>
+          <input type="text" name="blk10" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 6: 5 WORD ORDER / REORDERS -->
+    <div class="section-title">
+      <span>🧩</span> 6-Bo'lim: 5 ta So'zlar Tartibi (Gap Tuzing)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Aralash so'zlarni to'g'ri ketma-ketlikda joylashtirib, to'liq gap tuzing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">1. [ Have / you / got / a / valid / passport / ? ]</div>
+          <div class="q-context">💡 Ma'nosi: Sizda amal qiluvchi pasport bormi?</div>
+          <input type="text" name="ord1" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">2. [ She / doesn't / have / much / free / time / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Unda ko'p bo'sh vaqt yo'q.</div>
+          <input type="text" name="ord2" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">3. [ We / are / having / a / delicious / lunch / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Biz mazali tushlik qilyapmiz.</div>
+          <input type="text" name="ord3" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">4. [ I / had / a / dog / as / a / child / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Bolaligimda itim bo'lardi.</div>
+          <input type="text" name="ord4" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">5. [ He / hasn't / got / any / spare / money / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Unda ortiqcha pul yo'q.</div>
+          <input type="text" name="ord5" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 7: MINI WRITING / ESSAY -->
+    <div class="section-title">
+      <span>✍️</span> 7-Bo'lim: Mini Amaliy Mashq (Yozma Nutq)
+    </div>
+    <div class="card">
+      <div class="q-text">Kundalik odatlaringiz va shaxsiy buyumlaringiz haqida yozing (6-8 gap)</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        O'zingiz egalik qiladigan narsalar (have got / have), har kuni bajaradigan iboraviy harakatlaringiz (have lunch, have a shower) va bolaligingizda egalik qilgan bitta narsangiz (had) haqida yozing:
+      </p>
+      <textarea id="student-essay" class="input-field" placeholder="Masalan: I have got a new laptop and a comfortable study desk. Every morning, I have a warm shower and then I have breakfast with my family. When I was ten, I had an old bicycle..."></textarea>
+    </div>
+
+    <!-- SECTION 8: QUESTION FOR TEACHER -->
+    <div class="section-title">
+      <span>❓</span> 8-Bo'lim: Ustozga Savol
+    </div>
+    <div class="card">
+      <div class="q-text">Ushbu dars yoki vazifa bo'yicha sizda qandaydir savol yoki tushunarsiz joy bormi?</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">
+        Savolingiz bo'lsa, quyiga yozing. Ustozingiz Telegram orqali javob beradilar:
+      </p>
+      <textarea id="student-question" class="input-field" style="min-height:65px;" placeholder="Masalan: 'Ustoz, need to qolipidan keyin qanday fe'llar kelishi mumkin?...'"></textarea>
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <h3 style="color:#fff; margin-bottom:8px; font-size:1.3rem;">Vazifani topshirishga tayyormisiz?</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+        Barcha javoblarni tekshirib chiqing va quyidagi tugmani bosing. Natijangiz avtomatik ravishda ustozingizga jo'natiladi.
+      </p>
+      <button id="submit-btn" class="submit-btn" onclick="submitHomework()">Vazifani Topshirish 🚀</button>
+      <div id="toast-msg" class="toast"></div>
+    </div>
+  </main>
+
+  <script>
+    // PRONUNCIATION / TTS AUDIO PLAYER
+    function speakWord(text, e) {
+      if (e) e.stopPropagation();
+      if (!text) return;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.86;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Kechirasiz, qurilmangiz yoki brauzeringiz ovozli talaffuzni qo'llab-quvvatlamaydi.");
+      }
+    }
+
+    const STORAGE_KEY = "hw_have_vs_have_got_b1";
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem(STORAGE_KEY + '_name') || localStorage.getItem('ulunur_student_name');
+      if (savedName) document.getElementById('student-name').value = savedName;
+
+      // Auto restore inputs
+      document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        const key = STORAGE_KEY + '_' + (input.id || input.name);
+        const saved = localStorage.getItem(key);
+        if (saved && !input.value) input.value = saved;
+        input.addEventListener('input', () => {
+          localStorage.setItem(key, input.value);
+        });
+      });
+
+      // Auto restore radios
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const key = STORAGE_KEY + '_' + radio.name;
+        const saved = localStorage.getItem(key);
+        if (saved === radio.value) radio.checked = true;
+        radio.addEventListener('change', () => {
+          localStorage.setItem(key, radio.value);
+        });
+      });
+    });
+
+    function submitHomework() {
+      const nameInput = document.getElementById("student-name");
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem('ulunur_student_name', name);
+      localStorage.setItem(STORAGE_KEY + '_name', name);
+
+      // Evaluate Vocab MCQs
+      let vqDone = 0;
+      for (let i = 1; i <= 15; i++) {
+        const sel = document.querySelector('input[name="vq' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          vqDone++;
+        }
+      }
+
+      // Evaluate Grammar MCQs
+      let mcqDone = 0;
+      for (let i = 1; i <= 10; i++) {
+        const sel = document.querySelector('input[name="q' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          mcqDone++;
+        }
+      }
+
+      // Collect inputs
+      const transAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="tr' + i + '"]');
+        transAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const errorAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="err' + i + '"]');
+        errorAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const blankAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="blk' + i + '"]');
+        blankAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const reorderAnswers = [];
+      for (let i = 1; i <= 5; i++) {
+        const el = document.querySelector('input[name="ord' + i + '"]');
+        reorderAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const essay = document.getElementById("student-essay").value.trim();
+      const question = document.getElementById("student-question").value.trim();
+
+      const transDone = transAnswers.filter(t => t.length > 3).length;
+      const errorDone = errorAnswers.filter(e => e.length > 3).length;
+      const blankDone = blankAnswers.filter(b => b.length > 2).length;
+      const reorderDone = reorderAnswers.filter(r => r.length > 3).length;
+
+      // Preliminary score
+      let score = 40;
+      score += (mcqDone * 2.5); // max 25
+      score += (vqDone * 1.0);  // max 15
+      score += (transDone * 1.0); // max 10
+      score += (errorDone * 0.5); // max 5
+      if (essay.length > 20) score += 5;
+      score = Math.min(100, Math.round(score));
+
+      let transText = "";
+      transAnswers.forEach((t, i) => { if (t) transText += (i + 1) + ") <i>" + t + "</i>\n"; });
+      if (!transText) transText = "<i>(Bajarilmadi)</i>\n";
+
+      let errorText = "";
+      errorAnswers.forEach((e, i) => { if (e) errorText += (i + 1) + ") <i>" + e + "</i>\n"; });
+      if (!errorText) errorText = "<i>(Bajarilmadi)</i>\n";
+
+      let blankText = "";
+      blankAnswers.forEach((b, i) => { if (b) blankText += (i + 1) + ") <i>" + b + "</i>\n"; });
+      if (!blankText) blankText = "<i>(Bajarilmadi)</i>\n";
+
+      let reorderText = "";
+      reorderAnswers.forEach((r, i) => { if (r) reorderText += (i + 1) + ") <i>" + r + "</i>\n"; });
+      if (!reorderText) reorderText = "<i>(Bajarilmadi)</i>\n";
+
+      const payloadText = "🚀 <b>UYGA VAZIFA TOPSHIRILDI (B1 Daraja)!</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzu:</b> Have vs Have Got: Possession, Actions & Differences\n" +
+        "🎯 <b>Dastlabki Baho:</b> <b>" + score + "/100</b>\n" +
+        "⏰ <b>Vaqt:</b> " + new Date().toLocaleString() + "\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n\n" +
+        "📖 <b>Lug'at Testi:</b> " + vqDone + "/15 ta to'g'ri\n" +
+        "🎯 <b>Grammatika MCQ:</b> " + mcqDone + "/10 ta to'g'ri\n\n" +
+        "🌐 <b>Tarjimalar (" + transDone + "/10):</b>\n" + transText + "\n" +
+        "❌ <b>Tuzatilgan Xatolar (" + errorDone + "/10):</b>\n" + errorText + "\n" +
+        "✏️ <b>Bo'shliqlar (" + blankDone + "/10):</b>\n" + blankText + "\n" +
+        "🧩 <b>Gap tuzish (" + reorderDone + "/5):</b>\n" + reorderText + "\n" +
+        "✍️ <b>Yozma Mashq:</b>\n<i>\"" + (essay ? essay.substring(0, 220) + (essay.length > 220 ? '...' : '') : '(Yozilmadi)') + "\"</i>\n\n" +
+        "❓ <b>Ustozga Savol:</b>\n<i>\"" + (question || '(Savol yoq)') + "\"</i>\n\n" +
+        "🤖 <i>TeacherOS Avtopilot</i>";
+
+      const btn = document.getElementById("submit-btn");
+      const toast = document.getElementById("toast-msg");
+      btn.disabled = true;
+      btn.textContent = "Ustozga yuborilmoqda...";
+
+      const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+      const TEACHER_ID = "6315515792";
+      const FALLBACK_ID = "7957347033";
+
+      fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TEACHER_ID, text: payloadText, parse_mode: "HTML" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+          toast.style.display = "block";
+          toast.style.background = "rgba(16, 185, 129, 0.15)";
+          toast.style.border = "1px solid var(--emerald)";
+          toast.style.color = "#6ee7b7";
+          toast.innerHTML = "🎉 Ajoyib! Vazifangiz ustozingizga muvaffaqiyatli yetkazildi!";
+          btn.textContent = "Yuborildi ✅";
+        } else {
+          return fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: FALLBACK_ID, text: payloadText, parse_mode: "HTML" })
+          }).then(r2 => r2.json()).then(d2 => {
+            if (d2.ok) {
+              confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+              toast.style.display = "block";
+              toast.style.color = "#6ee7b7";
+              toast.innerHTML = "🎉 Vazifangiz yetkazildi!";
+              btn.textContent = "Yuborildi ✅";
+            } else {
+              toast.style.display = "block";
+              toast.style.color = "#fca5a5";
+              toast.innerHTML = "⚠️ Xatolik: " + d.description;
+              btn.disabled = false;
+              btn.textContent = "Qayta urinish 🔄";
+            }
+          });
+        }
+      })
+      .catch(e => {
+        toast.style.display = "block";
+        toast.style.color = "#fca5a5";
+        toast.innerHTML = "⚠️ Internet aloqasida xatolik.";
+        btn.disabled = false;
+        btn.textContent = "Qayta urinish 🔄";
+      });
+    }
+  </script>
+</body>
+</html>

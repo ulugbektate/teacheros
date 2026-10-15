@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Present Simple (Future Meaning) — Uyga Vazifa (A1-A2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+
+    :root {
+      --bg: #070d18;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.9rem 1.5rem;
+    }
+    .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--primary-glow); }
+    .badge { font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+
+    main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-title { font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero-sub { color: var(--text-muted); font-size: 0.92rem; }
+
+    .rule-box {
+      margin-top: 1.3rem;
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+    }
+    .rule-box h4 { color: #fff; margin-bottom: 6px; font-size: 1rem; }
+    .rule-box p { color: var(--text-muted); margin-bottom: 6px; }
+    .formula-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 4px 0;
+    }
+
+    /* VOCABULARY GRID */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .vocab-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+    }
+    .vocab-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: rgba(30, 41, 59, 0.8);
+    }
+    .vocab-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .vocab-word { font-weight: 800; font-size: 1rem; color: #fff; }
+    .vocab-pos { font-size: 0.72rem; color: var(--accent); font-weight: 600; text-transform: uppercase; }
+    .vocab-uz { color: #6ee7b7; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .vocab-ex { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-left: 2px solid rgba(99, 102, 241, 0.4); padding-left: 6px; margin-top: 4px; }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .section-title span {
+      background: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .q-text { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.8rem; color: #fff; }
+    .q-context { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+
+    /* MCQs */
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    @media(min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+    .option-label {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .option-label:hover { border-color: var(--primary); background: var(--card-hover); }
+    .option-label input { accent-color: var(--primary); }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus { border-color: var(--border-focus); box-shadow: 0 0 10px var(--primary-glow); }
+    textarea.input-field { min-height: 85px; resize: vertical; }
+
+    .err-box {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid var(--rose);
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.92rem;
+      color: #fca5a5;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .word-tag {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+
+    .student-info-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .submit-bar {
+      margin-top: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      text-align: center;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.8);
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 38px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transition: all 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--primary-glow);
+    }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .toast {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">🚆</div>
+        <span>Ulunur's English</span>
+      </a>
+      <div class="badge">A1-A2 Daraja</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO CARD -->
+    <div class="hero-card">
+      <h1 class="hero-title">Present Simple: Future Meaning (Jadvallar & Vaqtlar)</h1>
+      <p class="hero-sub">Poyezdlar, samolyotlar, filmlar, darslar va rasmiy ish vaqtlari uchun kelasi zamon ma'nosi</p>
+
+      <div class="rule-box">
+        <h4>💡 Grammatika Qoidasi va Asosiy Mohiyat:</h4>
+        
+    <p>Ingliz tilida <b>rasmiy jadvallar (timetables)</b>, transport qatnovi va belgilangan umumiy vaqtlar uchun <b>Present Simple</b> ishlatiladi (shaxsiy niyat yoki spontan qarorlar uchun EMAS!).</p>
+    <div style="margin:8px 0;">
+      <span class="formula-badge">Formula: I / You / We / They + V1</span> &nbsp;
+      <span class="formula-badge">He / She / It + V1 + s/es</span>
+    </div>
+    <p style="color:#6ee7b7; font-weight:600; margin-top:6px;">
+      ✅ "The train leaves at 08:30 tomorrow." <i>(Poyezd ertaga 8:30 da jo'naydi — rasmiy jadval)</i><br>
+      ✅ "What time does the film start tonight?" <i>(Film bugun kechqurun nechada boshlanadi?)</i><br>
+      ❌ "The train will leave at 08:30 tomorrow." <i>(Jadval uchun 'will' ishlatilmaydi)</i>
+    </p>
+  
+      </div>
+    </div>
+
+    <!-- STUDENT INFO BOX -->
+    <div class="student-info-box">
+      <label style="display:block; font-weight:700; margin-bottom:8px; font-size:0.95rem; color:#fff;">
+        👤 O'quvchi Ism va Familiyasi:
+      </label>
+      <input type="text" id="student-name" class="input-field" placeholder="Masalan: Anvar Karimov" style="max-width:400px;">
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">
+        Vazifa topshirilganda natijangiz to'g'ridan-to'g'ri ustozingizning Telegramiga boradi.
+      </p>
+    </div>
+
+    <!-- VOCABULARY SECTION -->
+    <div class="section-title">
+      <span>📖</span> 15 ta Yangi Mavzu Lug'ati (A1-A2 Daraja)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        Mavzuni to'liq tushunish va vazifalarni mustahkam bajarish uchun ushbu 15 ta kalit so'zni o'rganing:
+      </p>
+      <div class="vocab-grid">
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">timetable</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">harakat/dars jadvali</div>
+            <div class="vocab-ex">"Check the train timetable before you leave."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">schedule</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">kun tartibi, reja jadvali</div>
+            <div class="vocab-ex">"The bus is running on schedule."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">depart</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">jo'nab ketmoq</div>
+            <div class="vocab-ex">"The morning train departs at 07:00."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">arrive</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">yetib kelmoq</div>
+            <div class="vocab-ex">"What time does our flight arrive?"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">platform</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">perron, platforma</div>
+            <div class="vocab-ex">"The Samarkand train leaves from platform 2."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">passenger</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">yo'lovchi</div>
+            <div class="vocab-ex">"Passengers must show their tickets."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">flight</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">parvoz, reys</div>
+            <div class="vocab-ex">"My flight lands in Istanbul at 14:30."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">ticket office</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">chiptaxona</div>
+            <div class="vocab-ex">"Buy your pass at the ticket office."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">delay</span>
+              <span class="vocab-pos">verb / noun</span>
+            </div>
+            <div class="vocab-uz">kechikmoq, kechikish</div>
+            <div class="vocab-ex">"There is a 20-minute delay today."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">station</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">vokzal, bekat</div>
+            <div class="vocab-ex">"Meet me at the central station."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">board</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">(transportga) chiqmoq</div>
+            <div class="vocab-ex">"We board the plane at 10:15."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">gate</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">chiqish eshigi (aeroportda)</div>
+            <div class="vocab-ex">"Go to gate 4 for your flight."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">luggage</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">yuk, bagaj</div>
+            <div class="vocab-ex">"Take your luggage to the counter."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">journey</span>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">sayohat, yo'l</div>
+            <div class="vocab-ex">"Have a safe journey to Bukhara!"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <span class="vocab-word">cancel</span>
+              <span class="vocab-pos">verb</span>
+            </div>
+            <div class="vocab-uz">bekor qilmoq</div>
+            <div class="vocab-ex">"The evening train is canceled."</div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- VOCABULARY PRACTICE QUIZ -->
+    <div class="section-title">
+      <span>🔤</span> 1-Bo'lim: 15 ta Lug'at Testi (So'zlarni tekshirish)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Yangi 15 ta so'zdan to'g'ri variantni tanlang:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">1. Poyezd yoki darslarning rasmiy vaqt ko'rsatkichi nima deyiladi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="a" data-ans="b">
+                  <span><b>A)</b> ticket</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="b" data-ans="b">
+                  <span><b>B)</b> timetable</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="c" data-ans="b">
+                  <span><b>C)</b> luggage</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="d" data-ans="b">
+                  <span><b>D)</b> passenger</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">2. 'Jo'nab ketmoq' fe'lining inglizcha rasmiy tarjimasi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="a" data-ans="a">
+                  <span><b>A)</b> depart</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="b" data-ans="a">
+                  <span><b>B)</b> arrive</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="c" data-ans="a">
+                  <span><b>C)</b> board</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="d" data-ans="a">
+                  <span><b>D)</b> delay</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">3. Poyezd kutib turiladigan maydoncha / perron:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="a" data-ans="b">
+                  <span><b>A)</b> gate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="b" data-ans="b">
+                  <span><b>B)</b> platform</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="c" data-ans="b">
+                  <span><b>C)</b> station</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="d" data-ans="b">
+                  <span><b>D)</b> schedule</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">4. Poyezd yoki samolyotda sayohat qiluvchi odam:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="a" data-ans="c">
+                  <span><b>A)</b> delay</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="b" data-ans="c">
+                  <span><b>B)</b> ticket office</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="c" data-ans="c">
+                  <span><b>C)</b> passenger</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="d" data-ans="c">
+                  <span><b>D)</b> luggage</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">5. Samolyotning havoga ko'tarilib uchishi yoki parvozi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="a" data-ans="a">
+                  <span><b>A)</b> flight</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="b" data-ans="a">
+                  <span><b>B)</b> journey</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="c" data-ans="a">
+                  <span><b>C)</b> station</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="d" data-ans="a">
+                  <span><b>D)</b> timetable</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">6. Chipta sotib olinadigan joy:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="a" data-ans="a">
+                  <span><b>A)</b> ticket office</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="b" data-ans="a">
+                  <span><b>B)</b> platform</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="c" data-ans="a">
+                  <span><b>C)</b> gate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="d" data-ans="a">
+                  <span><b>D)</b> luggage</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">7. Transportning rejalashtirilgan vaqtdan kech qolishi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="a" data-ans="d">
+                  <span><b>A)</b> depart</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="b" data-ans="d">
+                  <span><b>B)</b> arrive</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="c" data-ans="d">
+                  <span><b>C)</b> cancel</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="d" data-ans="d">
+                  <span><b>D)</b> delay</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">8. Aeroportda samolyotga chiqish eshigi / yo'lagi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="a" data-ans="b">
+                  <span><b>A)</b> platform</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="b" data-ans="b">
+                  <span><b>B)</b> gate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="c" data-ans="b">
+                  <span><b>C)</b> station</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="d" data-ans="b">
+                  <span><b>D)</b> schedule</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">9. Samolyot yoki poyezdga chiqish, minish fe'li:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="a" data-ans="a">
+                  <span><b>A)</b> board</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="b" data-ans="a">
+                  <span><b>B)</b> cancel</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="c" data-ans="a">
+                  <span><b>C)</b> depart</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="d" data-ans="a">
+                  <span><b>D)</b> delay</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">10. Sayohat sumkalari, chamadonlar yig'indisi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="a" data-ans="c">
+                  <span><b>A)</b> timetable</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="b" data-ans="c">
+                  <span><b>B)</b> schedule</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="c" data-ans="c">
+                  <span><b>C)</b> luggage</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="d" data-ans="c">
+                  <span><b>D)</b> passenger</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">11. Bir joydan ikkinchi joyga qilingan safar / yo'l:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="a" data-ans="a">
+                  <span><b>A)</b> journey</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="b" data-ans="a">
+                  <span><b>B)</b> station</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="c" data-ans="a">
+                  <span><b>C)</b> gate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="d" data-ans="a">
+                  <span><b>D)</b> platform</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">12. Reys yoki poyezd butunlay to'xtatildi, ya'ni:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="a" data-ans="b">
+                  <span><b>A)</b> delayed</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="b" data-ans="b">
+                  <span><b>B)</b> canceled</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="c" data-ans="b">
+                  <span><b>C)</b> arrived</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="d" data-ans="b">
+                  <span><b>D)</b> boarded</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">13. Kutilgan manzilga yetib kelish fe'li:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="a" data-ans="c">
+                  <span><b>A)</b> depart</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="b" data-ans="c">
+                  <span><b>B)</b> leave</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="c" data-ans="c">
+                  <span><b>C)</b> arrive</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="d" data-ans="c">
+                  <span><b>D)</b> cancel</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">14. Katta vokzal yoki bekat:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="a" data-ans="b">
+                  <span><b>A)</b> gate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="b" data-ans="b">
+                  <span><b>B)</b> station</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="c" data-ans="b">
+                  <span><b>C)</b> luggage</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="d" data-ans="b">
+                  <span><b>D)</b> journey</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">15. Kun tartibi, belgilangan reja jadvali:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="a" data-ans="a">
+                  <span><b>A)</b> schedule</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="b" data-ans="a">
+                  <span><b>B)</b> ticket office</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="c" data-ans="a">
+                  <span><b>C)</b> platform</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="d" data-ans="a">
+                  <span><b>D)</b> flight</span>
+                </label>
+              
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 2: 10 GRAMMAR MCQS (BALANCED OPTIONS) -->
+    <div class="section-title">
+      <span>🎯</span> 2-Bo'lim: 10 ta Tanlov Testi (Grammatika & Nozikliklar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Har bir savolda bitta to'g'ri variant mavjud. Variantlar (A, B, C, D) teng aralashtirilgan:
+      </p>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">1. The morning train to Samarkand ______ at 07:30 tomorrow.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="a" data-ans="c">
+                <span><b>A)</b> is going to leave</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="b" data-ans="c">
+                <span><b>B)</b> leaving</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="c" data-ans="c">
+                <span><b>C)</b> leaves</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="d" data-ans="c">
+                <span><b>D)</b> will leave</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">2. What time ______ the film ______ tonight?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="a" data-ans="a">
+                <span><b>A)</b> does / start</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="b" data-ans="a">
+                <span><b>B)</b> is / starting</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="c" data-ans="a">
+                <span><b>C)</b> will / start</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="d" data-ans="a">
+                <span><b>D)</b> do / starts</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">3. Our plane ______ in Tashkent at 16:45 on Friday.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="a" data-ans="d">
+                <span><b>A)</b> is landing</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="b" data-ans="d">
+                <span><b>B)</b> land</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="c" data-ans="d">
+                <span><b>C)</b> shall land</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="d" data-ans="d">
+                <span><b>D)</b> lands</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">4. The library ______ at 18:00 today. We should hurry up!</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="a" data-ans="b">
+                <span><b>A)</b> close</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="b" data-ans="b">
+                <span><b>B)</b> closes</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="c" data-ans="b">
+                <span><b>C)</b> is closing</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="d" data-ans="b">
+                <span><b>D)</b> will close</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">5. The autumn term ______ on September 2nd.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="a" data-ans="c">
+                <span><b>A)</b> is beginning</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="b" data-ans="c">
+                <span><b>B)</b> will begin</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="c" data-ans="c">
+                <span><b>C)</b> begins</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="d" data-ans="c">
+                <span><b>D)</b> begin</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">6. When ______ the supermarket ______ tomorrow morning?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="a" data-ans="a">
+                <span><b>A)</b> does / open</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="b" data-ans="a">
+                <span><b>B)</b> is / open</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="c" data-ans="a">
+                <span><b>C)</b> will / open</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="d" data-ans="a">
+                <span><b>D)</b> do / opens</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">7. The last bus tonight ______ at midnight.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="a" data-ans="d">
+                <span><b>A)</b> is departing</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="b" data-ans="d">
+                <span><b>B)</b> depart</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="c" data-ans="d">
+                <span><b>C)</b> will depart</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="d" data-ans="d">
+                <span><b>D)</b> departs</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">8. Hurry up! The museum ______ in twenty minutes.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="a" data-ans="b">
+                <span><b>A)</b> will shut</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="b" data-ans="b">
+                <span><b>B)</b> shuts</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="c" data-ans="b">
+                <span><b>C)</b> shutting</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="d" data-ans="b">
+                <span><b>D)</b> is shutting</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">9. Tomorrow ______ Sunday, so the banks are closed.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="a" data-ans="c">
+                <span><b>A)</b> will be</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="b" data-ans="c">
+                <span><b>B)</b> is being</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="c" data-ans="c">
+                <span><b>C)</b> is</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="d" data-ans="c">
+                <span><b>D)</b> shall be</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">10. What time ______ our flight ______ at the gate?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="a" data-ans="a">
+                <span><b>A)</b> does / board</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="b" data-ans="a">
+                <span><b>B)</b> is / boards</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="c" data-ans="a">
+                <span><b>C)</b> will / board</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="d" data-ans="a">
+                <span><b>D)</b> do / boarding</span>
+              </label>
+            
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 3: 10 TRANSLATIONS -->
+    <div class="section-title">
+      <span>🌐</span> 3-Bo'lim: 10 ta Tarjima (O'zbekcha ➔ Inglizcha)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Quyidagi gaplarni mavzu qoidalariga rioya qilgan holda to'liq ingliz tiliga tarjima qiling:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. Poyezd ertaga ertalab soat 08:30 da jo'naydi.</div>
+          <input type="text" name="tr1" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. Film bugun kechqurun soat 19:00 da boshlanadi.</div>
+          <input type="text" name="tr2" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. Bizning samolyotimiz ertaga soat 06:15 da qo'nadi.</div>
+          <input type="text" name="tr3" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. Do'kon ertaga soat nechada ochiladi?</div>
+          <input type="text" name="tr4" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. Darslar dushanba kuni soat 09:00 da boshlanadi.</div>
+          <input type="text" name="tr5" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. Avtobus bu bekatga soat 14:40 da yetib keladi.</div>
+          <input type="text" name="tr6" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. Kutubxona bugun soat 20:00 da yopiladi.</div>
+          <input type="text" name="tr7" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. Muzey yakshanba kunlari ishlamaydi.</div>
+          <input type="text" name="tr8" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Yangi o'quv semestri qachon tugaydi?</div>
+          <input type="text" name="tr9" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. Ertaga poyezdimiz 5-platformadan jo'naydi.</div>
+          <input type="text" name="tr10" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 4: 10 ERROR CORRECTIONS -->
+    <div class="section-title">
+      <span>❌</span> 4-Bo'lim: 10 ta Xatoni Tuzating (Spot & Fix the Mistake)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Har bir gapda bitta aniq grammatik xato bor. Gapni to'g'rilab, to'liq qaytadan yozing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 1. <i>"The train will leave at 6:00 tomorrow morning."</i></div>
+          <input type="text" name="err1" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 2. <i>"What time is the supermarket opening tomorrow?"</i></div>
+          <input type="text" name="err2" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 3. <i>"Our flight depart at 7:30 PM."</i></div>
+          <input type="text" name="err3" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 4. <i>"The concert is start at 8:00 sharp."</i></div>
+          <input type="text" name="err4" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 5. <i>"Does the bank opens at 9:00 AM?"</i></div>
+          <input type="text" name="err5" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 6. <i>"The bus don't stop at this station tomorrow."</i></div>
+          <input type="text" name="err6" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 7. <i>"Next lesson will be begin at 11:00."</i></div>
+          <input type="text" name="err7" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 8. <i>"When do the train arrive in Samarkand?"</i></div>
+          <input type="text" name="err8" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 9. <i>"The cinema is going to close at 11:00 PM tonight."</i></div>
+          <input type="text" name="err9" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 10. <i>"The football match finish at 18:00."</i></div>
+          <input type="text" name="err10" class="input-field" placeholder="To'g'rilangan gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 5: 10 FILL-IN-THE-BLANKS -->
+    <div class="section-title">
+      <span>✏️</span> 5-Bo'lim: 10 ta Bo'shliqni To'ldirish (Qavsdagi fe'llar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Qavs ichidagi fe'lni to'g'ri shaklda bo'sh joyga qo'ying:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. The morning train to Bukhara ______ (depart) at 07:15.</div>
+          <input type="text" name="blk1" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. What time ______ the film ______ (start) tonight?</div>
+          <input type="text" name="blk2" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. The plane ______ (not / arrive) until 10:00 PM.</div>
+          <input type="text" name="blk3" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. The museum ______ (open) at 09:00 tomorrow.</div>
+          <input type="text" name="blk4" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. School ______ (finish) at 14:00 on Fridays.</div>
+          <input type="text" name="blk5" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. When ______ your lesson ______ (begin) tomorrow?</div>
+          <input type="text" name="blk6" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. The last bus ______ (leave) from platform 3.</div>
+          <input type="text" name="blk7" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. The post office ______ (close) in 30 minutes.</div>
+          <input type="text" name="blk8" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Next term ______ (start) on September 15th.</div>
+          <input type="text" name="blk9" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. The bank ______ (not / open) on Sundays.</div>
+          <input type="text" name="blk10" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 6: 5 WORD ORDER / REORDERS -->
+    <div class="section-title">
+      <span>🧩</span> 6-Bo'lim: 5 ta So'zlar Tartibi (Gap Tuzing)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Aralash so'zlarni to'g'ri ketma-ketlikda joylashtirib, to'liq gap tuzing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">1. [ The / train / leaves / at / 08:00 / tomorrow / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Ertaga poyezd soat 8:00 da jo'naydi.</div>
+          <input type="text" name="ord1" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">2. [ What / time / does / the / match / start / ? ]</div>
+          <div class="q-context">💡 Ma'nosi: O'yin soat nechada boshlanadi?</div>
+          <input type="text" name="ord2" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">3. [ Our / flight / lands / at / 15:30 / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Reysimiz 15:30 da qo'nadi.</div>
+          <input type="text" name="ord3" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">4. [ The / supermarket / closes / at / 22:00 / tonight / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Supermarket bugun soat 22:00 da yopiladi.</div>
+          <input type="text" name="ord4" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">5. [ When / does / the / bus / arrive / ? ]</div>
+          <div class="q-context">💡 Ma'nosi: Avtobus qachon yetib keladi?</div>
+          <input type="text" name="ord5" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 7: MINI WRITING / ESSAY -->
+    <div class="section-title">
+      <span>✍️</span> 7-Bo'lim: Mini Amaliy Mashq (Yozma Nutq)
+    </div>
+    <div class="card">
+      <div class="q-text">Ertangi kuningizdagi rasmiy jadvallar haqida yozing (4-5 ta gap)</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        Ertaga qaysi transport qatnaydi, darsingiz yoki do'kon nechada ochiladi/yopiladi? Present Simple qoidasidan foydalanib yozing:
+      </p>
+      <textarea id="student-essay" class="input-field" placeholder="Masalan: Tomorrow my bus leaves at 07:45. My first lesson starts at 08:30. The school library closes at 16:00..."></textarea>
+    </div>
+
+    <!-- SECTION 8: QUESTION FOR TEACHER -->
+    <div class="section-title">
+      <span>❓</span> 8-Bo'lim: Ustozga Savol
+    </div>
+    <div class="card">
+      <div class="q-text">Ushbu dars yoki vazifa bo'yicha sizda qandaydir savol yoki tushunarsiz joy bormi?</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">
+        Savolingiz bo'lsa, quyiga yozing. Ustozingiz Telegram orqali javob beradilar:
+      </p>
+      <textarea id="student-question" class="input-field" style="min-height:65px;" placeholder="Masalan: 'Ustoz, do'kon vaqtlarida doim Present Simple ishlatiladimi?...'"></textarea>
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <h3 style="color:#fff; margin-bottom:8px; font-size:1.3rem;">Vazifani topshirishga tayyormisiz?</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+        Barcha javoblarni tekshirib chiqing va quyidagi tugmani bosing. Natijangiz avtomatik ravishda ustozingizga jo'natiladi.
+      </p>
+      <button id="submit-btn" class="submit-btn" onclick="submitHomework()">Vazifani Topshirish 🚀</button>
+      <div id="toast-msg" class="toast"></div>
+    </div>
+  </main>
+
+  <script>
+    // LOCAL STORAGE AUTO-RESTORE
+    const STORAGE_KEY = "hw_present_simple_future";
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem(STORAGE_KEY + '_name') || localStorage.getItem('ulunur_student_name');
+      if (savedName) document.getElementById('student-name').value = savedName;
+
+      // Auto restore inputs
+      document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        const key = STORAGE_KEY + '_' + (input.id || input.name);
+        const saved = localStorage.getItem(key);
+        if (saved && !input.value) input.value = saved;
+        input.addEventListener('input', () => {
+          localStorage.setItem(key, input.value);
+        });
+      });
+
+      // Auto restore radios
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const key = STORAGE_KEY + '_' + radio.name;
+        const saved = localStorage.getItem(key);
+        if (saved === radio.value) radio.checked = true;
+        radio.addEventListener('change', () => {
+          localStorage.setItem(key, radio.value);
+        });
+      });
+    });
+
+    function submitHomework() {
+      const nameInput = document.getElementById("student-name");
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem('ulunur_student_name', name);
+      localStorage.setItem(STORAGE_KEY + '_name', name);
+
+      // Evaluate Vocab MCQs
+      let vqDone = 0;
+      for (let i = 1; i <= 15; i++) {
+        const sel = document.querySelector('input[name="vq' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          vqDone++;
+        }
+      }
+
+      // Evaluate Grammar MCQs
+      let mcqDone = 0;
+      for (let i = 1; i <= 10; i++) {
+        const sel = document.querySelector('input[name="q' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          mcqDone++;
+        }
+      }
+
+      // Collect inputs
+      const transAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="tr' + i + '"]');
+        transAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const errorAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="err' + i + '"]');
+        errorAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const blankAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="blk' + i + '"]');
+        blankAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const reorderAnswers = [];
+      for (let i = 1; i <= 5; i++) {
+        const el = document.querySelector('input[name="ord' + i + '"]');
+        reorderAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const essay = document.getElementById("student-essay").value.trim();
+      const question = document.getElementById("student-question").value.trim();
+
+      const transDone = transAnswers.filter(t => t.length > 3).length;
+      const errorDone = errorAnswers.filter(e => e.length > 3).length;
+      const blankDone = blankAnswers.filter(b => b.length > 2).length;
+      const reorderDone = reorderAnswers.filter(r => r.length > 3).length;
+
+      // Preliminary score
+      let score = 40;
+      score += (mcqDone * 2.5); // max 25
+      score += (vqDone * 1.0);  // max 15
+      score += (transDone * 1.0); // max 10
+      score += (errorDone * 0.5); // max 5
+      if (essay.length > 20) score += 5;
+      score = Math.min(100, Math.round(score));
+
+      let transText = "";
+      transAnswers.forEach((t, i) => { if (t) transText += (i + 1) + ") <i>" + t + "</i>\n"; });
+      if (!transText) transText = "<i>(Bajarilmadi)</i>\n";
+
+      let errorText = "";
+      errorAnswers.forEach((e, i) => { if (e) errorText += (i + 1) + ") <i>" + e + "</i>\n"; });
+      if (!errorText) errorText = "<i>(Bajarilmadi)</i>\n";
+
+      let blankText = "";
+      blankAnswers.forEach((b, i) => { if (b) blankText += (i + 1) + ") <i>" + b + "</i>\n"; });
+      if (!blankText) blankText = "<i>(Bajarilmadi)</i>\n";
+
+      let reorderText = "";
+      reorderAnswers.forEach((r, i) => { if (r) reorderText += (i + 1) + ") <i>" + r + "</i>\n"; });
+      if (!reorderText) reorderText = "<i>(Bajarilmadi)</i>\n";
+
+      const payloadText = "🚀 <b>UYGA VAZIFA TOPSHIRILDI (A1-A2 Daraja)!</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzu:</b> Present Simple: Future Meaning (Jadvallar & Vaqtlar)\n" +
+        "🎯 <b>Dastlabki Baho:</b> <b>" + score + "/100</b>\n" +
+        "⏰ <b>Vaqt:</b> " + new Date().toLocaleString() + "\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n\n" +
+        "📖 <b>Lug'at Testi:</b> " + vqDone + "/15 ta to'g'ri\n" +
+        "🎯 <b>Grammatika MCQ:</b> " + mcqDone + "/10 ta to'g'ri\n\n" +
+        "🌐 <b>Tarjimalar (" + transDone + "/10):</b>\n" + transText + "\n" +
+        "❌ <b>Tuzatilgan Xatolar (" + errorDone + "/10):</b>\n" + errorText + "\n" +
+        "✏️ <b>Bo'shliqlar (" + blankDone + "/10):</b>\n" + blankText + "\n" +
+        "🧩 <b>Gap tuzish (" + reorderDone + "/5):</b>\n" + reorderText + "\n" +
+        "✍️ <b>Yozma Mashq:</b>\n<i>\"" + (essay ? essay.substring(0, 220) + (essay.length > 220 ? '...' : '') : '(Yozilmadi)') + "\"</i>\n\n" +
+        "❓ <b>Ustozga Savol:</b>\n<i>\"" + (question || '(Savol yoq)') + "\"</i>\n\n" +
+        "🤖 <i>TeacherOS Avtopilot</i>";
+
+      const btn = document.getElementById("submit-btn");
+      const toast = document.getElementById("toast-msg");
+      btn.disabled = true;
+      btn.textContent = "Ustozga yuborilmoqda...";
+
+      const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+      const TEACHER_ID = "6315515792";
+      const FALLBACK_ID = "7957347033";
+
+      fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TEACHER_ID, text: payloadText, parse_mode: "HTML" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+          toast.style.display = "block";
+          toast.style.background = "rgba(16, 185, 129, 0.15)";
+          toast.style.border = "1px solid var(--emerald)";
+          toast.style.color = "#6ee7b7";
+          toast.innerHTML = "🎉 Ajoyib! Vazifangiz ustozingizga muvaffaqiyatli yetkazildi!";
+          btn.textContent = "Yuborildi ✅";
+        } else {
+          return fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: FALLBACK_ID, text: payloadText, parse_mode: "HTML" })
+          }).then(r2 => r2.json()).then(d2 => {
+            if (d2.ok) {
+              confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+              toast.style.display = "block";
+              toast.style.color = "#6ee7b7";
+              toast.innerHTML = "🎉 Vazifangiz yetkazildi!";
+              btn.textContent = "Yuborildi ✅";
+            } else {
+              toast.style.display = "block";
+              toast.style.color = "#fca5a5";
+              toast.innerHTML = "⚠️ Xatolik: " + d.description;
+              btn.disabled = false;
+              btn.textContent = "Qayta urinish 🔄";
+            }
+          });
+        }
+      })
+      .catch(e => {
+        toast.style.display = "block";
+        toast.style.color = "#fca5a5";
+        toast.innerHTML = "⚠️ Internet aloqasida xatolik.";
+        btn.disabled = false;
+        btn.textContent = "Qayta urinish 🔄";
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,2710 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Simple — Uyga Vazifa & 30 Noto'g'ri Fe'llar (A1-A2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+
+    :root {
+      --bg: #070d18;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.9rem 1.5rem;
+    }
+    .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--primary-glow); }
+    .badge { font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+
+    main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-title { font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero-sub { color: var(--text-muted); font-size: 0.92rem; }
+
+    .rule-box {
+      margin-top: 1.3rem;
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+    }
+    .rule-box h4 { color: #fff; margin-bottom: 6px; font-size: 1rem; }
+    .rule-box p { color: var(--text-muted); margin-bottom: 6px; }
+    .formula-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: #a5b4fc;
+      margin: 4px 0;
+    }
+
+    /* IRREGULAR VERBS TABLE */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    table.verb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+      background: rgba(15, 23, 42, 0.6);
+    }
+    table.verb-table th {
+      background: rgba(30, 41, 59, 0.9);
+      padding: 10px 14px;
+      color: #a5b4fc;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    table.verb-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    table.verb-table tr:hover {
+      background: rgba(99, 102, 241, 0.08);
+    }
+    .v-num { color: var(--text-muted); font-size: 0.75rem; font-weight: 600; }
+    .v-base { font-weight: 700; color: #fff; }
+    .v-past { font-weight: 700; color: #6ee7b7; }
+    .v-part { font-weight: 700; color: #fbbf24; }
+    .v-uz { color: #cbd5e1; font-size: 0.82rem; }
+
+    /* VOCABULARY GRID */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .vocab-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+    }
+    .vocab-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: rgba(30, 41, 59, 0.8);
+    }
+    .vocab-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .vocab-word-group { display: flex; align-items: center; gap: 8px; }
+    .vocab-word { font-weight: 800; font-size: 1rem; color: #fff; }
+    .vocab-pos { font-size: 0.72rem; color: var(--accent); font-weight: 600; text-transform: uppercase; }
+    .vocab-uz { color: #6ee7b7; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .vocab-ex { font-size: 0.78rem; color: var(--text-muted); font-style: italic; border-left: 2px solid rgba(99, 102, 241, 0.4); padding-left: 6px; margin-top: 4px; }
+
+    /* SPEAKER BUTTONS (AUDIO PRONUNCIATION) */
+    .speaker-btn {
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #c7d2fe;
+      cursor: pointer;
+      border-radius: 7px;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.2s ease;
+      vertical-align: middle;
+    }
+    .speaker-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: scale(1.12);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .speaker-btn:active {
+      transform: scale(0.95);
+    }
+    .speaker-btn-sm {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin-left: 5px;
+      transition: all 0.15s ease;
+      vertical-align: middle;
+    }
+    .speaker-btn-sm:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: scale(1.15);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .section-title span {
+      background: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .q-text { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.8rem; color: #fff; }
+    .q-context { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+
+    /* MCQs */
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    @media(min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+    .option-label {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .option-label:hover { border-color: var(--primary); background: var(--card-hover); }
+    .option-label input { accent-color: var(--primary); }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus { border-color: var(--border-focus); box-shadow: 0 0 10px var(--primary-glow); }
+    textarea.input-field { min-height: 85px; resize: vertical; }
+
+    .err-box {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid var(--rose);
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.92rem;
+      color: #fca5a5;
+    }
+
+    .student-info-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .submit-bar {
+      margin-top: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      text-align: center;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.8);
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 38px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transition: all 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--primary-glow);
+    }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .toast {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">⏳</div>
+        <span>Ulunur's English</span>
+      </a>
+      <div class="badge">A1-A2 Daraja</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO CARD -->
+    <div class="hero-card">
+      <h1 class="hero-title">Past Simple: O'tgan Zamon & Noto'g'ri Fe'llar</h1>
+      <p class="hero-sub">To'g'ri (Regular) va Noto'g'ri (Irregular) fe'llar, 3 ta ustun jadvali hamda Didn't / Did qoidalari</p>
+
+      <div class="rule-box">
+        <h4>💡 Grammatika Qoidasi va Asosiy Mohiyat:</h4>
+        <p><b>1. To'g'ri fe'llar (Regular Verbs):</b> Fe'lga <b>-ed</b> qo'shiladi: <i>watch $\rightarrow$ watched, play $\rightarrow$ played, study $\rightarrow$ studied, stop $\rightarrow$ stopped</i>.</p>
+        <p><b>2. Noto'g'ri fe'llar (Irregular Verbs):</b> Maxsus jadval orqali o'zgaradi: <i>go $\rightarrow$ went, buy $\rightarrow$ bought, see $\rightarrow$ saw</i>.</p>
+        
+        <div style="margin:10px 0;">
+          <span class="formula-badge">(+) Darak gap: Egasi + V2</span> ➔ <i>"I saw him yesterday." / "She watched TV."</i><br>
+          <span class="formula-badge">(-) Inkor gap: didn't + V1</span> ➔ <i>"I didn't see him."</i> (NOT <i>didn't saw</i> ❌)<br>
+          <span class="formula-badge">(?) So'roq gap: Did + egasi + V1?</span> ➔ <i>"Did you see him?"</i> (NOT <i>Did you saw</i> ❌)
+        </div>
+        <p style="color:#6ee7b7; font-weight:600; margin-top:6px;">
+          ⚠️ <b>Oltin qoida:</b> Inkor (<i>didn't</i>) va so'roq (<i>did</i>) gaplarda fe'l har doim o'zining <b>1-shakliga (V1)</b> qaytadi!
+        </p>
+      </div>
+    </div>
+
+    <!-- STUDENT INFO BOX -->
+    <div class="student-info-box">
+      <label style="display:block; font-weight:700; margin-bottom:8px; font-size:0.95rem; color:#fff;">
+        👤 O'quvchi Ism va Familiyasi:
+      </label>
+      <input type="text" id="student-name" class="input-field" placeholder="Masalan: Madina Karimova" style="max-width:400px;">
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:6px;">
+        Vazifa topshirilganda natijangiz to'g'ridan-to'g'ri ustozingizning Telegramiga boradi.
+      </p>
+    </div>
+
+    <!-- 30 IRREGULAR VERBS TABLE WITH AUDIO SPEAKERS -->
+    <div class="section-title">
+      <span>📋</span> 30 ta Eng Muhim Noto'g'ri Fe'llar Jadvali (Talaffuzi bilan 🔊)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        Har bir fe'l yonidagi <b>karnaycha (🔊)</b> tugmasini bosib, uning to'g'ri talaffuzini eshiting va takrorlang:
+      </p>
+      <div class="table-container">
+        <table class="verb-table">
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>1-Ustun (V1)</th>
+              <th>2-Ustun (V2)</th>
+              <th>3-Ustun (V3)</th>
+              <th>O'zbekcha Ma'nosi</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td class="v-num">1</td>
+                <td>
+                  <span class="v-base">be</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('be')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">was / were</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('was')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">been</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('been')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">bo'lmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">2</td>
+                <td>
+                  <span class="v-base">go</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('go')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">went</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('went')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">gone</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('gone')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">bormoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">3</td>
+                <td>
+                  <span class="v-base">do</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('do')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">did</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('did')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">done</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('done')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">qilmoq, bajarmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">4</td>
+                <td>
+                  <span class="v-base">have</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('have')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">had</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('had')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">had</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('had')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">ega bo'lmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">5</td>
+                <td>
+                  <span class="v-base">see</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('see')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">saw</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('saw')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">seen</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('seen')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">ko'rmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">6</td>
+                <td>
+                  <span class="v-base">get</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('get')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">got</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('got')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">got</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('got')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">olmoq, yetib bormoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">7</td>
+                <td>
+                  <span class="v-base">make</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('make')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">made</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('made')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">made</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('made')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">yasamoq, tayyorlamoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">8</td>
+                <td>
+                  <span class="v-base">say</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('say')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">said</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('said')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">said</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('said')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">aytmoq, demoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">9</td>
+                <td>
+                  <span class="v-base">come</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('come')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">came</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('came')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">come</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('come')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">kelmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">10</td>
+                <td>
+                  <span class="v-base">take</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('take')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">took</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('took')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">taken</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('taken')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">olmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">11</td>
+                <td>
+                  <span class="v-base">give</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('give')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">gave</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('gave')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">given</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('given')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">bermoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">12</td>
+                <td>
+                  <span class="v-base">buy</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('buy')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">bought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('bought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">bought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('bought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">sotib olmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">13</td>
+                <td>
+                  <span class="v-base">eat</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('eat')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">ate</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('ate')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">eaten</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('eaten')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">yemoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">14</td>
+                <td>
+                  <span class="v-base">drink</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('drink')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">drank</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('drank')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">drunk</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('drunk')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">ichmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">15</td>
+                <td>
+                  <span class="v-base">sleep</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('sleep')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">slept</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('slept')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">slept</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('slept')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">uxlamoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">16</td>
+                <td>
+                  <span class="v-base">write</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('write')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">wrote</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('wrote')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">written</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('written')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">yozmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">17</td>
+                <td>
+                  <span class="v-base">read</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('read')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">read (red)</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('read')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">read (red)</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('read')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">o'qimoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">18</td>
+                <td>
+                  <span class="v-base">speak</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('speak')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">spoke</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('spoke')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">spoken</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('spoken')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">gapirmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">19</td>
+                <td>
+                  <span class="v-base">meet</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('meet')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">met</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('met')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">met</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('met')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">uchrashmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">20</td>
+                <td>
+                  <span class="v-base">find</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('find')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">found</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('found')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">found</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('found')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">topmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">21</td>
+                <td>
+                  <span class="v-base">tell</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('tell')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">told</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('told')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">told</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('told')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">aytmoq, so'zlab bermoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">22</td>
+                <td>
+                  <span class="v-base">hear</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('hear')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">heard</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('heard')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">heard</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('heard')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">eshitmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">23</td>
+                <td>
+                  <span class="v-base">know</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('know')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">knew</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('knew')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">known</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('known')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">bilmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">24</td>
+                <td>
+                  <span class="v-base">leave</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('leave')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">left</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('left')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">left</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('left')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">tark etmoq, chiqib ketmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">25</td>
+                <td>
+                  <span class="v-base">put</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('put')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">put</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('put')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">put</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('put')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">qo'ymoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">26</td>
+                <td>
+                  <span class="v-base">think</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('think')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">thought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('thought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">thought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('thought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">o'ylamoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">27</td>
+                <td>
+                  <span class="v-base">bring</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('bring')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">brought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('brought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">brought</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('brought')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">olib kelmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">28</td>
+                <td>
+                  <span class="v-base">run</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('run')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">ran</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('ran')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">run</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('run')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">yugurmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">29</td>
+                <td>
+                  <span class="v-base">understand</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('understand')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">understood</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('understood')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">understood</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('understood')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">tushunmoq</td>
+              </tr>
+            
+              <tr>
+                <td class="v-num">30</td>
+                <td>
+                  <span class="v-base">lose</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('lose')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-past">lost</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('lost')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td>
+                  <span class="v-part">lost</span>
+                  <button type="button" class="speaker-btn-sm" onclick="speakWord('lost')" title="Eshiting"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg></button>
+                </td>
+                <td class="v-uz">yo'qotmoq</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VOCABULARY SECTION WITH AUDIO BUTTONS -->
+    <div class="section-title">
+      <span>📖</span> 15 ta O'tgan Zamon Lug'ati (Talaffuzi bilan 🔊)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        O'tgan zamon hikoyalarida ishlatiladigan 15 ta kalit so'z. Talaffuzni eshitish uchun karnaychani bosing:
+      </p>
+      <div class="vocab-grid">
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">yesterday</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('yesterday')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adverb</span>
+            </div>
+            <div class="vocab-uz">kecha</div>
+            <div class="vocab-ex">"I visited my grandmother yesterday."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">last night</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('last night')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">phrase</span>
+            </div>
+            <div class="vocab-uz">kecha kechqurun / tunda</div>
+            <div class="vocab-ex">"They watched a movie last night."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">last weekend</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('last weekend')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">phrase</span>
+            </div>
+            <div class="vocab-uz">o'tgan dam olish kunlari</div>
+            <div class="vocab-ex">"We went to Samarkand last weekend."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">two days ago</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('two days ago')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">phrase</span>
+            </div>
+            <div class="vocab-uz">ikki kun oldin</div>
+            <div class="vocab-ex">"She bought a new dress two days ago."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">suddenly</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('suddenly')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adverb</span>
+            </div>
+            <div class="vocab-uz">to'satdan, birdaniga</div>
+            <div class="vocab-ex">"Suddenly, it started to rain heavily."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">finally</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('finally')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adverb</span>
+            </div>
+            <div class="vocab-uz">nihoyat, oxir-oqibat</div>
+            <div class="vocab-ex">"Finally, the bus arrived at the station."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">morning</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('morning')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">tong, ertalabki vaqt</div>
+            <div class="vocab-ex">"I drank two cups of tea in the morning."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">afternoon</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('afternoon')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">tushdan keyingi vaqt</div>
+            <div class="vocab-ex">"We played tennis in the afternoon."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">evening</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('evening')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">oqshom, kechqurun</div>
+            <div class="vocab-ex">"He called me yesterday evening."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">accident</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('accident')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">baxtsiz hodisa, tasodif</div>
+            <div class="vocab-ex">"There was a car accident on the main road."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">trip</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('trip')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">sayohat, safar</div>
+            <div class="vocab-ex">"Did you enjoy your trip to Bukhara?"</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">party</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('party')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">ziyofat, kecha</div>
+            <div class="vocab-ex">"We met many old friends at the party."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">holiday</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('holiday')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">noun</span>
+            </div>
+            <div class="vocab-uz">ta'til, bayram</div>
+            <div class="vocab-ex">"They spent their summer holiday in the mountains."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">delicious</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('delicious')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adjective</span>
+            </div>
+            <div class="vocab-uz">juda mazali</div>
+            <div class="vocab-ex">"My mother cooked delicious plov yesterday."</div>
+          </div>
+        
+          <div class="vocab-card">
+            <div class="vocab-head">
+              <div class="vocab-word-group">
+                <span class="vocab-word">tired</span>
+                <button type="button" class="speaker-btn" onclick="speakWord('tired')" title="Talaffuzni eshitish">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+                </button>
+              </div>
+              <span class="vocab-pos">adjective</span>
+            </div>
+            <div class="vocab-uz">charchagan, toliqqan</div>
+            <div class="vocab-ex">"I worked all day and felt very tired."</div>
+          </div>
+        
+      </div>
+    </div>
+
+    <!-- SECTION 1: VERB & VOCAB DRILL MCQS -->
+    <div class="section-title">
+      <span>⚡</span> 1-Bo'lim: 15 ta Noto'g'ri Fe'llar va Lug'at Testi
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Jadvaldagi 30 ta fe'l shakllari va yangi 15 ta lug'at bo'yicha to'g'ri variantni tanlang:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">1. 'buy' (sotib olmoq) fe'lining Past Simple (V2) shakli qaysi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="a" data-ans="b">
+                  <span><b>A)</b> buyed</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="b" data-ans="b">
+                  <span><b>B)</b> bought</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="c" data-ans="b">
+                  <span><b>C)</b> boughten</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq1" value="d" data-ans="b">
+                  <span><b>D)</b> buys</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">2. 'go' (bormoq) fe'lining Past Participle (V3) shakli qaysi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="a" data-ans="c">
+                  <span><b>A)</b> went</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="b" data-ans="c">
+                  <span><b>B)</b> goed</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="c" data-ans="c">
+                  <span><b>C)</b> gone</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq2" value="d" data-ans="c">
+                  <span><b>D)</b> going</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">3. 'see' (ko'rmoq) fe'lining Past Simple (V2) shakli qaysi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="a" data-ans="a">
+                  <span><b>A)</b> saw</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="b" data-ans="a">
+                  <span><b>B)</b> seen</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="c" data-ans="a">
+                  <span><b>C)</b> seed</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq3" value="d" data-ans="a">
+                  <span><b>D)</b> sawed</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">4. 'take' (olmoq) fe'lining 3 ta shakli qaysi qatorda to'g'ri ko'rsatilgan?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="a" data-ans="d">
+                  <span><b>A)</b> take - tooked - taken</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="b" data-ans="d">
+                  <span><b>B)</b> take - taken - took</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="c" data-ans="d">
+                  <span><b>C)</b> take - taked - taked</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq4" value="d" data-ans="d">
+                  <span><b>D)</b> take - took - taken</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">5. 'eat' (yemoq) fe'lining Past Simple (V2) shakli:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="a" data-ans="b">
+                  <span><b>A)</b> eaten</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="b" data-ans="b">
+                  <span><b>B)</b> ate</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="c" data-ans="b">
+                  <span><b>C)</b> eated</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq5" value="d" data-ans="b">
+                  <span><b>D)</b> ates</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">6. 'sleep' (uxlamoq) fe'lining Past Simple (V2) shakli:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="a" data-ans="b">
+                  <span><b>A)</b> sleeped</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="b" data-ans="b">
+                  <span><b>B)</b> slept</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="c" data-ans="b">
+                  <span><b>C)</b> slepted</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq6" value="d" data-ans="b">
+                  <span><b>D)</b> sleeping</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">7. 'write' (yozmoq) fe'lining V2 va V3 shakllari:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="a" data-ans="b">
+                  <span><b>A)</b> writed - writen</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="b" data-ans="b">
+                  <span><b>B)</b> wrote - written</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="c" data-ans="b">
+                  <span><b>C)</b> written - wrote</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq7" value="d" data-ans="b">
+                  <span><b>D)</b> wrote - wrote</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">8. 'make' (yasamoq, tayyorlamoq) fe'lining Past Simple shakli:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="a" data-ans="c">
+                  <span><b>A)</b> maked</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="b" data-ans="c">
+                  <span><b>B)</b> making</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="c" data-ans="c">
+                  <span><b>C)</b> made</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq8" value="d" data-ans="c">
+                  <span><b>D)</b> maded</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">9. 'find' (topmoq) fe'lining Past Simple shakli:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="a" data-ans="a">
+                  <span><b>A)</b> found</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="b" data-ans="a">
+                  <span><b>B)</b> finded</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="c" data-ans="a">
+                  <span><b>C)</b> founded</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq9" value="d" data-ans="a">
+                  <span><b>D)</b> finding</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">10. 'come' (kelmoq) fe'lining Past Simple (V2) shakli:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="a" data-ans="b">
+                  <span><b>A)</b> comed</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="b" data-ans="b">
+                  <span><b>B)</b> came</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="c" data-ans="b">
+                  <span><b>C)</b> coming</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq10" value="d" data-ans="b">
+                  <span><b>D)</b> cames</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">11. 'yesterday' so'zining o'zbekcha tarjimasi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="a" data-ans="c">
+                  <span><b>A)</b> ertaga</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="b" data-ans="c">
+                  <span><b>B)</b> bugun</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="c" data-ans="c">
+                  <span><b>C)</b> kecha</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq11" value="d" data-ans="c">
+                  <span><b>D)</b> indin</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">12. 'two days ago' iborasi nimani anglatadi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="a" data-ans="b">
+                  <span><b>A)</b> ikki kundan keyin</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="b" data-ans="b">
+                  <span><b>B)</b> ikki kun oldin</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="c" data-ans="b">
+                  <span><b>C)</b> ikki kunda</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq12" value="d" data-ans="b">
+                  <span><b>D)</b> har ikki kunda</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">13. 'suddenly' so'zining ma'nosi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="a" data-ans="d">
+                  <span><b>A)</b> sekin-asta</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="b" data-ans="d">
+                  <span><b>B)</b> nihoyat</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="c" data-ans="d">
+                  <span><b>C)</b> doimo</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq13" value="d" data-ans="d">
+                  <span><b>D)</b> to'satdan, birdaniga</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">14. 'finally' so'zining to'g'ri ma'nosi:</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="a" data-ans="a">
+                  <span><b>A)</b> nihoyat, oxir-oqibat</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="b" data-ans="a">
+                  <span><b>B)</b> avvalboshda</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="c" data-ans="a">
+                  <span><b>C)</b> ba'zan</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq14" value="d" data-ans="a">
+                  <span><b>D)</b> hech qachon</span>
+                </label>
+              
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <div class="q-text">15. 'delicious' so'zi nimani tasvirlash uchun ishlatiladi?</div>
+          <div class="options-grid">
+            
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="a" data-ans="c">
+                  <span><b>A)</b> og'ir yukni</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="b" data-ans="c">
+                  <span><b>B)</b> issiq havoni</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="c" data-ans="c">
+                  <span><b>C)</b> juda mazali taomni</span>
+                </label>
+              
+                <label class="option-label">
+                  <input type="radio" name="vq15" value="d" data-ans="c">
+                  <span><b>D)</b> charchagan odamni</span>
+                </label>
+              
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 2: 10 GRAMMAR MCQS -->
+    <div class="section-title">
+      <span>🎯</span> 2-Bo'lim: 10 ta Tanlov Testi (Grammatika & Qoidalar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Past Simple qoidalari bo'yicha eng to'g'ri variantni tanlang (Variantlar A, B, C, D teng aralashtirilgan):
+      </p>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">1. Yesterday evening, Anvar ______ to the cinema with his friends.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="a" data-ans="b">
+                <span><b>A)</b> goed</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="b" data-ans="b">
+                <span><b>B)</b> went</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="c" data-ans="b">
+                <span><b>C)</b> goes</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q1" value="d" data-ans="b">
+                <span><b>D)</b> was go</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">2. I ______ the movie last night because I was very tired.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="a" data-ans="d">
+                <span><b>A)</b> didn't watched</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="b" data-ans="d">
+                <span><b>B)</b> not watch</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="c" data-ans="d">
+                <span><b>C)</b> wasn't watch</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q2" value="d" data-ans="d">
+                <span><b>D)</b> didn't watch</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">3. ______ you ______ Dilnoza at the library two days ago?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="a" data-ans="a">
+                <span><b>A)</b> Did / see</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="b" data-ans="a">
+                <span><b>B)</b> Did / saw</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="c" data-ans="a">
+                <span><b>C)</b> Do / see</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q3" value="d" data-ans="a">
+                <span><b>D)</b> Were / saw</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">4. My sister ______ English for two hours yesterday afternoon.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="a" data-ans="c">
+                <span><b>A)</b> studyed</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="b" data-ans="c">
+                <span><b>B)</b> studies</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="c" data-ans="c">
+                <span><b>C)</b> studied</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q4" value="d" data-ans="c">
+                <span><b>D)</b> study</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">5. We ______ delicious plov at the restaurant yesterday.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="a" data-ans="b">
+                <span><b>A)</b> eated</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="b" data-ans="b">
+                <span><b>B)</b> ate</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="c" data-ans="b">
+                <span><b>C)</b> eat</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q5" value="d" data-ans="b">
+                <span><b>D)</b> were eat</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">6. What time ______ your brother ______ home yesterday?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="a" data-ans="d">
+                <span><b>A)</b> did / came</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="b" data-ans="d">
+                <span><b>B)</b> does / came</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="c" data-ans="d">
+                <span><b>C)</b> did / comes</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q6" value="d" data-ans="d">
+                <span><b>D)</b> did / come</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">7. Malika ______ a new laptop last weekend.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="a" data-ans="a">
+                <span><b>A)</b> bought</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="b" data-ans="a">
+                <span><b>B)</b> buyed</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="c" data-ans="a">
+                <span><b>C)</b> buys</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q7" value="d" data-ans="a">
+                <span><b>D)</b> was buy</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">8. The bus suddenly ______ in the middle of the street.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="a" data-ans="c">
+                <span><b>A)</b> stoped</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="b" data-ans="c">
+                <span><b>B)</b> stops</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="c" data-ans="c">
+                <span><b>C)</b> stopped</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q8" value="d" data-ans="c">
+                <span><b>D)</b> is stop</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">9. They ______ to the concert because they didn't have tickets.</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="a" data-ans="b">
+                <span><b>A)</b> didn't went</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="b" data-ans="b">
+                <span><b>B)</b> didn't go</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="c" data-ans="b">
+                <span><b>C)</b> weren't go</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q9" value="d" data-ans="b">
+                <span><b>D)</b> not went</span>
+              </label>
+            
+          </div>
+        </div>
+      
+        <div style="margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+          <div class="q-text">10. Where ______ you ______ on holiday last summer?</div>
+          <div class="options-grid">
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="a" data-ans="d">
+                <span><b>A)</b> did / went</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="b" data-ans="d">
+                <span><b>B)</b> were / go</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="c" data-ans="d">
+                <span><b>C)</b> did / gone</span>
+              </label>
+            
+              <label class="option-label">
+                <input type="radio" name="q10" value="d" data-ans="d">
+                <span><b>D)</b> did / go</span>
+              </label>
+            
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- SECTION 3: 10 TRANSLATIONS -->
+    <div class="section-title">
+      <span>🌐</span> 3-Bo'lim: 10 ta Tarjima (O'zbekcha ➔ Inglizcha)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Quyidagi gaplarni Past Simple qoidalariga rioya qilib to'liq ingliz tiliga tarjima qiling:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. Men kecha do'stim bilan kinoga bordim.</div>
+          <input type="text" name="tr1" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. U (qiz bola) o'tgan hafta yangi kitob sotib oldi.</div>
+          <input type="text" name="tr2" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. Biz kecha kechqurun televizor ko'rmadik.</div>
+          <input type="text" name="tr3" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. Siz kecha ertalab nonushta qildingizmi?</div>
+          <input type="text" name="tr4" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. Akam o'tgan dam olish kunlari mashinasini yuvdi.</div>
+          <input type="text" name="tr5" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. Ular ikki kun oldin Toshkentdan qaytib keldilar.</div>
+          <input type="text" name="tr6" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. Men kecha telefonimni yo'qotib qo'ydim, lekin bugun topdim.</div>
+          <input type="text" name="tr7" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. Siz o'tgan yozda qayerda dam oldingiz?</div>
+          <input type="text" name="tr8" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Oshpaz kecha juda mazali taom pishirdi.</div>
+          <input type="text" name="tr9" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. U imtihonga 3 soat davomida tayyorlandi (dars qildi).</div>
+          <input type="text" name="tr10" class="input-field" placeholder="Inglizcha tarjimangizni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 4: 10 ERROR CORRECTIONS -->
+    <div class="section-title">
+      <span>❌</span> 4-Bo'lim: 10 ta Xatoni Tuzating (Spot & Fix the Mistake)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Har bir gapda bitta aniq o'tgan zamon xatosi bor. Gapni to'g'rilab, to'liq qaytadan yozing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 1. <i>"She didn't went to school yesterday."</i></div>
+          <input type="text" name="err1" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 2. <i>"Did you saw the new teacher in the morning?"</i></div>
+          <input type="text" name="err2" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 3. <i>"My brother buyed a red bicycle two days ago."</i></div>
+          <input type="text" name="err3" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 4. <i>"We eated delicious pizza last night."</i></div>
+          <input type="text" name="err4" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 5. <i>"I didn't slept well yesterday evening."</i></div>
+          <input type="text" name="err5" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 6. <i>"Did they played football after lessons?"</i></div>
+          <input type="text" name="err6" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 7. <i>"He comed home very late last night."</i></div>
+          <input type="text" name="err7" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 8. <i>"She stoped the car near the pharmacy."</i></div>
+          <input type="text" name="err8" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 9. <i>"Did you bought any fresh bread at the bakery?"</i></div>
+          <input type="text" name="err9" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="err-box">❌ 10. <i>"I writed a long letter to my penfriend."</i></div>
+          <input type="text" name="err10" class="input-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 5: 10 FILL-IN-THE-BLANKS -->
+    <div class="section-title">
+      <span>✏️</span> 5-Bo'lim: 10 ta Bo'shliqni To'ldirish (Qavsdagi fe'llar)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Qavs ichidagi fe'lni Past Simple qoidasiga ko'ra to'g'ri shaklda yozing:
+      </p>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">1. Yesterday, I ______ (meet) my old classmate in the city centre.</div>
+          <input type="text" name="blk1" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">2. We ______ (not / watch) the football match last night.</div>
+          <input type="text" name="blk2" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">3. ______ you ______ (sleep) well yesterday?</div>
+          <input type="text" name="blk3" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">4. She ______ (take) many beautiful photos during the trip.</div>
+          <input type="text" name="blk4" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">5. My father ______ (drive) carefully because of the heavy rain.</div>
+          <input type="text" name="blk5" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">6. They ______ (not / have) enough time to finish the test.</div>
+          <input type="text" name="blk6" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">7. What time ______ the lesson ______ (finish) yesterday?</div>
+          <input type="text" name="blk7" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">8. He ______ (give) me a very interesting book two days ago.</div>
+          <input type="text" name="blk8" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">9. Suddenly, a loud noise ______ (wake) up the baby.</div>
+          <input type="text" name="blk9" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.2rem;">
+          <div class="q-text">10. I ______ (leave) my keys on the table this morning.</div>
+          <input type="text" name="blk10" class="input-field" placeholder="To'g'ri shaklini yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 6: 5 WORD ORDER / REORDERS -->
+    <div class="section-title">
+      <span>🧩</span> 6-Bo'lim: 5 ta So'zlar Tartibi (Gap Tuzing)
+    </div>
+    <div class="card">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:15px;">
+        Aralash so'zlarni to'g'ri ketma-ketlikda joylashtirib, to'liq gap tuzing:
+      </p>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">1. [ went / to / yesterday / We / Samarkand / . ]</div>
+          <div class="q-context">💡 Ma'nosi: Biz kecha Samarqandga bordik.</div>
+          <input type="text" name="ord1" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">2. [ Did / you / last / night / call / him / ? ]</div>
+          <div class="q-context">💡 Ma'nosi: Siz kecha kechqurun unga qo'ng'iroq qildingizmi?</div>
+          <input type="text" name="ord2" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">3. [ didn't / She / her / homework / do / . ]</div>
+          <div class="q-context">💡 Ma'nosi: U uy vazifasini qilmadi.</div>
+          <input type="text" name="ord3" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">4. [ bought / a / He / two / phone / days / new / ago / . ]</div>
+          <div class="q-context">💡 Ma'nosi: U ikki kun oldin yangi telefon sotib oldi.</div>
+          <input type="text" name="ord4" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+        <div style="margin-bottom: 1.3rem;">
+          <div class="q-text">5. [ What / you / did / yesterday / eat / ? ]</div>
+          <div class="q-context">💡 Ma'nosi: Siz kecha nima yedingiz?</div>
+          <input type="text" name="ord5" class="input-field" placeholder="To'g'ri gapni yozing...">
+        </div>
+      
+    </div>
+
+    <!-- SECTION 7: MINI STORY / ESSAY -->
+    <div class="section-title">
+      <span>✍️</span> 7-Bo'lim: Mini Hikoya (Kecha nima qildingiz?)
+    </div>
+    <div class="card">
+      <div class="q-text">"What did you do yesterday?" (Kecha qanday kun o'tkazdingiz?)</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+        Kechagi kuningiz haqida 5-6 ta gap yozing. Kamida 3 ta to'g'ri (regular: <i>watched, played...</i>) va 3 ta noto'g'ri (irregular: <i>went, ate, bought, met...</i>) fe'ldan foydalaning:
+      </p>
+      <textarea id="student-essay" class="input-field" placeholder="Masalan: Yesterday I woke up at 7:30. In the morning, I ate delicious pancakes and drank tea. Then I went to school and met my friends. In the evening, I watched a funny movie and studied English..."></textarea>
+    </div>
+
+    <!-- SECTION 8: QUESTION FOR TEACHER -->
+    <div class="section-title">
+      <span>❓</span> 8-Bo'lim: Ustozga Savol
+    </div>
+    <div class="card">
+      <div class="q-text">Ushbu dars yoki fe'llar jadvali bo'yicha savolingiz bormi?</div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">
+        Savolingiz bo'lsa, quyiga yozing. Ustozingiz Telegram orqali javob beradilar:
+      </p>
+      <textarea id="student-question" class="input-field" style="min-height:65px;" placeholder="Masalan: 'Ustoz, read fe'lining 2-shakli nima uchun red deb o'qiladi?...'"></textarea>
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <h3 style="color:#fff; margin-bottom:8px; font-size:1.3rem;">Vazifani topshirishga tayyormisiz?</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+        Barcha javoblarni tekshirib chiqing va quyidagi tugmani bosing. Natijangiz avtomatik ravishda ustozingizga jo'natiladi.
+      </p>
+      <button id="submit-btn" class="submit-btn" onclick="submitHomework()">Vazifani Topshirish 🚀</button>
+      <div id="toast-msg" class="toast"></div>
+    </div>
+  </main>
+
+  <script>
+    // PRONUNCIATION / TTS AUDIO PLAYER
+    function speakWord(text, e) {
+      if (e) e.stopPropagation();
+      if (!text) return;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.86;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Kechirasiz, qurilmangiz yoki brauzeringiz ovozli talaffuzni qo'llab-quvvatlamaydi.");
+      }
+    }
+
+    const STORAGE_KEY = "hw_past_simple_a1";
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem(STORAGE_KEY + '_name') || localStorage.getItem('ulunur_student_name');
+      if (savedName) document.getElementById('student-name').value = savedName;
+
+      // Auto restore inputs
+      document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        const key = STORAGE_KEY + '_' + (input.id || input.name);
+        const saved = localStorage.getItem(key);
+        if (saved && !input.value) input.value = saved;
+        input.addEventListener('input', () => {
+          localStorage.setItem(key, input.value);
+        });
+      });
+
+      // Auto restore radios
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const key = STORAGE_KEY + '_' + radio.name;
+        const saved = localStorage.getItem(key);
+        if (saved === radio.value) radio.checked = true;
+        radio.addEventListener('change', () => {
+          localStorage.setItem(key, radio.value);
+        });
+      });
+    });
+
+    function submitHomework() {
+      const nameInput = document.getElementById("student-name");
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem('ulunur_student_name', name);
+      localStorage.setItem(STORAGE_KEY + '_name', name);
+
+      // Evaluate Vocab & Verb Drill MCQs
+      let vqDone = 0;
+      for (let i = 1; i <= 15; i++) {
+        const sel = document.querySelector('input[name="vq' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          vqDone++;
+        }
+      }
+
+      // Evaluate Grammar MCQs
+      let mcqDone = 0;
+      for (let i = 1; i <= 10; i++) {
+        const sel = document.querySelector('input[name="q' + i + '"]:checked');
+        if (sel && sel.value === sel.getAttribute('data-ans')) {
+          mcqDone++;
+        }
+      }
+
+      // Collect inputs
+      const transAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="tr' + i + '"]');
+        transAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const errorAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="err' + i + '"]');
+        errorAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const blankAnswers = [];
+      for (let i = 1; i <= 10; i++) {
+        const el = document.querySelector('input[name="blk' + i + '"]');
+        blankAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const reorderAnswers = [];
+      for (let i = 1; i <= 5; i++) {
+        const el = document.querySelector('input[name="ord' + i + '"]');
+        reorderAnswers.push(el ? el.value.trim() : "");
+      }
+
+      const essay = document.getElementById("student-essay").value.trim();
+      const question = document.getElementById("student-question").value.trim();
+
+      const transDone = transAnswers.filter(t => t.length > 3).length;
+      const errorDone = errorAnswers.filter(e => e.length > 3).length;
+      const blankDone = blankAnswers.filter(b => b.length > 2).length;
+      const reorderDone = reorderAnswers.filter(r => r.length > 3).length;
+
+      // Preliminary score
+      let score = 40;
+      score += (mcqDone * 2.5); // max 25
+      score += (vqDone * 1.0);  // max 15
+      score += (transDone * 1.0); // max 10
+      score += (errorDone * 0.5); // max 5
+      if (essay.length > 20) score += 5;
+      score = Math.min(100, Math.round(score));
+
+      let transText = "";
+      transAnswers.forEach((t, i) => { if (t) transText += (i + 1) + ") <i>" + t + "</i>\n"; });
+      if (!transText) transText = "<i>(Bajarilmadi)</i>\n";
+
+      let errorText = "";
+      errorAnswers.forEach((e, i) => { if (e) errorText += (i + 1) + ") <i>" + e + "</i>\n"; });
+      if (!errorText) errorText = "<i>(Bajarilmadi)</i>\n";
+
+      let blankText = "";
+      blankAnswers.forEach((b, i) => { if (b) blankText += (i + 1) + ") <i>" + b + "</i>\n"; });
+      if (!blankText) blankText = "<i>(Bajarilmadi)</i>\n";
+
+      let reorderText = "";
+      reorderAnswers.forEach((r, i) => { if (r) reorderText += (i + 1) + ") <i>" + r + "</i>\n"; });
+      if (!reorderText) reorderText = "<i>(Bajarilmadi)</i>\n";
+
+      const payloadText = "🚀 <b>UYGA VAZIFA TOPSHIRILDI (A1-A2)!</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzu:</b> Past Simple & 30 Noto'g'ri Fe'llar (Ovozli Talaffuz bilan)\n" +
+        "🎯 <b>Dastlabki Baho:</b> <b>" + score + "/100</b>\n" +
+        "⏰ <b>Vaqt:</b> " + new Date().toLocaleString() + "\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n\n" +
+        "📋 <b>Fe'llar & Lug'at Testi:</b> " + vqDone + "/15 ta to'g'ri\n" +
+        "🎯 <b>Grammatika MCQ:</b> " + mcqDone + "/10 ta to'g'ri\n\n" +
+        "🌐 <b>Tarjimalar (" + transDone + "/10):</b>\n" + transText + "\n" +
+        "❌ <b>Tuzatilgan Xatolar (" + errorDone + "/10):</b>\n" + errorText + "\n" +
+        "✏️ <b>Bo'shliqlar (" + blankDone + "/10):</b>\n" + blankText + "\n" +
+        "🧩 <b>Gap tuzish (" + reorderDone + "/5):</b>\n" + reorderText + "\n" +
+        "✍️ <b>Mini Hikoya:</b>\n<i>\"" + (essay ? essay.substring(0, 220) + (essay.length > 220 ? '...' : '') : '(Yozilmadi)') + "\"</i>\n\n" +
+        "❓ <b>Ustozga Savol:</b>\n<i>\"" + (question || '(Savol yoq)') + "\"</i>\n\n" +
+        "🤖 <i>TeacherOS Avtopilot</i>";
+
+      const btn = document.getElementById("submit-btn");
+      const toast = document.getElementById("toast-msg");
+      btn.disabled = true;
+      btn.textContent = "Ustozga yuborilmoqda...";
+
+      const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+      const TEACHER_ID = "6315515792";
+      const FALLBACK_ID = "7957347033";
+
+      fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TEACHER_ID, text: payloadText, parse_mode: "HTML" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+          toast.style.display = "block";
+          toast.style.background = "rgba(16, 185, 129, 0.15)";
+          toast.style.border = "1px solid var(--emerald)";
+          toast.style.color = "#6ee7b7";
+          toast.innerHTML = "🎉 Ajoyib! Vazifangiz ustozingizga muvaffaqiyatli yetkazildi!";
+          btn.textContent = "Yuborildi ✅";
+        } else {
+          return fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: FALLBACK_ID, text: payloadText, parse_mode: "HTML" })
+          }).then(r2 => r2.json()).then(d2 => {
+            if (d2.ok) {
+              confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+              toast.style.display = "block";
+              toast.style.color = "#6ee7b7";
+              toast.innerHTML = "🎉 Vazifangiz yetkazildi!";
+              btn.textContent = "Yuborildi ✅";
+            } else {
+              toast.style.display = "block";
+              toast.style.color = "#fca5a5";
+              toast.innerHTML = "⚠️ Xatolik: " + d.description;
+              btn.disabled = false;
+              btn.textContent = "Qayta urinish 🔄";
+            }
+          });
+        }
+      })
+      .catch(e => {
+        toast.style.display = "block";
+        toast.style.color = "#fca5a5";
+        toast.innerHTML = "⚠️ Internet aloqasida xatolik.";
+        btn.disabled = false;
+        btn.textContent = "Qayta urinish 🔄";
+      });
+    }
+  </script>
+</body>
+</html>

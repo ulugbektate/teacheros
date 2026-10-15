@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Future Plans & Arrangements — Uyga Vazifa (A1 Daraja)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070d18;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --rose: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.9rem 1.5rem;
+    }
+    .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.15rem; }
+    .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--primary-glow); }
+    .badge { font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+
+    main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    
+    .hero-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-title { font-size: 1.7rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .hero-sub { color: var(--text-muted); font-size: 0.92rem; }
+
+    .formula-box {
+      margin-top: 1rem;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+    .formula-box b { color: #38bdf8; }
+
+    .student-input-box {
+      margin-top: 1.5rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+    }
+    .input-field {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
+
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .section-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; }
+    .section-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    .q-item { margin-bottom: 1.6rem; padding-bottom: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .q-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .q-text { font-weight: 700; font-size: 1rem; margin-bottom: 12px; color: #f1f5f9; }
+    .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+    .opt-btn {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .opt-btn:hover:not(:disabled) { background: var(--card-hover); border-color: rgba(99, 102, 241, 0.4); color: #fff; }
+    .opt-btn.correct { background: rgba(16, 185, 129, 0.18) !important; border-color: var(--emerald) !important; color: #6ee7b7 !important; }
+    .opt-btn.wrong { background: rgba(239, 68, 68, 0.18) !important; border-color: var(--rose) !important; color: #fca5a5 !important; }
+    .opt-badge { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+
+    .reorder-box { margin-bottom: 1.5rem; background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+    .reorder-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .chip-btn {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .chip-btn:hover { background: var(--primary); color: #fff; }
+    .chip-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    textarea.input-field { min-height: 100px; resize: vertical; line-height: 1.5; }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px var(--primary-glow);
+      transition: all 0.2s ease;
+      margin-top: 1.5rem;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--primary-glow); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .toast-box { margin-top: 14px; padding: 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem; display: none; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <div>TeacherOS Vazifalar</div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600;">BE GOING TO vs PRESENT CONTINUOUS</div>
+        </div>
+      </div>
+      <span class="badge">A1 DARAJA (BOSHLANG'ICH)</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-card">
+      <div style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+        📖 Uyga Vazifa
+      </div>
+      <h1 class="hero-title">Future Plans & Arrangements</h1>
+      <p class="hero-sub">
+        Kelajakdagi niyatlar (<b>be going to</b>) va aniq kelishilgan uchrashuvlar (<b>Present Continuous</b>).
+      </p>
+
+      <div class="formula-box">
+        💡 <b>Oddiy Qoidalar:</b><br>
+        1. <b>am / is / are going to + fe'l</b> ➔ <i>Shaxsiy niyat / reja</i> (Rejam bor, lekin vaqti yoki chiptasi aniq emas).<br>
+        • Masalan: <i>I am going to buy a new bicycle.</i> (Men yangi velosiped sotib olmoqchiman).<br><br>
+        2. <b>am / is / are + fe'l-ing</b> ➔ <i>Aniq kelishilgan uchrashuv / vaqtli reja</i> (Vaqti, joyi yoki boshqa odam bilan aniq gaplashilgan).<br>
+        • Masalan: <i>I am meeting my friend tomorrow at 5 PM.</i> (Ertaga soat 5da do'stim bilan ko'rishaman).
+      </div>
+
+      <div class="student-input-box">
+        <label style="font-size: 0.85rem; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px;">👤 Ism va Familiyangizni kiriting:</label>
+        <input type="text" id="student-name-input" class="input-field" placeholder="Masalan: Shaxzoda Olimova">
+      </div>
+    </div>
+
+    <!-- 1-BO'LIM: 10 ta MCQ -->
+    <section class="section-card">
+      <h2 class="section-title">🎯 1-Bo'lim: Test Savollari (10 ta Savol)</h2>
+      <p class="section-desc">Vaziyatga qarab to'g'ri variantni tanlang (am/is/are going to yoki am/is/are + ing).</p>
+      <div id="mcq-container"></div>
+    </section>
+
+    <!-- 2-BO'LIM: 10 ta TARJIMA -->
+    <section class="section-card">
+      <h2 class="section-title">🔄 2-Bo'lim: O'zbekchadan Inglizchaga Tarjima (10 ta Gap)</h2>
+      <p class="section-desc">Oddiy gaplarni inglizchaga tarjima qiling.</p>
+      <div id="trans-container"></div>
+    </section>
+
+    <!-- 3-BO'LIM: 10 ta XATOLARNI TUZATISH -->
+    <section class="section-card">
+      <h2 class="section-title">⚠️ 3-Bo'lim: Xatolarni Tuzating (10 ta Gap)</h2>
+      <p class="section-desc">Har bir gapdagi grammatik xatoni to'g'rilab, gapni to'liq qayta yozing.</p>
+      <div id="errors-container"></div>
+    </section>
+
+    <!-- 4-BO'LIM: 10 ta BO'SHLIQNI TO'LDIRISH -->
+    <section class="section-card">
+      <h2 class="section-title">🧩 4-Bo'lim: Bo'shliqlarni To'ldirish (10 ta Gap)</h2>
+      <p class="section-desc">Qavsdagi fe'lni be going to yoki Present Continuous shakliga qo'ying.</p>
+      <div id="blanks-container"></div>
+    </section>
+
+    <!-- 5-BO'LIM: 5 ta GAP TUZISH -->
+    <section class="section-card">
+      <h2 class="section-title">🔤 5-Bo'lim: So'zlardan Gap Tuzish (5 ta Mashq)</h2>
+      <p class="section-desc">So'zlarni bosib, to'g'ri gap hosil qiling.</p>
+      <div id="reorder-container"></div>
+    </section>
+
+    <!-- 6-BO'LIM: INSHO -->
+    <section class="section-card">
+      <h2 class="section-title">✍️ 6-Bo'lim: Kichik Yozma Mashq (5–6 ta Gap)</h2>
+      <p class="section-desc">
+        Mavzu: <b>"Ertangi kunim va kelasi haftadagi rejalarim"</b>.<br>
+        Ertaga nima qilmoqchi ekanligingiz haqida 5-6 ta sodda gap yozing (Masalan: <i>Tomorrow I am meeting my friend at 3 PM. In the evening, I am going to watch a movie...</i>).
+      </p>
+      <textarea id="essay-input" class="input-field" placeholder="1. Tomorrow I am going to..."></textarea>
+    </section>
+
+    <!-- 7-BO'LIM: USTOZGA SAVOL -->
+    <section class="section-card">
+      <h2 class="section-title">🙋 7-Bo'lim: Ustozga Savol</h2>
+      <p class="section-desc">Rejalar va uchrashuvlar bo'yicha tushunmagan savolingiz bo'lsa yozing:</p>
+      <textarea id="question-input" class="input-field" style="min-height: 70px;" placeholder="Ustoz, men..."></textarea>
+    </section>
+
+    <button type="button" class="btn-submit" id="submit-btn" onclick="submitHomework()">
+      Vazifani Ustozga Yuborish (Telegram) 🚀
+    </button>
+    <div id="toast-msg" class="toast-box"></div>
+  </main>
+
+  <script>
+    const MCQS = [
+      {
+        q: "I ____________ the doctor tomorrow at 3:00 PM. (I have an appointment)",
+        opts: ["am seeing", "am going to see", "seeing", "see"],
+        ans: "am seeing"
+      },
+      {
+        q: "I ____________ a new phone next month. (This is my personal plan)",
+        opts: ["am going to buy", "am buying", "buying", "buy"],
+        ans: "am going to buy"
+      },
+      {
+        q: "We ____________ dinner with my grandparents tonight at 7:00 PM.",
+        opts: ["are having", "are going to have", "having", "have"],
+        ans: "are having"
+      },
+      {
+        q: "She ____________ learn French this summer. (Her intention)",
+        opts: ["is going to", "is learning", "learning", "goes to"],
+        ans: "is going to"
+      },
+      {
+        q: "Look at my ticket! I ____________ to Dubai tomorrow morning.",
+        opts: ["am flying", "am going to fly", "flying", "fly"],
+        ans: "am flying"
+      },
+      {
+        q: "They ____________ a new computer game this weekend. (They decided)",
+        opts: ["are going to play", "are playing", "play", "playing"],
+        ans: "are going to play"
+      },
+      {
+        q: "Tom ____________ tennis with John at the club at 4:00 PM tomorrow.",
+        opts: ["is playing", "is going to play", "plays", "playing"],
+        ans: "is playing"
+      },
+      {
+        q: "What ____________ do after school today?",
+        opts: ["are you going to", "are you", "do you", "you are going to"],
+        ans: "are you going to"
+      },
+      {
+        q: "We ____________ a big birthday party on Saturday. (All friends are invited)",
+        opts: ["are having", "are going to have", "have", "having"],
+        ans: "are having"
+      },
+      {
+        q: "My brother ____________ clean his bedroom tomorrow morning. (His plan)",
+        opts: ["is going to", "is cleaning", "cleans", "cleaning"],
+        ans: "is going to"
+      }
+    ];
+
+    const TRANSLATIONS = [
+      "1. Men ertaga soat 4:00 da shifokor bilan ko'rishaman (uchrashuv bor).",
+      "2. Men kelasi hafta yangi kitob sotib olmoqchiman (niyatim bor).",
+      "3. Ular bugun kechqurun soat 19:00 da mehmonga kelishyapti (kelishilgan).",
+      "4. U (qiz bola) kelasi yili mashina haydashni o'rganmoqchi (rejasi bor).",
+      "5. Biz ertaga do'stlarimiz bilan soat 15:00 da kinoga boryapmiz (kelishib qo'ydik).",
+      "6. Men dam olish kunlarida xonamni tozalamoqchiman (rejam).",
+      "7. Chiptalarim bor, men yakshanba kuni Istanbulga uchib ketyapman.",
+      "8. Otam kelasi oyda yangi televizor sotib olmoqchi.",
+      "9. Bugun darsdan keyin Anvar bilan futbol o'ynaymiz (kelishdik).",
+      "10. Singlim ertaga onamga yordam bermoqchi (niyati bor)."
+    ];
+
+    const ERRORS = [
+      "1. I am go to visit my grandmother this weekend.",
+      "2. She is meet her teacher tomorrow at 10:00 AM.",
+      "3. We are going to flying to London tomorrow morning — here are the tickets.",
+      "4. He is going buy a new bicycle next week.",
+      "5. They is having a party on Friday night.",
+      "6. I am meeting my friend tomorrow (I haven't planned a time yet).",
+      "7. She going to cook dinner tonight.",
+      "8. We are play football tomorrow at 5 PM at the stadium.",
+      "9. What are you go to do tomorrow?",
+      "10. I am have lunch with Tom at 1:00 PM today."
+    ];
+
+    const BLANKS = [
+      { s: "1. I ____________ (meet) my English teacher tomorrow at 2:00 PM." },
+      { s: "2. He ____________ (buy) a new pair of shoes next Saturday." },
+      { s: "3. We ____________ (fly) to Paris next Monday; our tickets are ready." },
+      { s: "4. She ____________ (study) for her exam this evening." },
+      { s: "5. Tom and I ____________ (play) chess at my house at 5:00 PM today." },
+      { s: "6. My parents ____________ (paint) the kitchen walls this summer." },
+      { s: "7. I ____________ (visit) the dentist on Wednesday at 11:00 AM." },
+      { s: "8. They ____________ (watch) a new movie on Netflix tonight." },
+      { s: "9. We ____________ (have) dinner with our cousins at 6:30 PM." },
+      { s: "10. What ____________ (you / do) next Sunday?" }
+    ];
+
+    const REORDERS = [
+      {
+        words: ["I", "am", "meeting", "Tom", "at", "four", "tomorrow."],
+        correct: "I am meeting Tom at four tomorrow."
+      },
+      {
+        words: ["She", "is", "going", "to", "buy", "a", "dress."],
+        correct: "She is going to buy a dress."
+      },
+      {
+        words: ["We", "are", "flying", "to", "Dubai", "next", "week."],
+        correct: "We are flying to Dubai next week."
+      },
+      {
+        words: ["They", "are", "having", "a", "party", "on", "Saturday."],
+        correct: "They are having a party on Saturday."
+      },
+      {
+        words: ["He", "is", "going", "to", "clean", "his", "room."],
+        correct: "He is going to clean his room."
+      }
+    ];
+
+    let userMcqAnswers = {};
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderMcqs();
+      renderTranslations();
+      renderErrors();
+      renderBlanks();
+      renderReorders();
+
+      const saved = localStorage.getItem("tos_student_name");
+      if (saved) document.getElementById("student-name-input").value = saved;
+    });
+
+    function renderMcqs() {
+      const container = document.getElementById("mcq-container");
+      container.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+
+      MCQS.forEach((item, idx) => {
+        const div = document.createElement("div");
+        div.className = "q-item";
+        div.id = `mcq-item-${idx}`;
+
+        const optsHtml = item.opts.map((opt, i) => `
+          <button type="button" class="opt-btn" onclick="selectMcq(${idx}, '${opt.replace(/'/g, "\\'")}', this)">
+            <span class="opt-badge">${letters[i]}</span>
+            <span>${opt}</span>
+          </button>
+        `).join("");
+
+        div.innerHTML = `
+          <div class="q-text">${idx + 1}. ${item.q}</div>
+          <div class="options-grid">${optsHtml}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function selectMcq(qIdx, chosen, btn) {
+      const item = MCQS[qIdx];
+      const parent = document.getElementById(`mcq-item-${qIdx}`);
+      const buttons = parent.querySelectorAll(".opt-btn");
+      buttons.forEach(b => b.disabled = true);
+
+      const isCorrect = (chosen === item.ans);
+      userMcqAnswers[qIdx] = { chosen, isCorrect };
+
+      if (isCorrect) {
+        btn.classList.add("correct");
+      } else {
+        btn.classList.add("wrong");
+        buttons.forEach(b => {
+          if (b.textContent.includes(item.ans)) b.classList.add("correct");
+        });
+      }
+    }
+
+    function renderTranslations() {
+      const container = document.getElementById("trans-container");
+      container.innerHTML = "";
+      TRANSLATIONS.forEach((t, i) => {
+        container.innerHTML += `
+          <div style="margin-bottom: 1.2rem;">
+            <div style="font-weight: 700; color: #cbd5e1; font-size: 0.95rem; margin-bottom: 6px;">
+              ${t}
+            </div>
+            <input type="text" class="input-field trans-field" placeholder="Inglizcha tarjimasini yozing...">
+          </div>
+        `;
+      });
+    }
+
+    function renderErrors() {
+      const container = document.getElementById("errors-container");
+      container.innerHTML = "";
+      ERRORS.forEach((e, i) => {
+        container.innerHTML += `
+          <div style="margin-bottom: 1.2rem;">
+            <div style="font-weight: 700; color: #fca5a5; font-size: 0.95rem; margin-bottom: 6px;">
+              ${e}
+            </div>
+            <input type="text" class="input-field error-field" placeholder="To'g'rilangan to'liq gapni yozing...">
+          </div>
+        `;
+      });
+    }
+
+    function renderBlanks() {
+      const container = document.getElementById("blanks-container");
+      container.innerHTML = "";
+      BLANKS.forEach((b, i) => {
+        container.innerHTML += `
+          <div style="margin-bottom: 1.2rem;">
+            <div style="font-weight: 700; color: #cbd5e1; font-size: 0.95rem; margin-bottom: 6px;">
+              ${b.s}
+            </div>
+            <input type="text" class="input-field blank-field" placeholder="To'g'ri shaklini yozing...">
+          </div>
+        `;
+      });
+    }
+
+    function renderReorders() {
+      const container = document.getElementById("reorder-container");
+      container.innerHTML = "";
+
+      REORDERS.forEach((r, idx) => {
+        const box = document.createElement("div");
+        box.className = "reorder-box";
+
+        const chipsHtml = r.words.map(w => `
+          <button type="button" class="chip-btn" onclick="addWordToReorder(${idx}, '${w}', this)">${w}</button>
+        `).join("");
+
+        box.innerHTML = `
+          <div style="font-size: 0.85rem; font-weight: 700; color: #a5b4fc; margin-bottom: 8px;">Topshiriq ${idx + 1}:</div>
+          <div class="reorder-chips" id="chips-${idx}">${chipsHtml}</div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="input-field reorder-field" id="reorder-input-${idx}" placeholder="So'zlarni bosib gap tuzing..." readonly>
+            <button type="button" class="chip-btn" style="background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4);" onclick="resetReorder(${idx})">Tozalash</button>
+          </div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function addWordToReorder(idx, word, btn) {
+      const input = document.getElementById(`reorder-input-${idx}`);
+      const curr = input.value.trim();
+      input.value = curr ? curr + " " + word : word;
+      btn.disabled = true;
+    }
+
+    function resetReorder(idx) {
+      const input = document.getElementById(`reorder-input-${idx}`);
+      input.value = "";
+      const container = document.getElementById(`chips-${idx}`);
+      container.querySelectorAll("button").forEach(b => b.disabled = false);
+    }
+
+    function submitHomework() {
+      const nameInput = document.getElementById("student-name-input");
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("⚠️ Iltimos, avval Ism va Familiyangizni kiriting!");
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem("tos_student_name", name);
+
+      const transAnswers = Array.from(document.querySelectorAll(".trans-field")).map(i => i.value.trim());
+      const errorAnswers = Array.from(document.querySelectorAll(".error-field")).map(i => i.value.trim());
+      const blankAnswers = Array.from(document.querySelectorAll(".blank-field")).map(i => i.value.trim());
+      const reorderAnswers = Array.from(document.querySelectorAll(".reorder-field")).map(i => i.value.trim());
+      const essay = document.getElementById("essay-input").value.trim();
+      const question = document.getElementById("question-input").value.trim();
+
+      const mcqDone = Object.values(userMcqAnswers).filter(a => a.isCorrect).length;
+      const transDone = transAnswers.filter(t => t.length > 3).length;
+      const errorDone = errorAnswers.filter(e => e.length > 3).length;
+      const blankDone = blankAnswers.filter(b => b.length > 2).length;
+
+      let score = 50;
+      score += (mcqDone * 2.5);
+      score += (transDone * 1.5);
+      score += (errorDone * 0.5);
+      score += (blankDone * 0.5);
+      if (essay.length > 20) score += 5;
+      score = Math.min(100, Math.round(score));
+
+      let transText = "";
+      transAnswers.forEach((t, i) => { if (t) transText += `${i + 1}) <i>${t}</i>\n`; });
+      if (!transText) transText = "<i>(Bajarilmadi)</i>\n";
+
+      let errorText = "";
+      errorAnswers.forEach((e, i) => { if (e) errorText += `${i + 1}) <i>${e}</i>\n`; });
+      if (!errorText) errorText = "<i>(Bajarilmadi)</i>\n";
+
+      let blankText = "";
+      blankAnswers.forEach((b, i) => { if (b) blankText += `${i + 1}) <i>${b}</i>\n`; });
+      if (!blankText) blankText = "<i>(Bajarilmadi)</i>\n";
+
+      let reorderText = "";
+      reorderAnswers.forEach((r, i) => { if (r) reorderText += `${i + 1}) <i>${r}</i>\n`; });
+      if (!reorderText) reorderText = "<i>(Bajarilmadi)</i>\n";
+
+      
+      let mcqMistakesText = "";
+      if (typeof MCQS !== "undefined" && typeof userMcqAnswers !== "undefined") {
+        MCQS.forEach((item, idx) => {
+          const ansObj = userMcqAnswers[idx];
+          if (ansObj && !ansObj.isCorrect) {
+            mcqMistakesText += "• " + (idx + 1) + "-savol: ❌ \"" + ansObj.chosen + "\" ➔ ✅ \"" + item.ans + "\"\n";
+          } else if (!ansObj) {
+            mcqMistakesText += "• " + (idx + 1) + "-savol: ⚠️ (Javob berilmadi) ➔ ✅ \"" + item.ans + "\"\n";
+          }
+        });
+      }
+      if (!mcqMistakesText) mcqMistakesText = "<i>(Barcha testlar 100% to'g'ri!)</i>\n";
+
+      const payloadText = `🎓 <b>UYGA VAZIFA TOPSHIRILDI (A1)!</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `👤 <b>O'quvchi:</b> ${name}\n` +
+        `📚 <b>Mavzu:</b> Going To vs Present Continuous (A1)\n` +
+        `📊 <b>Dastlabki Baho:</b> <b>${score}/100</b>\n` +
+        `⏰ <b>Vaqt:</b> ${new Date().toLocaleString()}\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n\n` +
+        `🎯 <b>1-Bo'lim (Testlar):</b> ${mcqDone}/10 ta to'g'ri\n\n` +
+        `🔄 <b>2-Bo'lim (Tarjimalar - ${transDone}/10):</b>\n${transText}\n` +
+        `⚠️ <b>3-Bo'lim (Xatolar - ${errorDone}/10):</b>\n${errorText}\n` +
+        `🧩 <b>4-Bo'lim (Bo'shliqlar - ${blankDone}/10):</b>\n${blankText}\n` +
+        `🔤 <b>5-Bo'lim (Gap tuzish):</b>\n${reorderText}\n` +
+        `✍️ <b>6-Bo'lim (Insho):</b>\n<i>"${essay ? essay.substring(0, 180) + (essay.length > 180 ? '...' : '') : '(Yozilmadi)'}"</i>\n\n` +
+        `🙋 <b>7-Bo'lim (Ustozga Savol):</b>\n<i>"${question || '(Savol yoq)'}"</i>\n\n` +
+        `🤖 <i>TeacherOS Avtopilot</i>`;
+
+      const btn = document.getElementById("submit-btn");
+      const toast = document.getElementById("toast-msg");
+      btn.disabled = true;
+      btn.textContent = "Ustozga yuborilmoqda...";
+
+      const BOT_TOKEN = "8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw";
+      const TEACHER_ID = "6315515792";
+
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TEACHER_ID, text: payloadText, parse_mode: "HTML" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.ok) {
+          confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+          toast.style.display = "block";
+          toast.style.background = "rgba(16, 185, 129, 0.15)";
+          toast.style.border = "1px solid var(--emerald)";
+          toast.style.color = "#6ee7b7";
+          toast.innerHTML = "🎉 Ajoyib! Vazifangiz ustozingizga muvaffaqiyatli yetkazildi!";
+          btn.textContent = "Yuborildi ✨";
+        } else {
+          return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: "7957347033", text: payloadText, parse_mode: "HTML" })
+          }).then(r2 => r2.json()).then(d2 => {
+            if (d2.ok) {
+              confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+              toast.style.display = "block";
+              toast.style.color = "#6ee7b7";
+              toast.innerHTML = "🎉 Vazifangiz yetkazildi!";
+              btn.textContent = "Yuborildi ✨";
+            } else {
+              toast.style.display = "block";
+              toast.style.color = "#fca5a5";
+              toast.innerHTML = "⚠️ Xatolik: " + d.description;
+              btn.disabled = false;
+              btn.textContent = "Qayta urinish 🚀";
+            }
+          });
+        }
+      })
+      .catch(e => {
+        toast.style.display = "block";
+        toast.style.color = "#fca5a5";
+        toast.innerHTML = "❌ Internet aloqasida xatolik.";
+        btn.disabled = false;
+        btn.textContent = "Qayta urinish 🚀";
+      });
+    }
+  </script>
+</body>
+</html>

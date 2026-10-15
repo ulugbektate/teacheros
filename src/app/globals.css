@@ -1,0 +1,388 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --electric-indigo: #5B3DF5;
+    --electric-indigo-hover: #4C2FE0;
+    --electric-indigo-glow: rgba(91, 61, 245, 0.35);
+    --soft-lilac: #E8DEFF;
+    --soft-lilac-muted: rgba(232, 222, 255, 0.12);
+    --bg-dark: #090814;
+    --card-surface: #100E22;
+  }
+}
+
+/* Custom Electric Indigo & Soft Lilac Aurora Background */
+.electric-aurora {
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(91, 61, 245, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(232, 222, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(91, 61, 245, 0.05) 0%, transparent 60%);
+}
+
+/* Electric Indigo Card Style */
+.card-electric {
+  background-color: var(--electric-indigo);
+  color: #ffffff;
+  border-radius: 1.75rem;
+  box-shadow: 0 15px 35px -10px rgba(91, 61, 245, 0.45);
+}
+
+/* Soft Lilac Card Style */
+.card-lilac {
+  background-color: var(--soft-lilac);
+  color: var(--electric-indigo);
+  border-radius: 1.75rem;
+  box-shadow: 0 15px 35px -10px rgba(232, 222, 255, 0.15);
+}
+
+/* Deep Dark Frosted Panel */
+.glass-panel-electric {
+  background: rgba(16, 14, 34, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(232, 222, 255, 0.08);
+  border-radius: 1.75rem;
+}
+
+.glass-panel-electric:hover {
+  border-color: rgba(91, 61, 245, 0.35);
+}
+
+/* Electric Button */
+.btn-electric {
+  background-color: var(--electric-indigo);
+  color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px -5px rgba(91, 61, 245, 0.4);
+}
+
+.btn-electric:hover {
+  background-color: var(--electric-indigo-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 15px 30px -5px rgba(91, 61, 245, 0.55);
+}
+
+.btn-electric:active {
+  transform: translateY(0);
+}
+
+/* Soft Lilac Button / Badge */
+.badge-lilac {
+  background-color: var(--soft-lilac);
+  color: var(--electric-indigo);
+  font-weight: 700;
+}
+
+/* 3D Flip Card Container */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090814;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 222, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--electric-indigo);
+}
+
+/* Google Stitch Dot-Grid Canvas Background */
+.stitch-grid {
+  background-color: #0d0f14;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* Pedagogical Slide Presentation Card Styles */
+.slide-visual-card {
+  background: rgba(18, 22, 34, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  color: #f1f5f9;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.slide-visual-card b,
+.slide-visual-card strong {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.slide-visual-card i,
+.slide-visual-card em {
+  color: #c7d2fe;
+}
+
+.slide-visual-card .uz-trap-box,
+.slide-visual-card div[style*="border-left"] {
+  background: rgba(99, 102, 241, 0.14) !important;
+  border-left: 4px solid #6366f1 !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1.25rem !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #e2e8f0 !important;
+}
+
+.slide-visual-card .formula-box {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(99, 102, 241, 0.35) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1.25rem !important;
+  margin: 0.75rem 0 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  color: #a5b4fc !important;
+}
+
+/* ======================================================== */
+/* HIGH-CONTRAST LIGHT MODE RULES (ZERO TEXT BLUR / FADING) */
+/* ======================================================== */
+.board-light {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.board-light h1,
+.board-light h2,
+.board-light h3,
+.board-light h4,
+.board-light h5,
+.board-light h6 {
+  color: #0f172a !important;
+}
+
+.board-light .slide-visual-card {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.board-light .slide-visual-card b,
+.board-light .slide-visual-card strong {
+  color: #1e1b4b !important;
+}
+
+.board-light .slide-visual-card i,
+.board-light .slide-visual-card em {
+  color: #4338ca !important;
+}
+
+.board-light .slide-visual-card .uz-trap-box,
+.board-light .slide-visual-card div[style*="border-left"] {
+  background: #eef2ff !important;
+  border-left: 4px solid #4f46e5 !important;
+  color: #1e1b4b !important;
+}
+
+.board-light .slide-visual-card div[style*="border-left"] b,
+.board-light .slide-visual-card div[style*="border-left"] strong,
+.board-light .slide-visual-card div[style*="border-left"] span,
+.board-light .slide-visual-card div[style*="border-left"] p {
+  color: #1e1b4b !important;
+}
+
+.board-light .slide-visual-card .formula-box {
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* Ensure solid colored action buttons keep white text in light mode */
+.board-light .bg-indigo-600,
+.board-light .bg-indigo-700,
+.board-light .bg-rose-600,
+.board-light .bg-rose-700,
+.board-light .bg-emerald-600,
+.board-light .bg-emerald-700,
+.board-light .bg-amber-600,
+.board-light .btn-electric {
+  color: #ffffff !important;
+}
+
+.board-light .bg-indigo-600 *,
+.board-light .bg-indigo-700 *,
+.board-light .bg-rose-600 *,
+.board-light .bg-rose-700 *,
+.board-light .bg-emerald-600 *,
+.board-light .bg-emerald-700 *,
+.board-light .bg-amber-600 *,
+.board-light .btn-electric * {
+  color: #ffffff !important;
+}
+
+/* Ensure light pastel badges and tags in light mode stay crisp with dark text */
+.board-light .bg-indigo-50,
+.board-light .bg-indigo-100,
+.board-light [class*="bg-indigo-500/"],
+.board-light [class*="bg-[#5B3DF5]/"] {
+  color: #1e1b4b !important;
+}
+
+/* Quiz Option Check / Cross Badges (Ensure always 100% visible in both light & dark mode) */
+.quiz-answer-badge,
+.board-light .quiz-answer-badge,
+.board-light .bg-indigo-600 .quiz-answer-badge,
+.board-light .bg-indigo-700 .quiz-answer-badge,
+.board-light .bg-rose-600 .quiz-answer-badge,
+.board-light .bg-rose-700 .quiz-answer-badge,
+.board-light .bg-emerald-600 .quiz-answer-badge,
+.board-light .bg-emerald-700 .quiz-answer-badge,
+.board-light .bg-amber-600 .quiz-answer-badge {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+}
+
+.quiz-answer-badge svg,
+.board-light .quiz-answer-badge svg,
+.board-light .bg-indigo-600 .quiz-answer-badge svg,
+.board-light .bg-indigo-700 .quiz-answer-badge svg,
+.board-light .bg-rose-600 .quiz-answer-badge svg,
+.board-light .bg-rose-700 .quiz-answer-badge svg,
+.board-light .bg-emerald-600 .quiz-answer-badge svg,
+.board-light .bg-emerald-700 .quiz-answer-badge svg,
+.board-light .bg-amber-600 .quiz-answer-badge svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Custom smooth scrollbar for whiteboard inner content */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 61, 245, 0.75);
+}
+.board-light .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.3);
+}
+.board-light .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 61, 245, 0.6);
+}
+
+/* Light mode text color overrides for 100% high contrast (zero washed-out text) */
+.board-light .text-indigo-400,
+.board-light .text-indigo-300,
+.board-light .text-indigo-200 {
+  color: #1e1b4b !important;
+}
+
+.board-light .text-purple-400,
+.board-light .text-purple-300,
+.board-light .text-purple-200 {
+  color: #3b0764 !important;
+}
+
+.board-light .text-sky-400,
+.board-light .text-sky-300,
+.board-light .text-sky-200,
+.board-light .text-cyan-400 {
+  color: #0c4a6e !important;
+}
+
+.board-light .text-amber-400,
+.board-light .text-amber-300,
+.board-light .text-amber-200 {
+  color: #78350f !important;
+}
+
+.board-light .text-rose-400,
+.board-light .text-rose-300,
+.board-light .text-rose-200 {
+  color: #881337 !important;
+}
+
+.board-light .text-emerald-400,
+.board-light .text-emerald-300,
+.board-light .text-emerald-200 {
+  color: #064e3b !important;
+}
+
+.board-light .text-slate-400,
+.board-light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.board-light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+/* Light mode backgrounds for containers that use dark transparencies */
+.board-light .bg-black\/25,
+.board-light .bg-black\/30,
+.board-light .bg-black\/40,
+.board-light .bg-black\/15 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.board-light .bg-white\/5,
+.board-light .bg-white\/10,
+.board-light .bg-white\/15,
+.board-light .bg-white\/20 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* CapCut-style cinematic slide up transition */
+.capcut-slide-up {
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              filter 320ms ease-out;
+}
+
+/* Senior AI Shimmer Skeleton */
+@keyframes laser-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-laser-shimmer {
+  animation: laser-shimmer 2.2s infinite ease-in-out;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.2; transform: scale(0.98); }
+  50% { opacity: 0.45; transform: scale(1.02); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite ease-in-out;
+}
