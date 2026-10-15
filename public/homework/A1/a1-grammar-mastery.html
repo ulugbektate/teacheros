@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
     :root {
@@ -414,8 +415,27 @@
     }
 
     function loadStudentName() {
-      const val = localStorage.getItem('a1_student_name');
-      if (val) document.getElementById('studentNameInput').value = val;
+      try {
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+          tg.ready();
+          tg.expand();
+          const user = tg.initDataUnsafe?.user;
+          if (user) {
+            const tgName = user.username ? '@' + user.username : ([user.first_name, user.last_name].filter(Boolean).join(' ') || ('User_' + user.id));
+            localStorage.setItem('a1_student_name', tgName);
+            localStorage.setItem('teacheros_user_name', tgName);
+            const input = document.getElementById('studentNameInput');
+            if (input) input.value = tgName;
+            return;
+          }
+        }
+      } catch(e) {}
+      const val = localStorage.getItem('a1_student_name') || localStorage.getItem('teacheros_user_name');
+      if (val) {
+        const input = document.getElementById('studentNameInput');
+        if (input) input.value = val;
+      }
     }
 
     function updateMasteryCounter() {

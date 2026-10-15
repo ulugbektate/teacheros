@@ -37,14 +37,27 @@ export async function POST(req: NextRequest) {
         await sendTelegramMessage(
           chatId,
           `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
-          `⚡ <b>TeacherOS 2.0</b> interaktiv ta'lim platformasiga xush kelibsiz!\n\n` +
-          `Quyidagi tugmalar orqali platformani to'g'ridan-to'g'ri Telegram ichida ochishingiz yoki testlarni yechishingiz mumkin:`,
+          `⚡ <b>TeacherOS 2.0</b> — ta'lim platformasiga xush kelibsiz!\n\n` +
+          `Bu bot orqali platformaga <b>avtomatik, bir zumda</b> kiring va barcha imkoniyatlardan foydalaning:\n\n` +
+          `🔹 <b>Ustozlar uchun:</b> 16:9 interaktiv AI doska, jonli slaydlar va mashqlar generatori.\n` +
+          `🔹 <b>Talabalar uchun:</b> A1 va B1 darajadagi 1,290 ta grammatik savol, interaktiv darslar va xatolar ustida ishlash.\n\n` +
+          `<i>Quyidagi tugmalardan birini bosing:</i>`,
           {
             inline_keyboard: [
               [
                 {
-                  text: "🚀 TeacherOS Platformasini Ochish",
+                  text: "🚀 TeacherOS Ilovasini Ochish",
                   web_app: { url: `${APP_URL}` },
+                },
+              ],
+              [
+                {
+                  text: "👨‍🏫 Ustoz Studiyasi (Cockpit)",
+                  web_app: { url: `${APP_URL}?role=teacher` },
+                },
+                {
+                  text: "🎓 Talaba Portali (Hub)",
+                  web_app: { url: `${APP_URL}?role=student` },
                 },
               ],
               [
@@ -59,7 +72,7 @@ export async function POST(req: NextRequest) {
               ],
               [
                 {
-                  text: "🏆 Natijalar & Reyting",
+                  text: "🏆 Natijalarim & Reyting",
                   web_app: { url: `${APP_URL}/dashboard` },
                 },
               ],
@@ -69,18 +82,28 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: true });
       }
 
-      // Help / Info
+      // Help / Any other message
       await sendTelegramMessage(
         chatId,
         `💡 <b>TeacherOS Buyruqlari:</b>\n\n` +
-        `/start — Platformani ochish va asosiy menyu\n` +
-        `Quyidagi tugmani bosib istalgan vaqt platformaga kirishingiz mumkin:`,
+        `/start — Bosh menyu va ilovani ochish\n\n` +
+        `Platformaga kirish uchun quyidagi tugmani bosing:`,
         {
           inline_keyboard: [
             [
               {
-                text: "🚀 TeacherOS Ochish",
+                text: "🚀 TeacherOS Ilovasini Ochish",
                 web_app: { url: `${APP_URL}` },
+              },
+            ],
+            [
+              {
+                text: "👨‍🏫 Ustoz Rejimi",
+                web_app: { url: `${APP_URL}?role=teacher` },
+              },
+              {
+                text: "🎓 Talaba Rejimi",
+                web_app: { url: `${APP_URL}?role=student` },
               },
             ],
           ],

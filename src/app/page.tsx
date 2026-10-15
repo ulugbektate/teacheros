@@ -48,7 +48,9 @@ import {
   Trophy,
   Eye,
   EyeOff,
-  Lightbulb
+  Lightbulb,
+  GraduationCap,
+  Shield
 } from "lucide-react";
 import {
   Curriculum,
@@ -230,6 +232,14 @@ export default function StitchTeacherOS() {
 
   // Submission & Toast
   const [studentName, setStudentName] = useState("");
+  const [userRole, setUserRole] = useState<"teacher" | "student">("teacher");
+  const [telegramUser, setTelegramUser] = useState<{
+    id?: number | string;
+    first_name?: string;
+    last_name?: string;
+    username?: string;
+    photo_url?: string;
+  } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -465,6 +475,91 @@ export default function StitchTeacherOS() {
           showToast(`✨ Darslik yuklandi: ${enriched.topic}`);
         }
       }
+    }
+  }, []);
+
+  // Telegram WebApp Auto-Login & Role Sync
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const roleParam = urlParams.get("role");
+
+      const tg = (window as any).Telegram?.WebApp;
+      if (tg) {
+        try {
+          tg.ready();
+          tg.expand();
+          if (tg.requestFullscreen) {
+            tg.requestFullscreen();
+          }
+        } catch (tgErr) {}
+
+        const user = tg.initDataUnsafe?.user;
+        if (user && user.id) {
+          const displayName = user.username
+            ? `@${user.username}`
+            : [user.first_name, user.last_name].filter(Boolean).join(" ") || `User_${user.id}`;
+
+          setStudentName(displayName);
+          setTelegramUser(user);
+
+          const isTeacherOwner =
+            user.username?.toLowerCase() === "ulugb7k" ||
+            user.username?.toLowerCase() === "ulugbekflex" ||
+            String(user.id) === "6315515792";
+
+          const effectiveRole: "teacher" | "student" =
+            roleParam === "teacher"
+              ? "teacher"
+              : roleParam === "student"
+              ? "student"
+              : isTeacherOwner
+              ? "teacher"
+              : ((localStorage.getItem("teacheros_role") as any) || "student");
+
+          setUserRole(effectiveRole);
+
+          localStorage.setItem("teacheros_role", effectiveRole);
+          localStorage.setItem("teacheros_user_name", displayName);
+          localStorage.setItem("teacheros_telegram_id", String(user.id));
+          localStorage.setItem("a1_student_name", displayName);
+          localStorage.setItem("b1_student_name", displayName);
+
+          // Background sync to Supabase
+          fetch("/api/auth/telegram", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: user.id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              username: user.username,
+              photo_url: user.photo_url,
+              role: effectiveRole,
+            }),
+          }).catch(() => {});
+
+          return;
+        }
+      }
+
+      // Fallback for regular web browser
+      const storedRole = (roleParam as any) || localStorage.getItem("teacheros_role") || "teacher";
+      setUserRole(storedRole as "teacher" | "student");
+
+      const storedName = localStorage.getItem("teacheros_user_name");
+      if (storedName) {
+        setStudentName(storedName);
+        setTelegramUser({
+          id: localStorage.getItem("teacheros_telegram_id") || "guest",
+          first_name: storedName,
+          username: storedName.startsWith("@") ? storedName.substring(1) : undefined,
+        });
+      }
+    } catch (e) {
+      console.warn("Auth init error:", e);
     }
   }, []);
 
@@ -1119,7 +1214,7 @@ export default function StitchTeacherOS() {
       )}
 
       {/* TOP HEADER */}
-      {(curriculum || isGenerating) && !isFullscreen && (
+      {!isFullscreen && (
         <header className="relative h-14 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 bg-[#0D0F14]/90 backdrop-blur-md z-30">
           {/* Brand & Active Topic Title */}
           <div className="flex items-center space-x-3">
@@ -1153,7 +1248,8 @@ export default function StitchTeacherOS() {
           </div>
 
           {/* MIDDLE: AI STUDIO COCKPIT IN TOP BAR (Centered precisely in entire header) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-40 pointer-events-auto">
+          {(curriculum || isGenerating) && (
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-40 pointer-events-auto">
             {isGenerating ? (
               /* During generation: Clean AI Studio button with pulse */
               <div className="px-4 py-1.5 rounded-full bg-[#18191E]/95 border border-[#5B3DF5]/50 shadow-xl text-white text-xs font-bold flex items-center space-x-2 animate-pulse">
@@ -1313,38 +1409,93 @@ export default function StitchTeacherOS() {
               </div>
             )}
           </div>
+          )}
 
           {/* Right Header Actions */}
           <div className="flex items-center space-x-2 text-xs">
-            <button
-              onClick={toggleFullscreen}
-              className="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5 font-bold transition-all"
-              title="To'liq doska rejimi (F)"
-            >
-              <Play className="w-3.5 h-3.5 fill-emerald-400" />
-              <span className="hidden sm:inline">Present</span>
-            </button>
+            {curriculum && (
+              <>
+                <button
+                  onClick={toggleFullscreen}
+                  className="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5 font-bold transition-all"
+                  title="To'liq doska rejimi (F)"
+                >
+                  <Play className="w-3.5 h-3.5 fill-emerald-400" />
+                  <span className="hidden sm:inline">Present</span>
+                </button>
 
-            <button
-              onClick={handleDownloadHtml}
-              className="p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 flex items-center space-x-1 font-medium transition-all"
-              title="HTML Yuklab Olish"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Export</span>
-            </button>
+                <button
+                  onClick={handleDownloadHtml}
+                  className="p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 flex items-center space-x-1 font-medium transition-all"
+                  title="HTML Yuklab Olish"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Export</span>
+                </button>
 
-            <button
-              onClick={handleShareLink}
-              className="p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 flex items-center space-x-1 font-medium transition-all"
-              title="Havolani Nusxalash"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Share</span>
-            </button>
+                <button
+                  onClick={handleShareLink}
+                  className="p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 flex items-center space-x-1 font-medium transition-all"
+                  title="Havolani Nusxalash"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Share</span>
+                </button>
+              </>
+            )}
 
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#5B3DF5] to-[#7C3AED] border border-white/20 flex items-center justify-center text-white font-black text-xs shadow-md">
-              U
+            {/* Role Switcher Pill */}
+            <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5 text-[11px] font-bold">
+              <button
+                type="button"
+                onClick={() => {
+                  setUserRole("teacher");
+                  localStorage.setItem("teacheros_role", "teacher");
+                  showToast("👨‍🏫 Ustoz Studiyasi tanlandi");
+                }}
+                className={`px-2.5 py-1 rounded-full transition-all flex items-center space-x-1 ${
+                  userRole === "teacher"
+                    ? "bg-[#5B3DF5] text-white shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Ustoz Studiyasiga o'tish"
+              >
+                <Shield className="w-3 h-3" />
+                <span className="hidden md:inline">Ustoz</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setUserRole("student");
+                  localStorage.setItem("teacheros_role", "student");
+                  showToast("🎓 Talaba Portali tanlandi");
+                }}
+                className={`px-2.5 py-1 rounded-full transition-all flex items-center space-x-1 ${
+                  userRole === "student"
+                    ? "bg-sky-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Talaba Portaliga o'tish"
+              >
+                <GraduationCap className="w-3 h-3" />
+                <span className="hidden md:inline">Talaba</span>
+              </button>
+            </div>
+
+            <a
+              href="/dashboard"
+              className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all font-semibold"
+              title="Mening Natijalarim & Reyting"
+            >
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">Reyting</span>
+            </a>
+
+            <div
+              className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#5B3DF5] to-sky-500 border border-white/20 flex items-center justify-center text-white font-black text-xs shadow-md shrink-0"
+              title={studentName ? `${studentName} (${userRole === "teacher" ? "Ustoz" : "Talaba"})` : "Foydalanuvchi"}
+            >
+              {studentName ? studentName.replace("@", "")[0]?.toUpperCase() : "U"}
             </div>
           </div>
         </header>
@@ -1503,9 +1654,183 @@ export default function StitchTeacherOS() {
         )}
 
         {/* ============================================================ */}
-        {/* INITIAL STATE: PROMPT BAR & LENGTH SELECTOR HERO             */}
+        {/* STUDENT HUB (WHEN USER ROLE IS STUDENT)                      */}
         {/* ============================================================ */}
-        {!curriculum && !isGenerating && (
+        {!curriculum && !isGenerating && userRole === "student" && (
+          <div className="w-full max-w-4xl px-4 py-8 flex flex-col items-center space-y-6 z-20 animate-fade-in overflow-y-auto max-h-[calc(100vh-64px)]">
+            {/* Student Welcome Header Banner */}
+            <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl">
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg border border-white/20">
+                  {studentName ? studentName.replace("@", "")[0]?.toUpperCase() : "T"}
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-xl sm:text-2xl font-black text-white">
+                      {studentName || "Talaba"}
+                    </h2>
+                    <span className="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold flex items-center space-x-1">
+                      <GraduationCap className="w-3.5 h-3.5" />
+                      <span>Talaba Portali</span>
+                    </span>
+                    {telegramUser?.id && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#229ED9]/20 text-[#229ED9] border border-[#229ED9]/30 text-xs font-bold">
+                        Telegram Ulangan
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    1,290 ta sara grammatik savollar, audio talaffuz va interaktiv doska darslari
+                  </p>
+                </div>
+              </div>
+
+              {/* Mode switch */}
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUserRole("teacher");
+                    localStorage.setItem("teacheros_role", "teacher");
+                    showToast("👨‍🏫 Ustoz Studiyasiga o'tildi");
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 hover:text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm"
+                >
+                  <Shield className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Ustoz Studiyasiga O'tish</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 4 Interactive Modules Grid */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Card 1: A1 Grammar Trainer */}
+              <a
+                href="/homework/A1/a1-grammar-mastery.html"
+                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-sky-500/30 hover:border-sky-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-36 h-36 bg-sky-500/10 rounded-full blur-2xl group-hover:bg-sky-500/20 transition-all pointer-events-none" />
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[11px] font-black">
+                      📘 A1-A2 DARAJA
+                    </span>
+                    <span className="text-xs font-bold text-sky-400 font-mono">365 ta Savol</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white group-hover:text-sky-300 transition-colors">
+                    A1 Master Grammar Trainer
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Boshlang'ich grammatika: to be, Present Simple, Past Simple, olmoshlar va artikllar. Audio talaffuz va xatolar ustida ishlash tizimi.
+                  </p>
+                </div>
+                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
+                    Mashqlarni Boshlash
+                  </span>
+                  <div className="w-9 h-9 rounded-full bg-sky-500/20 group-hover:bg-sky-500 text-sky-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
+                    <Play className="w-4 h-4 fill-current ml-0.5" />
+                  </div>
+                </div>
+              </a>
+
+              {/* Card 2: B1 Grammar Trainer */}
+              <a
+                href="/homework/B1/b1-grammar-mastery.html"
+                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-indigo-500/30 hover:border-indigo-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all pointer-events-none" />
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px] font-black">
+                      🚀 B1-B2 DARAJA
+                    </span>
+                    <span className="text-xs font-bold text-indigo-400 font-mono">925 ta Savol</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white group-hover:text-indigo-300 transition-colors">
+                    B1 Master Grammar Trainer
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Mukammal grammatika: Present Perfect, Conditionals, Passive Voice, Modal fe'llar va Reported Speech. Imtihon darajasidagi savollar.
+                  </p>
+                </div>
+                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
+                    Mashqlarni Boshlash
+                  </span>
+                  <div className="w-9 h-9 rounded-full bg-indigo-500/20 group-hover:bg-indigo-500 text-indigo-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
+                    <Play className="w-4 h-4 fill-current ml-0.5" />
+                  </div>
+                </div>
+              </a>
+
+              {/* Card 3: Interaktiv Doska darslari */}
+              <div
+                onClick={() => handleGenerate("Present Perfect Simple")}
+                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden cursor-pointer"
+              >
+                <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-black">
+                      🖥️ INTERAKTIV DOSKA
+                    </span>
+                    <span className="text-xs font-bold text-emerald-400">16:9 Slaydlar</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white group-hover:text-emerald-300 transition-colors">
+                    AI Interaktiv Darslik
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Doskada qoidalar, 3D fleshkartalar, xatolar ovchisi va jonli muloqot mashqlarini o'rganing.
+                  </p>
+                </div>
+                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
+                    Doskani Ochish
+                  </span>
+                  <div className="w-9 h-9 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4: Natijalarim & Reyting */}
+              <a
+                href="/dashboard"
+                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-amber-500/30 hover:border-amber-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all pointer-events-none" />
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-black">
+                      📊 NATIJALAR & REYTING
+                    </span>
+                    <span className="text-xs font-bold text-amber-400">Jonli Tizim</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white group-hover:text-amber-300 transition-colors">
+                    Mening Natijalarim
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Topshirilgan testlar statistikasi, o'rtacha ball va umumiy talabalar reytingidagi o'rningizni kuzating.
+                  </p>
+                </div>
+                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
+                    Reytingni Ko'rish
+                  </span>
+                  <div className="w-9 h-9 rounded-full bg-amber-500/20 group-hover:bg-amber-500 text-amber-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
+                    <Trophy className="w-4 h-4" />
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* INITIAL STATE: TEACHER PROMPT BAR & HERO COCKPIT             */}
+        {/* ============================================================ */}
+        {!curriculum && !isGenerating && userRole === "teacher" && (
           <div
             className={`w-full max-w-2xl px-6 flex flex-col items-center text-center space-y-6 z-20 ${
               isAnimatingUp ? "pointer-events-none" : "animate-fade-in"
