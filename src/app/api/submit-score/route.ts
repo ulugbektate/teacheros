@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { recordSubmission } from '@/lib/db';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8979510433:AAGd4TEZb_rx4b8lZrFFfJfAz-dAI2ZRzMw';
+const TELEGRAM_BOT_TOKEN = '8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78';
 const TEACHER_TELEGRAM_CHAT_ID = process.env.TEACHER_TELEGRAM_CHAT_ID || '6315515792';
 
 export async function POST(req: NextRequest) {

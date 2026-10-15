@@ -20,22 +20,36 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <script src="https://telegram.org/js/telegram-web-app.js" async></script>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.addEventListener('DOMContentLoaded', () => {
-                try {
-                  const tg = window.Telegram?.WebApp;
-                  if (tg) {
-                    tg.ready();
-                    tg.expand();
-                    if (tg.requestFullscreen) {
-                      tg.requestFullscreen();
+              (function() {
+                function initTelegram() {
+                  try {
+                    var tg = window.Telegram && window.Telegram.WebApp;
+                    if (tg) {
+                      tg.ready();
+                      tg.expand();
+                      if (tg.requestFullscreen) {
+                        tg.requestFullscreen();
+                      }
+                      if (tg.disableVerticalSwipes) {
+                        tg.disableVerticalSwipes();
+                      }
+                      if (tg.setHeaderColor) {
+                        tg.setHeaderColor('#0D0F14');
+                      }
+                      if (tg.setBackgroundColor) {
+                        tg.setBackgroundColor('#0D0F14');
+                      }
                     }
-                  }
-                } catch(e) {}
-              });
+                  } catch(e) {}
+                }
+                initTelegram();
+                window.addEventListener('DOMContentLoaded', initTelegram);
+                window.addEventListener('load', initTelegram);
+              })();
             `,
           }}
         />

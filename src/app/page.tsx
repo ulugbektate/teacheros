@@ -244,6 +244,18 @@ export default function StitchTeacherOS() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // QuizPilot Adaptive Layout & Classroom History State
+  const [activeMainTab, setActiveMainTab] = useState<"create" | "library" | "board" | "student">("create");
+  const [savedClassrooms, setSavedClassrooms] = useState<Array<{
+    id: string;
+    topic: string;
+    level: string;
+    length: string;
+    date: string;
+    curriculum: Curriculum;
+  }>>([]);
+  const [historySearchQuery, setHistorySearchQuery] = useState("");
+
   // Whiteboard Pen & Drawing Annotation State
   const [isAnnotating, setIsAnnotating] = useState(false);
   const [penTool, setPenTool] = useState<"pen" | "highlighter" | "text" | "eraser">("pen");
@@ -557,11 +569,127 @@ export default function StitchTeacherOS() {
           first_name: storedName,
           username: storedName.startsWith("@") ? storedName.substring(1) : undefined,
         });
+      } else {
+        // Default teacher identity for Ulugbek / ulunur
+        setStudentName("ulunur");
+        setTelegramUser({
+          id: "6315515792",
+          first_name: "ulunur",
+          username: "Ulugb7k",
+        });
       }
     } catch (e) {
       console.warn("Auth init error:", e);
     }
   }, []);
+
+  // Compute user identity details
+  const userDisplayName = useMemo(() => {
+    if (telegramUser?.first_name) return telegramUser.first_name;
+    if (telegramUser?.username) return `@${telegramUser.username}`;
+    if (studentName) return studentName;
+    return "ulunur";
+  }, [telegramUser, studentName]);
+
+  const userInitial = useMemo(() => {
+    const raw = userDisplayName.replace("@", "").trim();
+    return raw ? raw[0].toUpperCase() : "U";
+  }, [userDisplayName]);
+
+  // Load saved classrooms / history
+  useEffect(() => {
+    try {
+      const storageKey = `teacheros_history_${telegramUser?.id || "default"}`;
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setSavedClassrooms(parsed);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    // Initial default classrooms from master curriculums
+    const initialList: any[] = [];
+    if (MASTER_CURRICULUMS["Present Perfect Simple"]) {
+      initialList.push({
+        id: "hist_pp",
+        topic: "Present Perfect Simple",
+        level: "B1",
+        length: "medium",
+        date: "Bugun, 17:40",
+        curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Present Perfect Simple"], "medium"),
+      });
+    }
+    if (MASTER_CURRICULUMS["Past Simple & Irregular Verbs"]) {
+      initialList.push({
+        id: "hist_ps",
+        topic: "Past Simple & Irregular Verbs",
+        level: "A1",
+        length: "medium",
+        date: "Kecha, 15:20",
+        curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Past Simple & Irregular Verbs"], "medium"),
+      });
+    }
+    if (MASTER_CURRICULUMS["Used to vs Would"]) {
+      initialList.push({
+        id: "hist_ut",
+        topic: "Used to vs Would",
+        level: "B1",
+        length: "medium",
+        date: "12-Oktabr",
+        curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Used to vs Would"], "medium"),
+      });
+    }
+
+    setSavedClassrooms(initialList);
+    try {
+      const storageKey = `teacheros_history_${telegramUser?.id || "default"}`;
+      localStorage.setItem(storageKey, JSON.stringify(initialList));
+    } catch (e) {}
+  }, [telegramUser?.id]);
+
+  const saveToHistory = (newCurr: Curriculum) => {
+    const item = {
+      id: `hist_${Date.now()}`,
+      topic: newCurr.topic,
+      level: newCurr.level,
+      length: String(newCurr.length || "medium"),
+      date: "Hozirgina",
+      curriculum: newCurr,
+    };
+    setSavedClassrooms((prev) => {
+      const filtered = prev.filter((p) => p.topic.toLowerCase() !== newCurr.topic.toLowerCase());
+      const updated = [item, ...filtered];
+      try {
+        const storageKey = `teacheros_history_${telegramUser?.id || "default"}`;
+        localStorage.setItem(storageKey, JSON.stringify(updated.slice(0, 30)));
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  const deleteFromHistory = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSavedClassrooms((prev) => {
+      const updated = prev.filter((p) => p.id !== id);
+      try {
+        const storageKey = `teacheros_history_${telegramUser?.id || "default"}`;
+        localStorage.setItem(storageKey, JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+    showToast("🗑️ Darslik tarixdan o'chirildi");
+  };
+
+  const openClassroom = (curr: Curriculum) => {
+    setCurriculum(curr);
+    setCurrentScreenIndex(0);
+    setBoardStepReveal(0);
+    setActiveMainTab("board");
+    showToast(`📂 "${curr.topic}" doskaga yuklandi!`);
+  };
 
   // Audio Speech Synthesis
   const speak = (text: string) => {
@@ -1003,6 +1131,8 @@ export default function StitchTeacherOS() {
 
       const enriched = enrichCurriculumWithSections(matched, lengthToUse);
       setCurriculum(enriched);
+      saveToHistory(enriched);
+      setActiveMainTab("board");
       setCurrentScreenIndex(0);
       prevScreenIndexRef.current = 0;
       showToast("💡 Darslik tayyorlandi.");
@@ -1105,6 +1235,8 @@ export default function StitchTeacherOS() {
       }, lengthToUse);
 
       setCurriculum(fallbackCurriculum);
+      saveToHistory(fallbackCurriculum);
+      setActiveMainTab("board");
       setCurrentScreenIndex(0);
       prevScreenIndexRef.current = 0;
       showToast("💡 Darslik tayyorlandi.");
@@ -1204,7 +1336,7 @@ export default function StitchTeacherOS() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#0D0F14] text-slate-100 flex flex-col overflow-hidden font-sans select-none stitch-grid">
+    <div className="w-full h-screen bg-[#0D0F14] text-slate-100 flex overflow-hidden font-sans select-none stitch-grid">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#1F222E]/95 border border-[#5B3DF5]/50 text-white px-5 py-2.5 rounded-full shadow-2xl backdrop-blur-xl text-xs sm:text-sm font-bold flex items-center space-x-2 animate-bounce">
@@ -1213,39 +1345,168 @@ export default function StitchTeacherOS() {
         </div>
       )}
 
-      {/* TOP HEADER */}
+      {/* DESKTOP LEFT NAVIGATION SIDEBAR (QuizPilot PC Style) */}
       {!isFullscreen && (
-        <header className="relative h-14 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 bg-[#0D0F14]/90 backdrop-blur-md z-30">
-          {/* Brand & Active Topic Title */}
-          <div className="flex items-center space-x-3">
-            <div
-              onClick={() => {
-                setCurriculum(null);
-                setIsPromptCollapsed(false);
-              }}
-              className="flex items-center space-x-2 cursor-pointer group"
-              title="Yangi mavzu kiritish"
-            >
-              <BrandLogo isLight={false} />
+        <aside className="hidden lg:flex flex-col w-64 bg-[#0B0D13] border-r border-white/10 shrink-0 h-full justify-between z-30 select-none">
+          {/* Top Brand & Nav */}
+          <div className="flex flex-col">
+            <div className="p-4 border-b border-white/10 flex items-center justify-between">
+              <div
+                onClick={() => setActiveMainTab("create")}
+                className="cursor-pointer"
+                title="TeacherOS Bosh Sahifasi"
+              >
+                <BrandLogo isLight={false} />
+              </div>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#5B3DF5]/20 text-[#A5B4FC] border border-[#5B3DF5]/30">
+                v2.0
+              </span>
             </div>
 
-            {curriculum && (
-              <>
-                <div className="h-4 w-px bg-white/10" />
-                <div className="flex items-center space-x-2">
-                  <span className="text-xs sm:text-sm font-extrabold text-white truncate max-w-[160px] sm:max-w-xs">
-                    {curriculum.topic}
-                  </span>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/10 text-slate-300">
-                    {curriculum.level}
-                  </span>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#5B3DF5]/20 text-[#A5B4FC] border border-[#5B3DF5]/30">
-                    {curriculum.length === "short" ? "Qisqa (4)" : curriculum.length === "long" ? "To'liq (8)" : "O'rtacha (6)"}
-                  </span>
+            {/* Navigation links */}
+            <nav className="p-3 space-y-1.5">
+              <button
+                onClick={() => setActiveMainTab("create")}
+                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
+                  activeMainTab === "create"
+                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <Plus className="w-4 h-4" />
+                <span>Yaratish</span>
+              </button>
+
+              <button
+                onClick={() => setActiveMainTab("library")}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
+                  activeMainTab === "library"
+                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <BookOpen className="w-4 h-4" />
+                  <span>Kutubxona</span>
                 </div>
-              </>
-            )}
+                {savedClassrooms.length > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-white/10 text-xs font-mono">
+                    {savedClassrooms.length}
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveMainTab("board");
+                  if (!curriculum && savedClassrooms[0]?.curriculum) {
+                    openClassroom(savedClassrooms[0].curriculum);
+                  }
+                }}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
+                  activeMainTab === "board"
+                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Maximize2 className="w-4 h-4" />
+                  <span>AI Doska</span>
+                </div>
+                {curriculum && (
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                )}
+              </button>
+
+              <button
+                onClick={() => setActiveMainTab("student")}
+                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
+                  activeMainTab === "student"
+                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <GraduationCap className="w-4 h-4" />
+                <span>Talabalar</span>
+              </button>
+
+              <a
+                href="/dashboard"
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all"
+              >
+                <Trophy className="w-4 h-4 text-amber-400" />
+                <span>Reyting</span>
+              </a>
+            </nav>
           </div>
+
+          {/* Bottom Profile & Pro badge (Screenshot 5 style) */}
+          <div className="p-3 space-y-2 border-t border-white/10">
+            <div className="w-full py-2 px-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-between shadow-lg">
+              <span className="flex items-center space-x-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>TeacherOS Pro</span>
+              </span>
+              <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-mono">Faol</span>
+            </div>
+
+            {/* Profile Card */}
+            <div className="flex items-center space-x-3 p-2 rounded-2xl bg-white/5 border border-white/5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] flex items-center justify-center text-white font-black text-sm shadow-md shrink-0">
+                {userInitial}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-xs text-white truncate">{userDisplayName}</div>
+                <div className="text-[10px] text-slate-400 truncate flex items-center space-x-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                  <span>Ustoz Akkaunti</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      )}
+
+      {/* RIGHT / MAIN CONTENT WRAPPER */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0 relative">
+        {/* TOP HEADER */}
+        {!isFullscreen && (
+          <header className="relative h-14 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 bg-[#0D0F14]/90 backdrop-blur-md z-30">
+            {/* Left: User greeting on desktop & brand on mobile */}
+            <div className="flex items-center space-x-3">
+              <div
+                onClick={() => setActiveMainTab("create")}
+                className="flex items-center space-x-2 cursor-pointer lg:hidden"
+                title="TeacherOS"
+              >
+                <BrandLogo isLight={false} />
+              </div>
+
+              {/* Desktop User Greeting Card (Screenshot 5 style) */}
+              <div className="hidden lg:flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-[#0284C7] flex items-center justify-center text-white font-black text-sm shadow-md">
+                  {userInitial}
+                </div>
+                <div>
+                  <div className="text-[10px] text-slate-400 font-medium leading-none">Xush kelibsiz</div>
+                  <div className="text-sm font-black text-white tracking-tight mt-0.5">{userDisplayName}</div>
+                </div>
+              </div>
+
+              {curriculum && activeMainTab === "board" && (
+                <>
+                  <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs sm:text-sm font-extrabold text-white truncate max-w-[140px] sm:max-w-xs">
+                      {curriculum.topic}
+                    </span>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/10 text-slate-300">
+                      {curriculum.level}
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
 
           {/* MIDDLE: AI STUDIO COCKPIT IN TOP BAR (Centered precisely in entire header) */}
           {(curriculum || isGenerating) && (
@@ -1482,20 +1743,29 @@ export default function StitchTeacherOS() {
               </button>
             </div>
 
-            <a
-              href="/dashboard"
-              className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all font-semibold"
-              title="Mening Natijalarim & Reyting"
-            >
-              <Trophy className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">Reyting</span>
-            </a>
+            {/* Gold Status Badge (QuizPilot Screenshot 1 & 5 style) */}
+            <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/15 to-yellow-500/15 border border-amber-500/40 text-amber-300 font-black text-xs shadow-sm">
+              <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span>Ustoz Rejimi</span>
+            </div>
+
+            {/* Exit board button when on board */}
+            {curriculum && activeMainTab === "board" && (
+              <button
+                onClick={() => setActiveMainTab("create")}
+                className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-all text-xs font-bold flex items-center space-x-1 border border-white/10"
+                title="Bosh menyuga qaytish"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Chiqish</span>
+              </button>
+            )}
 
             <div
-              className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#5B3DF5] to-sky-500 border border-white/20 flex items-center justify-center text-white font-black text-xs shadow-md shrink-0"
+              className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#5B3DF5] to-sky-500 border border-white/20 flex items-center justify-center text-white font-black text-xs shadow-md shrink-0 lg:hidden"
               title={studentName ? `${studentName} (${userRole === "teacher" ? "Ustoz" : "Talaba"})` : "Foydalanuvchi"}
             >
-              {studentName ? studentName.replace("@", "")[0]?.toUpperCase() : "U"}
+              {userInitial}
             </div>
           </div>
         </header>
@@ -1654,30 +1924,377 @@ export default function StitchTeacherOS() {
         )}
 
         {/* ============================================================ */}
-        {/* STUDENT HUB (WHEN USER ROLE IS STUDENT)                      */}
+        {/* TAB 1: CREATE VIEW (QuizPilot Style Hero & Quick Actions)     */}
         {/* ============================================================ */}
-        {!curriculum && !isGenerating && userRole === "student" && (
-          <div className="w-full max-w-4xl px-4 py-8 flex flex-col items-center space-y-6 z-20 animate-fade-in overflow-y-auto max-h-[calc(100vh-64px)]">
-            {/* Student Welcome Header Banner */}
+        {!isGenerating && activeMainTab === "create" && (
+          <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 space-y-6 overflow-y-auto max-h-full pb-24 lg:pb-8 animate-fade-in z-20">
+            {/* QuizPilot Purple Hero Container */}
+            <div className="w-full rounded-3xl bg-gradient-to-br from-[#5841D8] via-[#4F35C7] to-[#3B269E] p-6 sm:p-8 text-white relative overflow-hidden shadow-2xl border border-white/10">
+              <div className="relative z-10 max-w-xl space-y-3">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-bold text-white border border-white/20">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>AI Darslik Sintezatori</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
+                  Mavzuni interaktiv darsga aylantiring
+                </h2>
+                <p className="text-xs sm:text-sm text-indigo-100/80 font-medium">
+                  Grammatik mavzu yoki kontekst — 1 daqiqada 16:9 slaydlar, tezkor testlar, 3D kartochkalar va doskaga aylanadi.
+                </p>
+
+                {/* Topic Input with Voice Recorder */}
+                <div className="pt-2">
+                  <div className="relative flex items-center bg-white/10 rounded-2xl border border-white/25 p-2 backdrop-blur-md focus-within:border-white focus-within:bg-white/15 transition-all">
+                    <input
+                      type="text"
+                      value={topicInput}
+                      onChange={(e) => setTopicInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
+                      placeholder="Bugun qaysi mavzuni o'tamiz? (masalan: Present Perfect, Passive Voice)..."
+                      className="w-full bg-transparent text-sm sm:text-base text-white placeholder-indigo-200/60 focus:outline-none px-2 pr-10 font-medium"
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={handleVoiceRecord}
+                      className={`p-2 rounded-xl transition-all ${
+                        isRecording
+                          ? "bg-red-500 text-white animate-pulse"
+                          : "text-white/80 hover:text-white hover:bg-white/10"
+                      }`}
+                      title="Ovoz bilan yozish"
+                    >
+                      <Mic className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Length & Level Controls */}
+                <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center space-x-1.5 bg-black/20 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setLessonLength("short")}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                        lessonLength === "short"
+                          ? "bg-white text-indigo-950 shadow"
+                          : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      ⚡ Qisqa
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLessonLength("medium")}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                        lessonLength === "medium"
+                          ? "bg-white text-indigo-950 shadow"
+                          : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      🎯 O'rtacha
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLessonLength("long")}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                        lessonLength === "long"
+                          ? "bg-white text-indigo-950 shadow"
+                          : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      🚀 Uzun
+                    </button>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <select
+                      value={level}
+                      onChange={(e) => setLevel(e.target.value as any)}
+                      className="bg-black/20 text-white text-xs font-bold rounded-xl px-3 py-1.5 border border-white/20 focus:outline-none cursor-pointer"
+                    >
+                      {["A1", "A2", "B1", "B2", "C1"].map((lvl) => (
+                        <option key={lvl} value={lvl} className="bg-[#1A1C23]">
+                          Level: {lvl}
+                        </option>
+                      ))}
+                    </select>
+
+                    <button
+                      onClick={() => handleGenerate()}
+                      disabled={isGenerating}
+                      className="px-5 py-2 rounded-xl bg-white text-indigo-950 font-black text-xs sm:text-sm hover:bg-indigo-50 shadow-xl transition-all flex items-center space-x-1.5 disabled:opacity-50"
+                    >
+                      <Sparkles className="w-4 h-4 text-indigo-600" />
+                      <span>Dars Yaratish</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Suggestions Pills */}
+            <div className="flex items-center flex-wrap gap-2 text-xs">
+              <span className="text-[11px] font-bold text-slate-400 mr-1">Tavsiya mavzular:</span>
+              <button
+                onClick={() => {
+                  setTopicInput("Past Simple & Irregular Verbs");
+                  handleGenerate("Past Simple & Irregular Verbs");
+                }}
+                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
+              >
+                Past Simple & Irregular Verbs (A1)
+              </button>
+              <button
+                onClick={() => {
+                  setTopicInput("Used to vs Would");
+                  handleGenerate("Used to vs Would");
+                }}
+                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
+              >
+                Used to vs Would (B1)
+              </button>
+              <button
+                onClick={() => {
+                  setTopicInput("Present Perfect Simple");
+                  handleGenerate("Present Perfect Simple");
+                }}
+                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
+              >
+                Present Perfect (B1)
+              </button>
+            </div>
+
+            {/* 4-Card Quick Actions Grid (Screenshot 1 & 5 style) */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-extrabold text-white">Boshqa usullar</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div
+                  onClick={() => {
+                    setTopicInput("Present Perfect Simple");
+                    handleGenerate("Present Perfect Simple");
+                  }}
+                  className="p-4 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/5 hover:border-indigo-500/30 cursor-pointer transition-all space-y-2 group shadow-md"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <MessageSquare className="w-4 h-4" />
+                  </div>
+                  <div className="font-bold text-xs text-white">Mavzudan dars</div>
+                  <div className="text-[10px] text-slate-400">Istalgan mavzuda</div>
+                </div>
+
+                <div
+                  onClick={() => {
+                    setActiveMainTab("board");
+                    if (curriculum) {
+                      const vocabCat = categories.find((c) => c.key === "vocab");
+                      if (vocabCat) setCurrentScreenIndex(vocabCat.startIndex);
+                    } else if (savedClassrooms[0]?.curriculum) {
+                      openClassroom(savedClassrooms[0].curriculum);
+                    }
+                  }}
+                  className="p-4 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/5 hover:border-amber-500/30 cursor-pointer transition-all space-y-2 group shadow-md"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Target className="w-4 h-4" />
+                  </div>
+                  <div className="font-bold text-xs text-white">Kartochkalar</div>
+                  <div className="text-[10px] text-slate-400">Yodlash uchun</div>
+                </div>
+
+                <div
+                  onClick={() => {
+                    setActiveMainTab("board");
+                    if (curriculum) {
+                      const testCat = categories.find((c) => c.key === "tests");
+                      if (testCat) setCurrentScreenIndex(testCat.startIndex);
+                    } else if (savedClassrooms[0]?.curriculum) {
+                      openClassroom(savedClassrooms[0].curriculum);
+                    }
+                  }}
+                  className="p-4 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/5 hover:border-emerald-500/30 cursor-pointer transition-all space-y-2 group shadow-md"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Edit3 className="w-4 h-4" />
+                  </div>
+                  <div className="font-bold text-xs text-white">Test & Mashq</div>
+                  <div className="text-[10px] text-slate-400">O'z savollaringiz</div>
+                </div>
+
+                <div
+                  onClick={() => {
+                    setActiveMainTab("board");
+                    if (!curriculum && savedClassrooms[0]?.curriculum) {
+                      openClassroom(savedClassrooms[0].curriculum);
+                    }
+                  }}
+                  className="p-4 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/5 hover:border-purple-500/30 cursor-pointer transition-all space-y-2 group shadow-md"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Maximize2 className="w-4 h-4" />
+                  </div>
+                  <div className="font-bold text-xs text-white">Slaydlar</div>
+                  <div className="text-[10px] text-slate-400">AI taqdimot</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Classrooms & History Bar (Chat / Classroom History) */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-extrabold text-white flex items-center space-x-2">
+                  <BookOpen className="w-4 h-4 text-[#2563EB]" />
+                  <span>So'nggi Darslar & Tarix ({savedClassrooms.length})</span>
+                </h3>
+                <button
+                  onClick={() => setActiveMainTab("library")}
+                  className="text-xs font-bold text-blue-400 hover:text-blue-300"
+                >
+                  Barchasini ko'rish →
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {savedClassrooms.slice(0, 3).map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => openClassroom(item.curriculum)}
+                    className="p-4 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/10 hover:border-blue-500/50 cursor-pointer transition-all space-y-2 group shadow-md"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="px-2 py-0.5 rounded-md bg-[#2563EB]/20 text-blue-300 border border-[#2563EB]/30 text-[10px] font-bold">
+                        {item.level}
+                      </span>
+                      <span className="text-[10px] text-slate-400">{item.date}</span>
+                    </div>
+                    <div className="font-bold text-sm text-white group-hover:text-blue-300 transition-colors truncate">
+                      {item.topic}
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-white/5 text-xs text-blue-400 font-bold">
+                      <span>Doskada ochish</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 2: LIBRARY & HISTORY VIEW                                */}
+        {/* ============================================================ */}
+        {!isGenerating && activeMainTab === "library" && (
+          <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 space-y-6 overflow-y-auto max-h-full pb-24 lg:pb-8 animate-fade-in z-20">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-white flex items-center space-x-2.5">
+                  <BookOpen className="w-6 h-6 text-[#2563EB]" />
+                  <span>Darslar Kutubxonasi & Tarix</span>
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Telegram orqali yaratilgan va saqlangan interaktiv darsliklaringiz ro'yxati ({savedClassrooms.length} ta)
+                </p>
+              </div>
+              <button
+                onClick={() => setActiveMainTab("create")}
+                className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white font-bold text-xs flex items-center space-x-1.5 shadow-lg shadow-blue-500/25 transition-all"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Yangi dars yaratish</span>
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative">
+              <input
+                type="text"
+                value={historySearchQuery}
+                onChange={(e) => setHistorySearchQuery(e.target.value)}
+                placeholder="Mavzular ichidan qidirish (masalan: Present Perfect)..."
+                className="w-full bg-[#131622] border border-white/10 rounded-2xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#2563EB] pl-10 transition-colors"
+              />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            </div>
+
+            {/* List */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {savedClassrooms
+                .filter((c) =>
+                  historySearchQuery
+                    ? c.topic.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                      c.level.toLowerCase().includes(historySearchQuery.toLowerCase())
+                    : true
+                )
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => openClassroom(item.curriculum)}
+                    className="p-5 rounded-2xl bg-[#131622] hover:bg-[#1A1E2E] border border-white/10 hover:border-blue-500/50 cursor-pointer transition-all space-y-3 group shadow-lg"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#2563EB]/20 text-blue-300 border border-[#2563EB]/30 text-[10px] font-black">
+                          {item.level}
+                        </span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                          {item.length === "short" ? "Qisqa" : item.length === "long" ? "Uzun" : "O'rtacha"}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[10px] text-slate-400">{item.date}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => deleteFromHistory(item.id, e)}
+                          className="p-1 rounded-md text-slate-500 hover:text-red-400 hover:bg-white/10 transition-colors"
+                          title="O'chirish"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-base font-black text-white group-hover:text-blue-300 transition-colors truncate">
+                        {item.topic}
+                      </h3>
+                      <p className="text-xs text-slate-400 line-clamp-2 mt-1">
+                        {item.curriculum?.description || `${item.topic} mavzusi bo'yicha to'liq interaktiv darslik.`}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-bold text-blue-400">
+                      <span className="flex items-center space-x-1.5">
+                        <Maximize2 className="w-3.5 h-3.5" />
+                        <span>Doskada ochish</span>
+                      </span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 3: STUDENT HUB                                           */}
+        {/* ============================================================ */}
+        {!isGenerating && activeMainTab === "student" && (
+          <div className="w-full max-w-4xl px-4 py-8 flex flex-col items-center space-y-6 z-20 animate-fade-in overflow-y-auto max-h-[calc(100vh-64px)] pb-24 lg:pb-8">
             <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl">
               <div className="flex items-center space-x-4">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg border border-white/20">
-                  {studentName ? studentName.replace("@", "")[0]?.toUpperCase() : "T"}
+                  {userInitial}
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-xl sm:text-2xl font-black text-white">
-                      {studentName || "Talaba"}
+                      {userDisplayName}
                     </h2>
                     <span className="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold flex items-center space-x-1">
                       <GraduationCap className="w-3.5 h-3.5" />
                       <span>Talaba Portali</span>
                     </span>
-                    {telegramUser?.id && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#229ED9]/20 text-[#229ED9] border border-[#229ED9]/30 text-xs font-bold">
-                        Telegram Ulangan
-                      </span>
-                    )}
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5">
                     1,290 ta sara grammatik savollar, audio talaffuz va interaktiv doska darslari
@@ -1685,31 +2302,25 @@ export default function StitchTeacherOS() {
                 </div>
               </div>
 
-              {/* Mode switch */}
-              <div className="flex items-center space-x-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUserRole("teacher");
-                    localStorage.setItem("teacheros_role", "teacher");
-                    showToast("👨‍🏫 Ustoz Studiyasiga o'tildi");
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 hover:text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm"
-                >
-                  <Shield className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Ustoz Studiyasiga O'tish</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveMainTab("create");
+                  showToast("👨‍🏫 Ustoz Studiyasiga o'tildi");
+                }}
+                className="px-3.5 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 hover:text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm"
+              >
+                <Shield className="w-3.5 h-3.5 text-indigo-400" />
+                <span>Ustoz Studiyasiga O'tish</span>
+              </button>
             </div>
 
             {/* 4 Interactive Modules Grid */}
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Card 1: A1 Grammar Trainer */}
               <a
                 href="/homework/A1/a1-grammar-mastery.html"
                 className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-sky-500/30 hover:border-sky-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-36 h-36 bg-sky-500/10 rounded-full blur-2xl group-hover:bg-sky-500/20 transition-all pointer-events-none" />
                 <div className="space-y-3 relative z-10">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[11px] font-black">
@@ -1734,12 +2345,10 @@ export default function StitchTeacherOS() {
                 </div>
               </a>
 
-              {/* Card 2: B1 Grammar Trainer */}
               <a
                 href="/homework/B1/b1-grammar-mastery.html"
                 className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-indigo-500/30 hover:border-indigo-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all pointer-events-none" />
                 <div className="space-y-3 relative z-10">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[11px] font-black">
@@ -1763,234 +2372,35 @@ export default function StitchTeacherOS() {
                   </div>
                 </div>
               </a>
-
-              {/* Card 3: Interaktiv Doska darslari */}
-              <div
-                onClick={() => handleGenerate("Present Perfect Simple")}
-                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden cursor-pointer"
-              >
-                <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
-                <div className="space-y-3 relative z-10">
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-black">
-                      🖥️ INTERAKTIV DOSKA
-                    </span>
-                    <span className="text-xs font-bold text-emerald-400">16:9 Slaydlar</span>
-                  </div>
-                  <h3 className="text-xl font-black text-white group-hover:text-emerald-300 transition-colors">
-                    AI Interaktiv Darslik
-                  </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Doskada qoidalar, 3D fleshkartalar, xatolar ovchisi va jonli muloqot mashqlarini o'rganing.
-                  </p>
-                </div>
-                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
-                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
-                    Doskani Ochish
-                  </span>
-                  <div className="w-9 h-9 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 4: Natijalarim & Reyting */}
-              <a
-                href="/dashboard"
-                className="group relative rounded-3xl bg-slate-900/80 hover:bg-slate-900 border border-amber-500/30 hover:border-amber-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] shadow-xl overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all pointer-events-none" />
-                <div className="space-y-3 relative z-10">
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-black">
-                      📊 NATIJALAR & REYTING
-                    </span>
-                    <span className="text-xs font-bold text-amber-400">Jonli Tizim</span>
-                  </div>
-                  <h3 className="text-xl font-black text-white group-hover:text-amber-300 transition-colors">
-                    Mening Natijalarim
-                  </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Topshirilgan testlar statistikasi, o'rtacha ball va umumiy talabalar reytingidagi o'rningizni kuzating.
-                  </p>
-                </div>
-                <div className="pt-5 mt-4 border-t border-white/10 flex items-center justify-between relative z-10">
-                  <span className="text-xs font-bold text-slate-400 group-hover:text-white transition-colors">
-                    Reytingni Ko'rish
-                  </span>
-                  <div className="w-9 h-9 rounded-full bg-amber-500/20 group-hover:bg-amber-500 text-amber-300 group-hover:text-white flex items-center justify-center transition-all shadow-md">
-                    <Trophy className="w-4 h-4" />
-                  </div>
-                </div>
-              </a>
             </div>
           </div>
         )}
 
         {/* ============================================================ */}
-        {/* INITIAL STATE: TEACHER PROMPT BAR & HERO COCKPIT             */}
+        {/* TAB 4: EMPTY BOARD STATE (WHEN BOARD TAB IS ACTIVE BUT NO CURR)*/}
         {/* ============================================================ */}
-        {!curriculum && !isGenerating && userRole === "teacher" && (
-          <div
-            className={`w-full max-w-2xl px-6 flex flex-col items-center text-center space-y-6 z-20 ${
-              isAnimatingUp ? "pointer-events-none" : "animate-fade-in"
-            }`}
-          >
-            {/* Minimalist Hero Branding */}
-            <div
-              className={`space-y-3 transition-all duration-400 ease-out ${
-                isAnimatingUp ? "opacity-0 -translate-y-8 scale-95 pointer-events-none" : "opacity-100 translate-y-0"
-              }`}
-            >
-              <div className="flex items-center justify-center space-x-3 mb-1">
-                <BrandLogo isLight={false} className="h-14 sm:h-16 max-w-[220px] object-contain" />
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-semibold text-slate-300 shadow-md">
-                  <Sparkles className="w-4 h-4 text-[#5B3DF5]" />
-                  <span>TeacherOS • Interaktiv Doska Studiyasi</span>
-                </div>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-                Darslikni sun'iy intellekt bilan yarating
-              </h1>
-              <p className="text-sm text-slate-400 max-w-md mx-auto">
-                Mavzuni kiriting — Google Gemini AI 16:9 interaktiv doska, tezkor savollar, xato ovchisi va muloqot mashqlarini sintez qiladi.
-              </p>
+        {!isGenerating && activeMainTab === "board" && !curriculum && (
+          <div className="w-full max-w-md mx-auto p-8 text-center space-y-4 bg-[#131622] rounded-3xl border border-white/10 shadow-2xl z-20 animate-fade-in">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+              <Maximize2 className="w-7 h-7" />
             </div>
-
-            {/* Topic Suggestion Pills */}
-            <div
-              className={`flex items-center flex-wrap justify-center gap-2 text-xs transition-all duration-300 ease-out ${
-                isAnimatingUp ? "opacity-0 -translate-y-4 scale-95 pointer-events-none" : "opacity-100 translate-y-0"
-              }`}
-            >
+            <h3 className="text-xl font-black text-white">Hozircha dars ochilmagan</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Yangi darslik yarating yoki Kutubxonadan saqlangan darslikni tanlang.
+            </p>
+            <div className="flex items-center justify-center space-x-3 pt-2">
               <button
-                onClick={() => handleGenerate("Past Simple & Irregular Verbs")}
-                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+                onClick={() => setActiveMainTab("create")}
+                className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white text-xs font-bold shadow-lg transition-all"
               >
-                Past Simple & Irregular Verbs (A1)
+                + Yangi Dars Yaratish
               </button>
               <button
-                onClick={() => handleGenerate("Used to vs Would")}
-                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
+                onClick={() => setActiveMainTab("library")}
+                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 hover:text-white text-xs font-bold transition-all"
               >
-                Used to vs Would (B1)
+                📚 Kutubxonaga O'tish
               </button>
-              <button
-                onClick={() => handleGenerate("Stative Verbs & Need")}
-                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
-              >
-                Stative Verbs (A1)
-              </button>
-              <button
-                onClick={() => handleGenerate("Present Perfect Simple")}
-                className="px-3 py-1.5 rounded-full bg-[#1A1C23]/90 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
-              >
-                Present Perfect (B1)
-              </button>
-            </div>
-
-            {/* Prompt Capsule Box - CapCut Slide-Up */}
-            <div
-              className={`w-full rounded-2xl bg-[#1A1C23]/95 border border-white/15 p-4 shadow-2xl backdrop-blur-2xl space-y-3.5 focus-within:border-[#5B3DF5] text-left capcut-slide-up ${
-                isAnimatingUp
-                  ? "-translate-y-7 scale-[0.97] opacity-0 blur-xs"
-                  : "translate-y-0 scale-100 opacity-100 blur-none"
-              }`}
-            >
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  value={topicInput}
-                  onChange={(e) => setTopicInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
-                  placeholder="Bugun qaysi mavzuni o'tamiz? (masalan: Present Perfect, Conditionals, Passive Voice)..."
-                  className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-400 focus:outline-none font-medium px-1 pr-10"
-                  autoFocus
-                />
-                <button
-                  type="button"
-                  onClick={handleVoiceRecord}
-                  className={`absolute right-1 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all ${
-                    isRecording
-                      ? 'bg-red-500/20 text-red-400 animate-pulse'
-                      : 'text-slate-400 hover:text-white hover:bg-white/10'
-                  }`}
-                  title={isRecording ? "Yozishni to'xtatish" : "Ovoz bilan yozish"}
-                >
-                  <Mic className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* DARS UZUNLIGI (Lesson Length Selector: Short / Medium / Long) */}
-              <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-                <div className="flex items-center space-x-1.5">
-                  <span className="text-[11px] font-bold text-slate-400 mr-1">Dars Uzunligi:</span>
-                  
-                  <button
-                    type="button"
-                    onClick={() => setLessonLength("short")}
-                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
-                      lessonLength === "short"
-                        ? "bg-[#5B3DF5] text-white shadow-md"
-                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
-                    }`}
-                  >
-                    <span>⚡ Qisqa</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setLessonLength("medium")}
-                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
-                      lessonLength === "medium"
-                        ? "bg-[#5B3DF5] text-white shadow-md"
-                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
-                    }`}
-                  >
-                    <span>🎯 O'rtacha</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setLessonLength("long")}
-                    className={`px-3 py-1.5 rounded-lg font-bold text-[11px] flex items-center space-x-1 transition-all ${
-                      lessonLength === "long"
-                        ? "bg-[#5B3DF5] text-white shadow-md"
-                        : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5"
-                    }`}
-                  >
-                    <span>🚀 Uzun</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end">
-                  {/* Level Pill */}
-                  <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <select
-                      value={level}
-                      onChange={(e) => setLevel(e.target.value as any)}
-                      className="bg-transparent text-[11px] font-bold focus:outline-none cursor-pointer"
-                    >
-                      {["A1", "A2", "B1", "B2", "C1"].map((lvl) => (
-                        <option key={lvl} value={lvl} className="bg-[#1A1C23] text-white">
-                          Level: {lvl}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-3 h-3 text-slate-400" />
-                  </div>
-
-                  <button
-                    onClick={() => handleGenerate()}
-                    disabled={isGenerating}
-                    className="h-8 px-4 rounded-xl bg-[#5B3DF5] hover:bg-[#4C2FE0] text-white font-bold flex items-center space-x-1.5 transition-all shadow-md disabled:opacity-50"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span className="text-[11px]">Yaratish</span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         )}
@@ -1998,9 +2408,220 @@ export default function StitchTeacherOS() {
         {/* ============================================================ */}
         {/* ACTIVE STUDIO STATE: ZERO-SCROLL INTERACTIVE WHITEBOARD      */}
         {/* ============================================================ */}
-        {curriculum && (
+        {/* ACTIVE STUDIO STATE: ZERO-SCROLL INTERACTIVE WHITEBOARD      */}
+        {/* ============================================================ */}
+        {curriculum && activeMainTab === "board" && (
           <>
-            {/* LEFT INSPECTOR CARD (Hidden in fullscreen) */}
+            {/* MOBILE SLIDE VIEWER (Touch & Reading Optimized for Mobile Screens) */}
+            <div className="lg:hidden w-full h-full overflow-y-auto p-4 pb-24 space-y-4 animate-fade-in z-20">
+              {/* Mobile Top Navigation */}
+              <div className="flex items-center justify-between bg-[#131622] border border-white/10 rounded-2xl px-4 py-2.5 shadow-lg">
+                <button
+                  onClick={() => setActiveMainTab("create")}
+                  className="flex items-center space-x-1 text-xs font-bold text-slate-400 hover:text-white"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Chiqish</span>
+                </button>
+                <div className="text-center">
+                  <div className="text-xs font-black text-white truncate max-w-[160px]">
+                    {curriculum.topic}
+                  </div>
+                  <div className="text-[10px] text-indigo-400 font-mono">
+                    {currentScreenIndex + 1} / {totalScreens} ({activeCategory?.title})
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    const titleToSpeak = activeScreen
+                      ? activeScreen.type === "slide"
+                        ? activeScreen.data.title
+                        : activeScreen.type === "vocab"
+                        ? activeScreen.data.word
+                        : activeScreen.type === "summary"
+                        ? activeScreen.data.title
+                        : curriculum.topic
+                      : curriculum.topic;
+                    speak(titleToSpeak);
+                  }}
+                  className="p-1.5 rounded-lg bg-white/5 text-slate-300 hover:text-white"
+                  title="Ovoz berish"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Mobile Slide Card */}
+              <div className="bg-[#131622] border border-white/10 rounded-3xl p-5 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#5B3DF5]/20 text-[#A5B4FC] border border-[#5B3DF5]/30 text-[10px] font-bold">
+                    {activeScreen?.type === "slide" ? activeScreen.data.tag : activeCategory?.title || "Darslik"}
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    {activeCategory?.title}
+                  </span>
+                </div>
+
+                <h2 className="text-lg font-black text-white leading-snug">
+                  {activeScreen?.type === "slide"
+                    ? activeScreen.data.title
+                    : activeScreen?.type === "vocab"
+                    ? activeScreen.data.word
+                    : activeScreen?.type === "summary"
+                    ? activeScreen.data.title
+                    : activeCategory?.title || curriculum.topic}
+                </h2>
+
+                {/* Slide type specifics */}
+                {activeScreen?.type === "slide" && (
+                  <div className="space-y-4">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: sanitizeSlideBody(activeScreen.data.body) }}
+                      className="text-xs sm:text-sm text-slate-200 leading-relaxed space-y-3"
+                    />
+                    {activeScreen.data?.visual && (
+                      <div className="pt-2">
+                        <VisualDiagram diagram={activeScreen.data.visual} isLight={isBoardLight} onSpeak={speak} />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {activeScreen?.type === "quickQuestion" && (
+                  <div className="space-y-3">
+                    <p className="text-sm font-bold text-white leading-relaxed">
+                      {activeScreen.data.q}
+                    </p>
+                    <div className="space-y-2 pt-1">
+                      {activeScreen.data.opts?.map((opt: string, optIdx: number) => {
+                        const qKey = activeScreen.data.id || String(currentScreenIndex);
+                        const isSelected = selectedQuickOptions[qKey] === opt;
+                        const isRevealed = revealedQuickAnswers[qKey];
+                        const isCorrect = opt === activeScreen.data.ans;
+
+                        return (
+                          <button
+                            key={optIdx}
+                            onClick={() => {
+                              setSelectedQuickOptions((prev) => ({ ...prev, [qKey]: opt }));
+                              setRevealedQuickAnswers((prev) => ({ ...prev, [qKey]: true }));
+                              if (isCorrect) confetti({ particleCount: 40, spread: 45 });
+                            }}
+                            className={`w-full text-left p-3 rounded-xl text-xs font-semibold border transition-all ${
+                              isRevealed
+                                ? isCorrect
+                                  ? "bg-emerald-500/20 border-emerald-500 text-emerald-200 font-bold"
+                                  : isSelected
+                                  ? "bg-red-500/20 border-red-500 text-red-200"
+                                  : "bg-white/5 border-white/5 text-slate-400 opacity-60"
+                                : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {revealedQuickAnswers[activeScreen.data.id || String(currentScreenIndex)] && (
+                      <div className="p-3 rounded-xl bg-[#5B3DF5]/15 border border-[#5B3DF5]/30 text-xs text-indigo-200">
+                        💡 <b>Izoh:</b> {activeScreen.data.expl}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {activeScreen?.type === "vocab" && (
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 text-center space-y-4">
+                    <div className="text-xs font-bold text-indigo-300 uppercase tracking-widest">
+                      {activeScreen.data.pos || "So'z"}
+                    </div>
+                    <div className="text-2xl font-black text-white">
+                      {activeScreen.data.word}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => speak(activeScreen.data.word)}
+                      className="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-white/10 text-xs text-indigo-200 hover:text-white"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                      <span>Talaffuz</span>
+                    </button>
+                    <div className="pt-3 border-t border-white/10 text-sm font-bold text-emerald-400">
+                      {activeScreen.data.uz}
+                    </div>
+                    {activeScreen.data.ex && (
+                      <p className="text-xs text-slate-300 italic">
+                        "{activeScreen.data.ex}"
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {activeScreen?.type === "test" && (
+                  <div className="space-y-3">
+                    <p className="text-sm font-bold text-white">
+                      {activeScreen.data.q}
+                    </p>
+                    <div className="space-y-2 pt-1">
+                      {activeScreen.data.opts?.map((opt: string, optIdx: number) => {
+                        const ans = studentQuizAnswers[currentScreenIndex];
+                        const isSelected = ans === opt;
+                        const isCorrect = opt === activeScreen.data.ans;
+
+                        return (
+                          <button
+                            key={optIdx}
+                            onClick={() => {
+                              setStudentQuizAnswers((prev) => ({ ...prev, [currentScreenIndex]: opt }));
+                              if (isCorrect) confetti({ particleCount: 50, spread: 50 });
+                            }}
+                            className={`w-full text-left p-3 rounded-xl text-xs font-semibold border transition-all ${
+                              ans
+                                ? isCorrect
+                                  ? "bg-emerald-500/20 border-emerald-500 text-emerald-200 font-bold"
+                                  : isSelected
+                                  ? "bg-red-500/20 border-red-500 text-red-200"
+                                  : "bg-white/5 border-white/5 text-slate-400 opacity-60"
+                                : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Slide Controls */}
+              <div className="flex items-center justify-between gap-3 pt-1">
+                <button
+                  onClick={() => {
+                    setCurrentScreenIndex((prev) => Math.max(0, prev - 1));
+                    setBoardStepReveal(0);
+                  }}
+                  disabled={currentScreenIndex === 0}
+                  className="flex-1 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs disabled:opacity-30 transition-all flex items-center justify-center space-x-1"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Oldingi</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentScreenIndex((prev) => Math.min(totalScreens - 1, prev + 1));
+                    setBoardStepReveal(0);
+                  }}
+                  disabled={currentScreenIndex === totalScreens - 1}
+                  className="flex-1 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white font-bold text-xs disabled:opacity-30 transition-all flex items-center justify-center space-x-1 shadow-lg shadow-blue-500/25"
+                >
+                  <span>Keyingi</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* LEFT INSPECTOR CARD (Hidden in fullscreen and on mobile) */}
             {!isFullscreen && showLeftInspector && (
               <aside className="absolute left-6 top-6 z-20 w-72 space-y-3 pointer-events-auto transition-all animate-fade-in hidden xl:block">
                 <div className="rounded-2xl bg-[#18191E]/95 border border-white/10 p-4 shadow-2xl backdrop-blur-xl space-y-3 text-slate-200">
@@ -2084,7 +2705,7 @@ export default function StitchTeacherOS() {
 
             {/* RIGHT CATEGORY NAVIGATION TOOLBAR */}
             {!isFullscreen && (
-              <aside className="absolute right-5 top-5 z-20 flex flex-col space-y-1.5 p-2 rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400">
+              <aside className="hidden lg:flex absolute right-5 top-5 z-20 flex-col space-y-1.5 p-2 rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400">
                 {/* Section Jump Icons */}
                 {categories.map((cat) => {
                   const isCatActive = activeCategory?.key === cat.key;
@@ -2143,7 +2764,7 @@ export default function StitchTeacherOS() {
             {/* ============================================================ */}
             {/* THE PRESENTATION WHITEBOARD (16:9 Zero-Scroll Container)    */}
             {/* ============================================================ */}
-            <div className={`w-full h-full min-h-0 flex items-center justify-center p-2 sm:p-3 md:p-4 transition-all ${
+            <div className={`w-full h-full min-h-0 ${isFullscreen ? "flex" : "hidden lg:flex"} items-center justify-center p-2 sm:p-3 md:p-4 transition-all ${
               isFullscreen ? "p-0" : isPromptCollapsed ? "pr-14 sm:pr-16" : "pr-14 sm:pr-16 2xl:pr-96"
             }`}>
               <div
@@ -2455,7 +3076,7 @@ export default function StitchTeacherOS() {
                         let visualToRender = activeScreen.data.visual;
                         if (!visualToRender && activeScreen.data.body) {
                           // Try to extract an example sentence from <i>'...'</i> or <i>"..."</i> or <i>...</i>
-                          const match = activeScreen.data.body.match(/<i>['"]?([^<'"]+)['"]?<\/i>/);
+                          const match = activeScreen.data.body.match(new RegExp("<i>['\"]?([^<'\\\"]+)['\"]?<\\/i>"));
                           if (match && match[1] && match[1].length > 5) {
                             const words = match[1].trim().split(" ");
                             visualToRender = {
@@ -3319,6 +3940,63 @@ export default function StitchTeacherOS() {
             </div>
           </>
         )}
+      </div>
+
+      {/* MOBILE BOTTOM NAVIGATION BAR (lg:hidden QuizPilot Style) */}
+      {!isFullscreen && (
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0D0F14]/95 backdrop-blur-xl border-t border-white/10 px-4 flex items-center justify-around z-50 select-none">
+          <button
+            onClick={() => setActiveMainTab("create")}
+            className={`flex flex-col items-center justify-center space-y-1 py-1 px-3 rounded-xl transition-all ${
+              activeMainTab === "create" ? "text-[#2563EB]" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Plus className="w-5 h-5" />
+            <span className="text-[10px] font-bold">Yaratish</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMainTab("library")}
+            className={`flex flex-col items-center justify-center space-y-1 py-1 px-3 rounded-xl transition-all relative ${
+              activeMainTab === "library" ? "text-[#2563EB]" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <BookOpen className="w-5 h-5" />
+            <span className="text-[10px] font-bold">Kutubxona</span>
+            {savedClassrooms.length > 0 && (
+              <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-[#2563EB]" />
+            )}
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveMainTab("board");
+              if (!curriculum && savedClassrooms[0]?.curriculum) {
+                openClassroom(savedClassrooms[0].curriculum);
+              }
+            }}
+            className={`flex flex-col items-center justify-center space-y-1 py-1 px-3 rounded-xl transition-all relative ${
+              activeMainTab === "board" ? "text-[#2563EB]" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Maximize2 className="w-5 h-5" />
+            <span className="text-[10px] font-bold">AI Doska</span>
+            {curriculum && (
+              <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveMainTab("student")}
+            className={`flex flex-col items-center justify-center space-y-1 py-1 px-3 rounded-xl transition-all ${
+              activeMainTab === "student" ? "text-[#2563EB]" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <GraduationCap className="w-5 h-5" />
+            <span className="text-[10px] font-bold">Talaba</span>
+          </button>
+        </nav>
+      )}
       </div>
     </div>
   );

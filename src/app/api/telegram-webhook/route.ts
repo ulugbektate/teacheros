@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BOT_TOKEN = process.env.TELEGRAM_AUTH_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78";
+const BOT_TOKEN = "8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78";
 const APP_URL = "https://teacher-os-beryl.vercel.app";
 
 async function sendTelegramMessage(chatId: number | string, text: string, replyMarkup?: any) {
@@ -30,18 +30,17 @@ export async function POST(req: NextRequest) {
     if (update.message && update.message.text) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
-      const firstName = update.message.from?.first_name || "O'quvchi";
+      const firstName = update.message.from?.first_name || "Ustoz";
 
       // /start command
       if (text.startsWith("/start")) {
         await sendTelegramMessage(
           chatId,
           `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
-          `⚡ <b>TeacherOS 2.0</b> — ta'lim platformasiga xush kelibsiz!\n\n` +
-          `Bu bot orqali platformaga <b>avtomatik, bir zumda</b> kiring va barcha imkoniyatlardan foydalaning:\n\n` +
-          `🔹 <b>Ustozlar uchun:</b> 16:9 interaktiv AI doska, jonli slaydlar va mashqlar generatori.\n` +
-          `🔹 <b>Talabalar uchun:</b> A1 va B1 darajadagi 1,290 ta grammatik savol, interaktiv darslar va xatolar ustida ishlash.\n\n` +
-          `<i>Quyidagi tugmalardan birini bosing:</i>`,
+          `⚡ <b>TeacherOS</b> — interaktiv ta'lim platformasiga xush kelibsiz!\n\n` +
+          `Darslarni boshlash uchun quyidagi tugmalardan birini tanlang:\n\n` +
+          `🔹 <b>TeacherOS</b> — 16:9 interaktiv doska, AI slaydlar va darsliklar generatori.\n` +
+          `🔹 <b>O'quvchilar uchun</b> — A1 va B1 grammatika trenajyorlari va uyga vazifalar.`,
           {
             inline_keyboard: [
               [
@@ -52,28 +51,8 @@ export async function POST(req: NextRequest) {
               ],
               [
                 {
-                  text: "👨‍🏫 Ustoz Studiyasi (Cockpit)",
-                  web_app: { url: `${APP_URL}?role=teacher` },
-                },
-                {
-                  text: "🎓 Talaba Portali (Hub)",
+                  text: "🎓 O'quvchilar uchun (Talaba)",
                   web_app: { url: `${APP_URL}?role=student` },
-                },
-              ],
-              [
-                {
-                  text: "📘 A1 Grammar Trainer (365 Qs)",
-                  web_app: { url: `${APP_URL}/homework/A1/a1-grammar-mastery.html` },
-                },
-                {
-                  text: "🚀 B1 Grammar Trainer (925 Qs)",
-                  web_app: { url: `${APP_URL}/homework/B1/b1-grammar-mastery.html` },
-                },
-              ],
-              [
-                {
-                  text: "🏆 Natijalarim & Reyting",
-                  web_app: { url: `${APP_URL}/dashboard` },
                 },
               ],
             ],
@@ -98,11 +77,7 @@ export async function POST(req: NextRequest) {
             ],
             [
               {
-                text: "👨‍🏫 Ustoz Rejimi",
-                web_app: { url: `${APP_URL}?role=teacher` },
-              },
-              {
-                text: "🎓 Talaba Rejimi",
+                text: "🎓 O'quvchilar uchun",
                 web_app: { url: `${APP_URL}?role=student` },
               },
             ],
