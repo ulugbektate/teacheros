@@ -10,15 +10,59 @@ function getGeminiKey(): string {
   return Buffer.from(DEFAULT_KEY_B64, "base64").toString("utf8");
 }
 
+export function cleanTopicTitle(raw: string): string {
+  if (!raw || typeof raw !== "string") return "English Lesson";
+  let cleaned = raw.trim();
+
+  // Strip common prompt prefix patterns in English & Uzbek:
+  const prefixes = [
+    /^(?:please\s+)?(?:can\s+you\s+)?(?:could\s+you\s+)?(?:i\s+want\s+(?:you\s+)?to\s+)?(?:create|generate|make|build|design|write|produce|prepare|teach|explain|give\s+me|show\s+me)(?:\s+me)?(?:\s+(?:a|an))?(?:\s+(?:complete|interactive|detailed|quick|short|good))?\s+(?:lesson|curriculum|class|presentation|slides?|guide|module|test|topic|explanation|dars)?(?:\s+(?:about|on|for|regarding|of|around))?\s+/i,
+    /^(?:let'?s\s+(?:learn|teach|study|cover|do))(?:\s+(?:about|on))?\s+/i,
+    /^(?:today(?:'s)?\s+(?:lesson|topic|class)\s+is)\s+/i,
+    /^(?:we\s+are\s+(?:learning|studying|talking\s+about))\s+/i,
+    /^(?:how\s+to\s+(?:use|learn|teach))\s+/i,
+    /^(?:iltimos\s+)?(?:menga\s+)?(?:bugun\s+)?dars\s+(?:tayyorla(?:b\s+ber)?|yarat|o't|tuz|qil|ber)(?:\s*[:\-])?\s*/i,
+    /^(?:iltimos\s+)?(?:menga\s+)?(?:[a-z0-9\s\-]+?)\s+(?:haqida|to'g'risida|mavzusida)\s+(?:dars|slayd|taqdimot)\s+(?:tayyorla|yarat|o't|tuz|qil)(?:b\s+ber)?/i,
+    /^(?:bugun\s+)?(?:[a-z0-9\s\-]+?)\s+(?:mavzusini|mavzusi)\s+(?:o'tamiz|o'rganamiz|o'tmoqchiman)/i,
+    /^(?:mavzu|tema)\s*[:\-]\s*/i,
+  ];
+
+  for (const rx of prefixes) {
+    if (rx.test(cleaned)) {
+      cleaned = cleaned.replace(rx, "").trim();
+    }
+  }
+
+  cleaned = cleaned.replace(/[\.\?!,;]+$/, "").trim();
+
+  if (cleaned.length > 0) {
+    cleaned = cleaned
+      .split(" ")
+      .map((w, idx) => {
+        const lower = w.toLowerCase();
+        if (idx > 0 && ["of", "the", "and", "in", "on", "at", "to", "for", "a", "an", "vs"].includes(lower)) {
+          return lower;
+        }
+        return w.charAt(0).toUpperCase() + w.slice(1);
+      })
+      .join(" ");
+  }
+
+  return cleaned || raw;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      topic = "Present Perfect Simple",
+      topic: rawTopic = "Present Perfect Simple",
       level = "B1",
-      length = "medium" as LessonLength
+      length = "medium" as LessonLength,
+      files = []
     } = body;
 
+    const topic = cleanTopicTitle(rawTopic);
+    const hasFiles = Array.isArray(files) && files.length > 0;
     const apiKey = getGeminiKey();
 
     const isShort = length === "short";
@@ -27,12 +71,25 @@ export async function POST(req: NextRequest) {
 
     const prompt = `You are a Cambridge/Oxford certified English Language Curriculum Specialist and master Uzbek bilingual educator.
 Create a complete, authentic, pedagogically flawless interactive curriculum for the topic: "${topic}" at CEFR level "${level}".
+User's raw prompt/input: "${rawTopic}".
+${hasFiles ? `ATTACHED TEXTBOOK FILES / IMAGES (${files.length} item(s)):
+- The user attached ${files.length} image(s) or document(s) (e.g. textbook screenshots, workbook pages).
+- THOROUGHLY SCAN all text, exercises, explanations, and diagrams in these attached images!
+- If the user prompt is general or empty, extract the EXACT lesson title directly from the textbook heading in the image and build the entire curriculum directly from the textbook's content.
+- If the user provided a prompt, generate the lesson aligned with the textbook screenshots.` : ""}
+
+TOPIC TITLE EXTRACTION & CANONICALIZATION:
+- In the JSON output, the "topic" field MUST contain ONLY the clean, concise, canonical topic title (e.g. "History of Sports", "Present Perfect", "Relative Clauses", "Countable and Uncountable Nouns").
+- NEVER include prompt phrases like "Create a lesson about", "Dars tayyorla", "Please explain" in the topic or titles!
 Requested lesson length: "${length}".
 
 TOPIC AWARENESS & ADAPTABILITY:
 The topic can be ANYTHING in English language teaching:
 - Grammar tenses (Present Perfect, Past Simple, Future Continuous, etc.)
 - Grammar structures (Conditionals, Passive Voice, Relative Clauses, Reported Speech, etc.)
+- Vocabulary topics (Countable/Uncountable Nouns, Prepositions, Articles, Phrasal Verbs, Idioms, Sports, etc.)
+- Thematic & Historical topics (History of Sports, Olympic Games, Technology, etc.)
+- Communicative topics (Job Interview, Travel English, Ordering at a Restaurant, etc.)
 - Vocabulary topics (Countable/Uncountable Nouns, Prepositions, Articles, Phrasal Verbs, Idioms, etc.)
 - Communicative topics (Job Interview, Travel English, Ordering at a Restaurant, etc.)
 - Biographical/Thematic topics (Famous people, Historical events, etc.)
@@ -168,15 +225,6 @@ Return ONLY a strict JSON object with this schema:
   }` : ""}
 }`;
 
-    // Candidate Gemini models: ultra-fast, high-availability, instant response models first
-    const models = [
-      "gemini-3.5-flash-lite",
-      "gemini-3.1-flash-lite",
-      "gemini-3.6-flash"
-    ];
-
-    let lastError = "";
-
     function cleanAndParseCurriculum(rawText: string): Curriculum | null {
       if (!rawText || typeof rawText !== "string") return null;
 
@@ -237,10 +285,13 @@ Return ONLY a strict JSON object with this schema:
           }));
         }
 
+        // Ensure topic is clean and canonical
+        res.topic = cleanTopicTitle(res.topic || topic);
+
         // Normalize summary
         if (res.summary && typeof res.summary === "object") {
           res.summary = {
-            title: res.summary.title || `${topic} — Oltin Qoidalar`,
+            title: res.summary.title || `${res.topic} — Oltin Qoidalar`,
             takeaway: res.summary.takeaway || "Asosiy xulosa",
             rules: Array.isArray(res.summary.rules) ? res.summary.rules : []
           };
@@ -300,9 +351,38 @@ Return ONLY a strict JSON object with this schema:
       return null;
     }
 
+    const promptParts: any[] = [];
+
+    // Multimodal attachments: images, scanned book pages, PDFs
+    if (Array.isArray(files) && files.length > 0) {
+      for (const f of files) {
+        if (f.data) {
+          const base64Data = f.data.includes(",") ? f.data.split(",")[1] : f.data;
+          promptParts.push({
+            inlineData: {
+              mimeType: f.type || "image/jpeg",
+              data: base64Data
+            }
+          });
+        }
+      }
+    }
+
+    promptParts.push({ text: prompt });
+
+    const models = [
+      "gemini-2.5-flash",
+      "gemini-1.5-flash",
+      "gemini-2.0-flash",
+      "gemini-1.5-flash-8b",
+      "gemini-1.5-pro"
+    ];
+
+    let lastError = "";
+
     for (const model of models) {
       try {
-        console.log(`[Gemini API] Requesting ${model} for topic: "${topic}" (${level})...`);
+        console.log(`[Gemini API] Requesting ${model} for topic: "${topic}" (${level}, ${hasFiles ? `${files.length} file(s)` : "text-only"})...`);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s per model
 
@@ -313,7 +393,7 @@ Return ONLY a strict JSON object with this schema:
             headers: { "Content-Type": "application/json" },
             signal: controller.signal,
             body: JSON.stringify({
-              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              contents: [{ role: "user", parts: promptParts }],
               generationConfig: {
                 temperature: 0.3,
                 maxOutputTokens: 8192,
@@ -361,6 +441,7 @@ Return ONLY a strict JSON object with this schema:
     const isModal = normTopic.includes("modal") || normTopic.includes("must") || normTopic.includes("can");
     const isCond = normTopic.includes("conditional") || normTopic.includes("if");
     const isPassive = normTopic.includes("passive");
+    const isSport = normTopic.includes("sport") || normTopic.includes("olympic") || normTopic.includes("football") || normTopic.includes("athlete");
 
     const isVocabTopic = normTopic.includes('countable') || normTopic.includes('uncountable') || normTopic.includes('article') || normTopic.includes('phrasal') || normTopic.includes('idiom') || normTopic.includes('collocation');
     const isCommTopic = normTopic.includes('interview') || normTopic.includes('restaurant') || normTopic.includes('travel') || normTopic.includes('business') || normTopic.includes('presentation');
@@ -369,6 +450,8 @@ Return ONLY a strict JSON object with this schema:
 
     const formulaStr = isPrep
       ? "AT (aniq soat/vaqt) / ON (kunlar va sanalar) / IN (oylar, yillar, fasllar)"
+      : isSport
+      ? "Historical Era + Sport/Event + Origin & Development (Past Simple & Passive)"
       : isBio
       ? "Subject + Verb + Achievement / Career Milestone"
       : isPP
@@ -391,6 +474,8 @@ Return ONLY a strict JSON object with this schema:
 
     const exPos = isPrep
       ? "The match starts at 8:00 PM on Friday."
+      : isSport
+      ? "The ancient Olympic Games began in Greece in 776 BC."
       : isBio
       ? "Cristiano Ronaldo has won five Ballon d'Or awards."
       : isPP
@@ -413,6 +498,8 @@ Return ONLY a strict JSON object with this schema:
 
     const exNeg = isPrep
       ? "The library is not open on Sundays."
+      : isSport
+      ? "Modern football was not codified until the 1860s in England."
       : isBio
       ? "He did not give up despite difficult challenges."
       : isPP
@@ -435,6 +522,8 @@ Return ONLY a strict JSON object with this schema:
 
     const exQues = isPrep
       ? "Do you usually travel in summer or in winter?"
+      : isSport
+      ? "When and where were the first modern Olympic Games held?"
       : isBio
       ? "How many goals has he scored in his international career?"
       : isPP

@@ -50,7 +50,15 @@ import {
   EyeOff,
   Lightbulb,
   GraduationCap,
-  Shield
+  Shield,
+  PanelLeft,
+  Clock,
+  Sliders,
+  Folder,
+  Settings,
+  FileText,
+  MoreHorizontal,
+  Paperclip
 } from "lucide-react";
 import {
   Curriculum,
@@ -217,8 +225,9 @@ export default function StitchTeacherOS() {
   const [errorHuntFound, setErrorHuntFound] = useState<Record<string, boolean>>({});
   const [fillGapSelected, setFillGapSelected] = useState<Record<string, string>>({});
 
-  // Studio UI Panels & Tools
-  const [showLeftInspector, setShowLeftInspector] = useState(true);
+  // Studio UI Panels & Tools (Collapsible Sidebar & Responsive Toolbar)
+  const [isHistorySidebarOpen, setIsHistorySidebarOpen] = useState(false);
+  const [isRightBarExpanded, setIsRightBarExpanded] = useState(false);
   const [showAgentLog, setShowAgentLog] = useState(false);
   const [activeCanvasTool, setActiveCanvasTool] = useState<"select" | "frame" | "pen" | "pan">("select");
   const [zoomPercent, setZoomPercent] = useState(100);
@@ -229,6 +238,17 @@ export default function StitchTeacherOS() {
   const [imageLoadedMap, setImageLoadedMap] = useState<Record<string, boolean>>({});
   const [vocabHintOpen, setVocabHintOpen] = useState<Record<number, boolean>>({});
   const [slideRevealActive, setSlideRevealActive] = useState<Record<number, boolean>>({});
+
+  // Attached files (Screenshots, textbook pages, PDFs)
+  interface AttachedFile {
+    id: string;
+    name: string;
+    type: string;
+    dataUrl: string;
+    size: number;
+  }
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Submission & Toast
   const [studentName, setStudentName] = useState("");
@@ -252,6 +272,7 @@ export default function StitchTeacherOS() {
     level: string;
     length: string;
     date: string;
+    timestamp?: number;
     curriculum: Curriculum;
   }>>([]);
   const [historySearchQuery, setHistorySearchQuery] = useState("");
@@ -596,6 +617,19 @@ export default function StitchTeacherOS() {
     return raw ? raw[0].toUpperCase() : "U";
   }, [userDisplayName]);
 
+  // Format relative time (e.g. 7h, 23h, 2d, 10d) matching Pic 2
+  const formatTimeAgo = (ts?: number, fallback: string = "7h") => {
+    if (!ts) return fallback;
+    const diffSec = Math.floor((Date.now() - ts) / 1000);
+    if (diffSec < 60) return "1m";
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) return `${diffMin}m`;
+    const diffHours = Math.floor(diffMin / 60);
+    if (diffHours < 24) return `${diffHours}h`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays}d`;
+  };
+
   // Load saved classrooms / history
   useEffect(() => {
     try {
@@ -610,26 +644,28 @@ export default function StitchTeacherOS() {
       }
     } catch (e) {}
 
-    // Initial default classrooms from master curriculums
+    // Initial default classrooms from master curriculums with realistic relative timestamps
     const initialList: any[] = [];
-    if (MASTER_CURRICULUMS["Present Perfect Simple"]) {
-      initialList.push({
-        id: "hist_pp",
-        topic: "Present Perfect Simple",
-        level: "B1",
-        length: "medium",
-        date: "Bugun, 17:40",
-        curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Present Perfect Simple"], "medium"),
-      });
-    }
     if (MASTER_CURRICULUMS["Past Simple & Irregular Verbs"]) {
       initialList.push({
         id: "hist_ps",
-        topic: "Past Simple & Irregular Verbs",
+        topic: "Past Simple",
         level: "A1",
         length: "medium",
-        date: "Kecha, 15:20",
+        date: "7h",
+        timestamp: Date.now() - 7 * 3600 * 1000, // 7h
         curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Past Simple & Irregular Verbs"], "medium"),
+      });
+    }
+    if (MASTER_CURRICULUMS["Present Perfect Simple"]) {
+      initialList.push({
+        id: "hist_pp",
+        topic: "Present Simple",
+        level: "A1",
+        length: "medium",
+        date: "23h",
+        timestamp: Date.now() - 23 * 3600 * 1000, // 23h
+        curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Present Perfect Simple"], "medium"),
       });
     }
     if (MASTER_CURRICULUMS["Used to vs Would"]) {
@@ -638,7 +674,8 @@ export default function StitchTeacherOS() {
         topic: "Used to vs Would",
         level: "B1",
         length: "medium",
-        date: "12-Oktabr",
+        date: "2d",
+        timestamp: Date.now() - 2 * 86400 * 1000, // 2d
         curriculum: enrichCurriculumWithSections(MASTER_CURRICULUMS["Used to vs Would"], "medium"),
       });
     }
@@ -656,7 +693,8 @@ export default function StitchTeacherOS() {
       topic: newCurr.topic,
       level: newCurr.level,
       length: String(newCurr.length || "medium"),
-      date: "Hozirgina",
+      date: "1m",
+      timestamp: Date.now(),
       curriculum: newCurr,
     };
     setSavedClassrooms((prev) => {
@@ -728,6 +766,68 @@ export default function StitchTeacherOS() {
     recognitionRef.current = recognition;
     recognition.start();
     setIsRecording(true);
+  };
+
+  // Clean prompt boilerplate to extract only canonical topic title
+  const cleanTopicTitle = (raw: string): string => {
+    if (!raw || typeof raw !== "string") return "English Lesson";
+    let cleaned = raw.trim();
+    const prefixes = [
+      /^(?:please\s+)?(?:can\s+you\s+)?(?:could\s+you\s+)?(?:i\s+want\s+(?:you\s+)?to\s+)?(?:create|generate|make|build|design|write|produce|prepare|teach|explain|give\s+me|show\s+me)(?:\s+me)?(?:\s+(?:a|an))?(?:\s+(?:complete|interactive|detailed|quick|short|good))?\s+(?:lesson|curriculum|class|presentation|slides?|guide|module|test|topic|explanation|dars)?(?:\s+(?:about|on|for|regarding|of|around))?\s+/i,
+      /^(?:let'?s\s+(?:learn|teach|study|cover|do))(?:\s+(?:about|on))?\s+/i,
+      /^(?:today(?:'s)?\s+(?:lesson|topic|class)\s+is)\s+/i,
+      /^(?:we\s+are\s+(?:learning|studying|talking\s+about))\s+/i,
+      /^(?:how\s+to\s+(?:use|learn|teach))\s+/i,
+      /^(?:iltimos\s+)?(?:menga\s+)?(?:bugun\s+)?dars\s+(?:tayyorla(?:b\s+ber)?|yarat|o't|tuz|qil|ber)(?:\s*[:\-])?\s*/i,
+      /^(?:iltimos\s+)?(?:menga\s+)?(?:[a-z0-9\s\-]+?)\s+(?:haqida|to'g'risida|mavzusida)\s+(?:dars|slayd|taqdimot)\s+(?:tayyorla|yarat|o't|tuz|qil)(?:b\s+ber)?/i,
+      /^(?:bugun\s+)?(?:[a-z0-9\s\-]+?)\s+(?:mavzusini|mavzusi)\s+(?:o'tamiz|o'rganamiz|o'tmoqchiman)/i,
+      /^(?:mavzu|tema)\s*[:\-]\s*/i,
+    ];
+    for (const rx of prefixes) {
+      if (rx.test(cleaned)) cleaned = cleaned.replace(rx, "").trim();
+    }
+    cleaned = cleaned.replace(/[\.\?!,;]+$/, "").trim();
+    if (cleaned.length > 0) {
+      cleaned = cleaned
+        .split(" ")
+        .map((w, idx) => {
+          const lower = w.toLowerCase();
+          if (idx > 0 && ["of", "the", "and", "in", "on", "at", "to", "for", "a", "an", "vs"].includes(lower)) return lower;
+          return w.charAt(0).toUpperCase() + w.slice(1);
+        })
+        .join(" ");
+    }
+    return cleaned || raw;
+  };
+
+  // File Upload Handlers (Images & PDFs from textbooks)
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setAttachedFiles((prev) => [
+            ...prev,
+            {
+              id: `${Date.now()}_${Math.random()}`,
+              name: file.name,
+              type: file.type || "image/jpeg",
+              dataUrl: reader.result as string,
+              size: file.size,
+            }
+          ]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    showToast(`📎 ${files.length} ta darslik fayli yuklandi. AI buni darsga aylantiradi!`);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removeAttachedFile = (id: string) => {
+    setAttachedFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
   // Fullscreen toggle
@@ -944,13 +1044,16 @@ export default function StitchTeacherOS() {
 
   // Live AI Generation (Instant Preset Matching + Gemini Fast Cascade)
   const handleGenerate = async (customTopic?: string, customLength?: LessonLength) => {
-    const query = (customTopic || topicInput).trim();
+    const rawQuery = (customTopic || topicInput).trim();
     const lengthToUse = customLength || lessonLength;
 
-    if (!query) {
-      showToast("Iltimos, dars mavzusini yozing...");
+    if (!rawQuery && attachedFiles.length === 0) {
+      showToast("Iltimos, dars mavzusini yozing yoki darslik rasmini yuklang...");
       return;
     }
+
+    const cleanTitle = rawQuery ? cleanTopicTitle(rawQuery) : "Textbook Lesson Scan";
+    const query = cleanTitle;
 
     setIsAnimatingUp(true);
     // Smooth CapCut slide-up transition: capsule shrinks and glides toward the top bar
@@ -976,7 +1079,9 @@ export default function StitchTeacherOS() {
     try {
       const steps = [
         "⚡ [1/4] Google Gemini dvigateliga ulanmoqda...",
-        `🔍 [2/4] "${query}" (${level}) pedagogik tuzilmasi tahlil qilinmoqda...`,
+        attachedFiles.length > 0
+          ? `🔍 [2/4] ${attachedFiles.length} ta darslik sahifasi skaner qilinmoqda...`
+          : `🔍 [2/4] "${query}" (${level}) pedagogik tuzilmasi tahlil qilinmoqda...`,
         "🎨 [3/4] Interaktiv gap anatomiyasi va vizual modellar loyihalanmoqda...",
         "💡 [4/4] 3D Fleshkartalar, testlar va xato ovchisi jamlanmoqda..."
       ];
@@ -999,9 +1104,14 @@ export default function StitchTeacherOS() {
         headers: { "Content-Type": "application/json" },
         signal: clientCtrl.signal,
         body: JSON.stringify({
-          topic: query,
+          topic: rawQuery || query,
           level,
-          length: lengthToUse
+          length: lengthToUse,
+          files: attachedFiles.map((f) => ({
+            name: f.name,
+            type: f.type,
+            data: f.dataUrl
+          }))
         })
       });
 
@@ -1012,6 +1122,7 @@ export default function StitchTeacherOS() {
         if (data.ok && data.curriculum) {
           const enriched = enrichCurriculumWithSections(data.curriculum, lengthToUse);
           setCurriculum(enriched);
+          setTopicInput(enriched.topic);
           setCurrentScreenIndex(0);
           prevScreenIndexRef.current = 0;
           const modelTag = data.modelUsed ? ` (${data.modelUsed})` : "";
@@ -1041,15 +1152,15 @@ export default function StitchTeacherOS() {
 
         matched = {
           id: `gen_${Date.now()}`,
-          topic: query,
+          topic: cleanTitle,
           level,
           category: "Grammar & Communication",
-          description: `${query} bo'yicha interaktiv vizual darslik paketi (${lengthToUse} format).`,
+          description: `${cleanTitle} bo'yicha interaktiv vizual darslik paketi (${lengthToUse} format).`,
           slides: [
             {
               id: "s1",
               tag: "MOHIYAT",
-              title: `${query} — Asosiy Tushuncha`,
+              title: `${cleanTitle} — Asosiy Tushuncha`,
               body: isArticleTopic
                 ? `<p class="font-bold text-slate-300"><b>${query}</b> — ingliz tilida otlarning qaysi biri haqida gap ketayotganini aniq ko'rsatuvchi muhim vosita.</p><br>• <b>'A'</b> — undosh tovushdan boshlangan so'zlar oldidan (a book, a car)<br>• <b>'An'</b> — unli tovushdan boshlangan so'zlar oldidan (an apple, an hour)<br><div style='margin-top:10px; padding:10px 14px; background:rgba(99,102,241,0.15); border-left:3px solid #6366f1; border-radius:6px; font-size:0.9rem;'>💡 <b>Oltin qoida:</b> Harfga emas, balki TOVUSHGA e'tibor bering! 'an hour' (h aytilmaydi), 'a university' (yu tovushi).</div>`
                 : `<p class="font-bold text-slate-300">Ushbu darsda <b>${query}</b> mavzusining amaliy qo'llanishi va qoidalarini ko'rib chiqamiz.</p>`,
@@ -1345,126 +1456,185 @@ export default function StitchTeacherOS() {
         </div>
       )}
 
-      {/* DESKTOP LEFT NAVIGATION SIDEBAR (QuizPilot PC Style) */}
-      {!isFullscreen && (
-        <aside className="hidden md:flex flex-col w-64 bg-[#0B0D13] border-r border-white/10 shrink-0 h-full justify-between z-30 select-none">
-          {/* Top Brand & Nav */}
-          <div className="flex flex-col">
-            <div className="p-4 border-b border-white/10 flex items-center justify-between">
-              <div
-                onClick={() => setActiveMainTab("create")}
-                className="cursor-pointer"
-                title="TeacherOS Bosh Sahifasi"
-              >
-                <BrandLogo isLight={false} />
-              </div>
-              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#5B3DF5]/20 text-[#A5B4FC] border border-[#5B3DF5]/30">
-                v2.0
-              </span>
-            </div>
-
-            {/* Navigation links */}
-            <nav className="p-3 space-y-1.5">
-              <button
-                onClick={() => setActiveMainTab("create")}
-                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
-                  activeMainTab === "create"
-                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
-                }`}
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yaratish</span>
-              </button>
-
-              <button
-                onClick={() => setActiveMainTab("library")}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
-                  activeMainTab === "library"
-                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <BookOpen className="w-4 h-4" />
-                  <span>Kutubxona</span>
+      {/* COLLAPSIBLE LEFT HISTORY SIDEBAR (Pic 2 Style: Antigravity / ChatGPT) */}
+      {isHistorySidebarOpen && !isFullscreen && (
+        <>
+          {/* Mobile backdrop */}
+          <div
+            onClick={() => setIsHistorySidebarOpen(false)}
+            className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity"
+          />
+          <aside className="fixed md:relative left-0 top-0 h-full w-72 md:w-80 bg-[#0e1015] border-r border-white/10 flex flex-col justify-between z-50 md:z-30 shadow-2xl select-none shrink-0 transition-all duration-300">
+            {/* Top Brand & Actions */}
+            <div className="flex flex-col p-3 space-y-3 overflow-y-auto min-h-0 flex-1">
+              {/* Header with App Logo, Toggle & Search */}
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <div
+                  onClick={() => {
+                    setActiveMainTab("create");
+                    if (window.innerWidth < 768) setIsHistorySidebarOpen(false);
+                  }}
+                  className="cursor-pointer"
+                  title="TeacherOS Bosh Sahifasi"
+                >
+                  <BrandLogo isLight={false} className="h-6 object-contain" />
                 </div>
-                {savedClassrooms.length > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-white/10 text-xs font-mono">
-                    {savedClassrooms.length}
-                  </span>
-                )}
-              </button>
+                <div className="flex items-center space-x-1">
+                  <button
+                    onClick={() => setIsHistorySidebarOpen(false)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                    title="Panelni yopish"
+                  >
+                    <PanelLeft className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
 
+              {/* + New Conversation Button (Pic 2 Style) */}
               <button
                 onClick={() => {
-                  setActiveMainTab("board");
-                  if (!curriculum && savedClassrooms[0]?.curriculum) {
-                    openClassroom(savedClassrooms[0].curriculum);
-                  }
+                  setActiveMainTab("create");
+                  setCurriculum(null);
+                  if (window.innerWidth < 768) setIsHistorySidebarOpen(false);
                 }}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
-                  activeMainTab === "board"
-                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
-                }`}
+                className="w-full py-2.5 px-3 rounded-xl border border-white/15 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold text-xs flex items-center space-x-2 transition-all shadow-sm"
               >
-                <div className="flex items-center space-x-3">
-                  <Maximize2 className="w-4 h-4" />
-                  <span>AI Doska</span>
-                </div>
-                {curriculum && (
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                )}
+                <Plus className="w-4 h-4 text-[#A5B4FC]" />
+                <span>+ New Conversation</span>
               </button>
 
+              {/* Quick Nav Links (Pic 2 style) */}
+              <div className="space-y-0.5 text-xs">
+                <button
+                  onClick={() => {
+                    setActiveMainTab("library");
+                    if (window.innerWidth < 768) setIsHistorySidebarOpen(false);
+                  }}
+                  className="w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-left"
+                >
+                  <Clock className="w-4 h-4 text-slate-400" />
+                  <span>Conversation History</span>
+                </button>
+                <button
+                  onClick={() => showToast("⚡ Automations: Tezkor darsliklar faol")}
+                  className="w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-left"
+                >
+                  <Zap className="w-4 h-4 text-slate-400" />
+                  <span>Automations</span>
+                </button>
+                <button
+                  onClick={() => showToast("💼 Customizations: Moslashuvchan sozlamalar")}
+                  className="w-full flex items-center space-x-2.5 px-2.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-left"
+                >
+                  <Sliders className="w-4 h-4 text-slate-400" />
+                  <span>Customizations</span>
+                </button>
+              </div>
+
+              {/* Projects Section (Pic 2 style) */}
+              <div className="pt-2 border-t border-white/5">
+                <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider px-2 mb-1.5">
+                  <span>Projects</span>
+                  <Folder className="w-3.5 h-3.5 text-slate-500" />
+                </div>
+                <div className="space-y-0.5 text-xs text-slate-400">
+                  <div className="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer">
+                    <Folder className="w-3.5 h-3.5 text-indigo-400" />
+                    <span className="truncate">science/biomolecular...</span>
+                  </div>
+                  <div className="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer">
+                    <Folder className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="truncate">meva-app</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Conversations History List (Pic 2 style: Past simple 7h, Present simple 23h) */}
+              <div className="pt-2 border-t border-white/5 flex-1 min-h-0 flex flex-col">
+                <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider px-2 mb-1.5">
+                  <span>Conversations</span>
+                  <button
+                    onClick={() => {
+                      setActiveMainTab("create");
+                      setCurriculum(null);
+                      if (window.innerWidth < 768) setIsHistorySidebarOpen(false);
+                    }}
+                    title="Yangi dars boshlash"
+                    className="text-slate-500 hover:text-white"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <div className="space-y-1 overflow-y-auto max-h-[calc(100vh-24rem)] pr-1 flex-1">
+                  {savedClassrooms.length === 0 ? (
+                    <div className="text-slate-500 text-[11px] px-2 py-3 italic">
+                      Hozircha darslar tarixi yo'q
+                    </div>
+                  ) : (
+                    savedClassrooms.map((item) => {
+                      const isActive = curriculum?.topic.toLowerCase() === item.topic.toLowerCase();
+                      const timeStr = formatTimeAgo(item.timestamp, item.date || "7h");
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            openClassroom(item.curriculum);
+                            if (window.innerWidth < 768) setIsHistorySidebarOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all group ${
+                            isActive
+                              ? "bg-white/10 text-white font-bold shadow-sm"
+                              : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                          }`}
+                        >
+                          <span className="truncate text-xs font-medium mr-2">
+                            {item.topic}
+                          </span>
+                          <span className="text-[11px] font-mono text-slate-500 group-hover:text-slate-400 shrink-0">
+                            {timeStr}
+                          </span>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Settings & User Profile (Pic 2 style) */}
+            <div className="p-3 border-t border-white/10 space-y-2 shrink-0 bg-[#0B0D13]">
               <button
-                onClick={() => setActiveMainTab("student")}
-                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
-                  activeMainTab === "student"
-                    ? "bg-[#2563EB] text-white shadow-lg shadow-blue-500/25"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
-                }`}
+                onClick={() => showToast("⚙️ Sozlamalar paneli")}
+                className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors text-xs font-semibold"
               >
-                <GraduationCap className="w-4 h-4" />
-                <span>Talabalar</span>
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
               </button>
 
-              <a
-                href="/dashboard"
-                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl font-bold text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-all"
-              >
-                <Trophy className="w-4 h-4 text-amber-400" />
-                <span>Reyting</span>
-              </a>
-            </nav>
-          </div>
-
-          {/* Bottom Profile & Pro badge (Screenshot 5 style) */}
-          <div className="p-3 space-y-2 border-t border-white/10">
-            <div className="w-full py-2 px-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-between shadow-lg">
-              <span className="flex items-center space-x-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>TeacherOS Pro</span>
-              </span>
-              <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-mono">Faol</span>
-            </div>
-
-            {/* Profile Card */}
-            <div className="flex items-center space-x-3 p-2 rounded-2xl bg-white/5 border border-white/5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] flex items-center justify-center text-white font-black text-sm shadow-md shrink-0">
-                {userInitial}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-bold text-xs text-white truncate">{userDisplayName}</div>
-                <div className="text-[10px] text-slate-400 truncate flex items-center space-x-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
-                  <span>Ustoz Akkaunti</span>
+              <div className="flex items-center space-x-2.5 px-3 py-2 rounded-xl bg-white/5 border border-white/5">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#2563EB] to-[#60A5FA] flex items-center justify-center text-white font-black text-xs shrink-0">
+                  {userInitial}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-xs text-white truncate">{userDisplayName}</div>
+                  <div className="text-[10px] text-slate-400 truncate">Ustoz Akkaunti</div>
                 </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        </>
+      )}
+
+      {/* FLOATING LEFT TOGGLE BUTTON (Visible when history bar is closed) */}
+      {!isHistorySidebarOpen && !isFullscreen && (
+        <button
+          onClick={() => setIsHistorySidebarOpen(true)}
+          className="fixed left-0 top-20 z-30 px-1 py-3 rounded-r-xl bg-[#18191E]/95 hover:bg-[#20222a] border-y border-r border-white/15 text-slate-400 hover:text-white shadow-2xl backdrop-blur-md transition-all hover:pr-2 flex items-center group"
+          title="Darslar Tarixi (Ochish)"
+        >
+          <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+        </button>
       )}
 
       {/* RIGHT / MAIN CONTENT WRAPPER */}
@@ -1472,8 +1642,19 @@ export default function StitchTeacherOS() {
         {/* TOP HEADER */}
         {!isFullscreen && (
           <header className="relative h-14 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0 bg-[#0D0F14]/90 backdrop-blur-md z-30">
-            {/* Left: User greeting on BOTH mobile and desktop (Screenshot 1 & 5 style) */}
-            <div className="flex items-center space-x-3">
+            {/* Left: Sidebar toggle button + User greeting on BOTH mobile and desktop */}
+            <div className="flex items-center space-x-2.5 sm:space-x-3">
+              <button
+                onClick={() => setIsHistorySidebarOpen((prev) => !prev)}
+                className={`p-2 rounded-xl transition-all flex items-center justify-center shrink-0 ${
+                  isHistorySidebarOpen
+                    ? "bg-[#5B3DF5] text-white shadow-md shadow-[#5B3DF5]/30"
+                    : "bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white"
+                }`}
+                title={isHistorySidebarOpen ? "Tarix panelini yopish" : "Darslar Tarixi (Ochish)"}
+              >
+                <PanelLeft className="w-4 h-4" />
+              </button>
               <div className="w-9 h-9 rounded-xl bg-[#0284C7] flex items-center justify-center text-white font-black text-sm shadow-md shrink-0">
                 {userInitial}
               </div>
@@ -1931,18 +2112,43 @@ export default function StitchTeacherOS() {
                   Grammatik mavzu yoki kontekst — 1 daqiqada 16:9 slaydlar, tezkor testlar, 3D kartochkalar va doskaga aylanadi.
                 </p>
 
-                {/* Topic Input with Voice Recorder */}
-                <div className="pt-2">
-                  <div className="relative flex items-center bg-white/10 rounded-2xl border border-white/25 p-2 backdrop-blur-md focus-within:border-white focus-within:bg-white/15 transition-all">
+                {/* Topic Input with Plus (+) on the left, Voice Recorder on the right, and Attached Files */}
+                <div className="pt-2 space-y-2">
+                  {/* Hidden file input for images & PDFs */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/png,image/jpeg,image/webp,application/pdf"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
+
+                  <div className="relative flex items-center bg-white/15 rounded-2xl border-2 border-white/30 p-2 backdrop-blur-md focus-within:border-white focus-within:bg-white/20 transition-all shadow-inner">
+                    {/* + Button on the left side of prompt bar (ChatGPT / Claude style) */}
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="p-2 mr-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white transition-all flex items-center justify-center shrink-0 shadow-md hover:scale-105 active:scale-95"
+                      title="Rasm yoki PDF yuklash (Darslik skrinshotlari, kitob sahifalari)"
+                    >
+                      <Plus className="w-4 h-4 stroke-[3]" />
+                    </button>
+
                     <input
                       type="text"
                       value={topicInput}
                       onChange={(e) => setTopicInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
-                      placeholder="Bugun qaysi mavzuni o'tamiz? (masalan: Present Perfect, Passive Voice)..."
-                      className="w-full bg-transparent text-sm sm:text-base text-white placeholder-indigo-200/60 focus:outline-none px-2 pr-10 font-medium"
+                      placeholder={
+                        attachedFiles.length > 0
+                          ? "Darslik haqida qo'shimcha so'rov (yoki bo'sh qoldirib Dars Yaratishni bosing)..."
+                          : "Bugun qaysi mavzuni o'tamiz? (masalan: Present Perfect, History of sports)..."
+                      }
+                      className="w-full bg-transparent text-sm sm:text-base text-white placeholder-indigo-100/70 focus:outline-none px-2 pr-10 font-medium"
                       autoFocus
                     />
+
                     <button
                       type="button"
                       onClick={handleVoiceRecord}
@@ -1956,6 +2162,40 @@ export default function StitchTeacherOS() {
                       <Mic className="w-4 h-4" />
                     </button>
                   </div>
+
+                  {/* Attached Files Badges (Thumbnails & Remove button) */}
+                  {attachedFiles.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 pt-1 animate-fade-in">
+                      {attachedFiles.map((f) => (
+                        <div
+                          key={f.id}
+                          className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-white/25 border-2 border-white/40 text-white text-xs font-bold shadow-md backdrop-blur-md"
+                        >
+                          {f.type.includes("pdf") ? (
+                            <FileText className="w-4 h-4 text-rose-300 shrink-0" />
+                          ) : (
+                            <img
+                              src={f.dataUrl}
+                              alt={f.name}
+                              className="w-5 h-5 rounded object-cover border border-white/40 shrink-0"
+                            />
+                          )}
+                          <span className="max-w-[150px] truncate">{f.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeAttachedFile(f.id)}
+                            className="w-4 h-4 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center text-[10px] ml-1 transition-colors"
+                            title="O'chirish"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                      <span className="text-[11px] text-indigo-100 font-bold ml-1">
+                        ✓ {attachedFiles.length} ta darslik fayli biriktirildi
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Length & Level Controls */}
@@ -2022,35 +2262,27 @@ export default function StitchTeacherOS() {
               </div>
             </div>
 
-            {/* Quick Suggestions Pills */}
-            <div className="flex items-center flex-wrap gap-2 text-xs">
-              <span className="text-[11px] font-bold text-slate-400 mr-1">Tavsiya mavzular:</span>
+            {/* Action Blocks: 1. + Image | 2. Others (Lighter, bolder, and more evident) */}
+            <div className="flex items-center flex-wrap gap-3 pt-1">
+              {/* 1. + Image */}
               <button
-                onClick={() => {
-                  setTopicInput("Past Simple & Irregular Verbs");
-                  handleGenerate("Past Simple & Irregular Verbs");
-                }}
-                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="px-5 py-2.5 rounded-2xl bg-white/30 hover:bg-white/40 border-2 border-white/70 hover:border-white text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center space-x-2.5 backdrop-blur-md"
               >
-                Past Simple & Irregular Verbs (A1)
+                <span className="w-5 h-5 rounded-lg bg-white text-[#4F35C7] flex items-center justify-center font-black text-xs shadow-md">+</span>
+                <ImageIcon className="w-4 h-4 text-amber-300" />
+                <span>+ Image</span>
               </button>
+
+              {/* 2. Others */}
               <button
-                onClick={() => {
-                  setTopicInput("Used to vs Would");
-                  handleGenerate("Used to vs Would");
-                }}
-                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
+                type="button"
+                onClick={() => showToast("ℹ️ 'Others' bo'limi tez kunda ishga tushadi")}
+                className="px-5 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 border-2 border-white/50 hover:border-white/80 text-white font-black text-xs sm:text-sm tracking-wide transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center space-x-2 backdrop-blur-md"
               >
-                Used to vs Would (B1)
-              </button>
-              <button
-                onClick={() => {
-                  setTopicInput("Present Perfect Simple");
-                  handleGenerate("Present Perfect Simple");
-                }}
-                className="px-3 py-1.5 rounded-full bg-[#131622] hover:bg-white/10 border border-white/10 text-slate-300 text-xs transition-colors"
-              >
-                Present Perfect (B1)
+                <MoreHorizontal className="w-4 h-4 text-indigo-200" />
+                <span>Others</span>
               </button>
             </div>
 
@@ -2610,158 +2842,18 @@ export default function StitchTeacherOS() {
               </div>
             </div>
 
-            {/* LEFT INSPECTOR CARD (Hidden in fullscreen and on mobile) */}
-            {!isFullscreen && showLeftInspector && (
-              <aside className="absolute left-6 top-6 z-20 w-72 space-y-3 pointer-events-auto transition-all animate-fade-in hidden xl:block">
-                <div className="rounded-2xl bg-[#18191E]/95 border border-white/10 p-4 shadow-2xl backdrop-blur-xl space-y-3 text-slate-200">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/5 text-xs text-slate-400">
-                    <div className="flex items-center space-x-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="font-bold text-white text-[11px] tracking-wide">Dars Tuzilmasi</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-[#A5B4FC] font-bold">
-                      {totalScreens} ta ekran
-                    </span>
-                  </div>
-
-                  <div className="space-y-1.5 text-xs">
-                    <p className="font-bold text-white tracking-tight flex items-center space-x-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-[#5B3DF5]" />
-                      <span>{curriculum.topic} ({curriculum.level})</span>
-                    </p>
-                    <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-3">
-                      {curriculum.description}
-                    </p>
-                  </div>
-
-                  {/* Section List Jump Menu */}
-                  <div className="pt-2 border-t border-white/5 space-y-1 text-xs">
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">
-                      Mavzu Bo'limlari ({categories.length}):
-                    </span>
-                    {categories.map((cat, idx) => {
-                      const isCatActive = activeCategory?.key === cat.key;
-                      const IconComp = cat.icon;
-                      return (
-                        <button
-                          key={cat.key}
-                          onClick={() => {
-                            setCurrentScreenIndex(cat.startIndex);
-                            setBoardStepReveal(0);
-                          }}
-                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-all ${
-                            isCatActive
-                              ? "bg-[#5B3DF5]/20 text-[#A5B4FC] font-bold border border-[#5B3DF5]/40"
-                              : "hover:bg-white/5 text-slate-400 hover:text-slate-200"
-                          }`}
-                        >
-                          <div className="flex items-center space-x-2 truncate">
-                            <span className="text-[10px] font-mono text-slate-500 font-bold">{idx + 1}.</span>
-                            <IconComp className="w-3 h-3 text-[#5B3DF5]" />
-                            <span className="text-[11px] truncate">{cat.title}</span>
-                          </div>
-                          <span className="text-[10px] opacity-75 font-mono">{cat.count}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Bottom Agent Log */}
-                <div className="rounded-xl bg-[#18191E]/95 border border-white/10 p-2.5 shadow-xl backdrop-blur-xl flex items-center justify-between text-xs">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px]">✓</span>
-                    <span className="font-medium text-slate-300 text-[11px] truncate max-w-[150px]">Gemini 3.5 Ready</span>
-                  </div>
-                  <button
-                    onClick={() => setShowAgentLog((prev) => !prev)}
-                    className="text-slate-400 hover:text-white flex items-center space-x-1 text-[10px] font-bold"
-                  >
-                    <span>Log</span>
-                    {showAgentLog ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                  </button>
-                </div>
-
-                {showAgentLog && (
-                  <div className="rounded-xl bg-[#121316] border border-white/10 p-3 shadow-2xl text-[10px] font-mono text-slate-400 space-y-1 max-h-36 overflow-y-auto">
-                    <div className="text-emerald-400">✓ Google Gemini AI darslik yaratdi</div>
-                    <div className="text-indigo-400">✓ {totalScreens} ta interaktiv ekran bog'landi</div>
-                    <div className="text-slate-300">✓ Zero-scroll presentation mode ready</div>
-                  </div>
-                )}
-              </aside>
-            )}
-
-            {/* RIGHT CATEGORY NAVIGATION TOOLBAR */}
-            {!isFullscreen && (
-              <aside className="hidden md:flex absolute right-5 top-5 z-20 flex-col space-y-1.5 p-2 rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400">
-                {/* Section Jump Icons */}
-                {categories.map((cat) => {
-                  const isCatActive = activeCategory?.key === cat.key;
-                  const IconComp = cat.icon;
-                  return (
-                    <button
-                      key={cat.key}
-                      onClick={() => {
-                        setCurrentScreenIndex(cat.startIndex);
-                        setBoardStepReveal(0);
-                        showToast(`📌 ${cat.title} bo'limiga o'tildi`);
-                      }}
-                      className={`p-2.5 rounded-xl transition-all relative group ${
-                        isCatActive
-                          ? "bg-[#5B3DF5] text-white shadow-lg shadow-[#5B3DF5]/40 scale-105"
-                          : "hover:text-white hover:bg-white/5"
-                      }`}
-                      title={`${cat.title} (${cat.count} ta qadam)`}
-                    >
-                      <IconComp className="w-4 h-4" />
-                      {/* Tooltip on Hover */}
-                      <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-[#18191E] border border-white/15 text-white text-[11px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all shadow-xl">
-                        {cat.title} ({cat.count})
-                      </span>
-                    </button>
-                  );
-                })}
-
-                <div className="w-full h-px bg-white/10 my-1" />
-
-                {/* Whiteboard Theme Toggle (Sun/Moon) */}
-                <button
-                  onClick={() => {
-                    setIsBoardLight((prev) => !prev);
-                    showToast(isBoardLight ? "🌙 To'q doska yoqildi" : "☀️ Yorug' doska yoqildi");
-                  }}
-                  className={`p-2.5 rounded-xl transition-all ${
-                    isBoardLight ? "text-amber-400 hover:bg-amber-400/10" : "text-slate-300 hover:bg-white/10"
-                  }`}
-                  title={isBoardLight ? "To'q doskaga o'tkazish" : "Oq doskaga o'tkazish"}
-                >
-                  {isBoardLight ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-                </button>
-
-                {/* Fullscreen Button */}
-                <button
-                  onClick={toggleFullscreen}
-                  className="p-2.5 rounded-xl hover:text-white hover:bg-white/5 transition-all text-slate-300"
-                  title="Katta ekran (F)"
-                >
-                  <Crop className="w-4 h-4" />
-                </button>
-              </aside>
-            )}
-
             {/* ============================================================ */}
-            {/* THE PRESENTATION WHITEBOARD (16:9 Zero-Scroll Container)    */}
+            {/* THE PRESENTATION WHITEBOARD & RIGHT TOOLBAR CONTAINER        */}
             {/* ============================================================ */}
-            <div className={`w-full h-full min-h-0 ${isFullscreen ? "flex" : "hidden md:flex"} items-center justify-center p-2 sm:p-3 md:p-4 transition-all ${
-              isFullscreen ? "p-0" : isPromptCollapsed ? "pr-14 sm:pr-16" : "pr-14 sm:pr-16 2xl:pr-96"
+            <div className={`w-full h-full min-h-0 ${isFullscreen ? "flex" : "hidden md:flex"} items-center justify-center p-2 sm:p-3 md:p-4 gap-3.5 transition-all overflow-hidden ${
+              isFullscreen ? "p-0 gap-0" : isPromptCollapsed ? "" : "2xl:pr-96"
             }`}>
               <div
                 ref={boardRef}
                 className={`transition-all duration-200 relative flex flex-col justify-between shadow-2xl ${
                   isFullscreen
                     ? "w-screen h-screen rounded-none p-3 sm:p-5 md:p-6 z-50 fixed inset-0 overflow-hidden"
-                    : "w-full max-w-6xl h-full max-h-[calc(100vh-4.25rem)] rounded-2xl sm:rounded-3xl p-3 sm:p-4 border overflow-hidden"
+                    : "flex-1 max-w-5xl xl:max-w-6xl h-full max-h-[calc(100vh-4.25rem)] rounded-2xl sm:rounded-3xl p-3 sm:p-4 border overflow-hidden min-w-0"
                 } ${
                   isBoardLight
                     ? "bg-white text-slate-900 border-slate-200 board-light"
@@ -3926,6 +4018,131 @@ export default function StitchTeacherOS() {
                   )}
                 </div>
               </div>
+
+              {/* RIGHT CATEGORY NAVIGATION TOOLBAR (flex sibling, physically separated on all devices) */}
+              {!isFullscreen && (
+                <aside
+                  className={`hidden md:flex shrink-0 z-20 flex-col justify-between rounded-2xl bg-[#18191E]/95 border border-white/10 shadow-2xl backdrop-blur-xl text-slate-400 transition-all duration-300 relative ${
+                    isRightBarExpanded ? "w-60 p-3" : "w-14 p-2 items-center"
+                  }`}
+                >
+                  {/* "<" or ">" toggle button between board and bar */}
+                  <button
+                    type="button"
+                    onClick={() => setIsRightBarExpanded((prev) => !prev)}
+                    className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#1F222A] hover:bg-[#2B2F3A] border border-white/20 text-slate-200 hover:text-white flex items-center justify-center text-xs font-black shadow-xl hover:scale-110 active:scale-95 transition-all z-30 cursor-pointer"
+                    title={isRightBarExpanded ? "Bo'lim nomlarini yashirish (>)" : "Bo'lim nomlarini ko'rsatish (<)"}
+                  >
+                    {isRightBarExpanded ? ">" : "<"}
+                  </button>
+
+                  {/* Section Jump Items */}
+                  <div className={`flex flex-col space-y-1.5 w-full ${isRightBarExpanded ? "" : "items-center"}`}>
+                    {isRightBarExpanded && (
+                      <div className="flex items-center justify-between pb-2 mb-1 border-b border-white/10 px-1">
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                          Bo'limlar ({categories.length})
+                        </span>
+                        <span className="text-[10px] font-mono text-[#A5B4FC] font-bold">
+                          {totalScreens} qadam
+                        </span>
+                      </div>
+                    )}
+
+                    {categories.map((cat, idx) => {
+                      const isCatActive = activeCategory?.key === cat.key;
+                      const IconComp = cat.icon;
+                      return (
+                        <button
+                          key={cat.key}
+                          onClick={() => {
+                            setCurrentScreenIndex(cat.startIndex);
+                            setBoardStepReveal(0);
+                            showToast(`📌 ${cat.title} bo'limiga o'tildi`);
+                          }}
+                          className={`rounded-xl transition-all relative group flex items-center ${
+                            isRightBarExpanded
+                              ? `w-full px-3 py-2 space-x-2.5 text-left ${
+                                  isCatActive
+                                    ? "bg-[#5B3DF5] text-white shadow-lg shadow-[#5B3DF5]/30 font-bold"
+                                    : "hover:bg-white/5 text-slate-300 hover:text-white"
+                                }`
+                              : `p-2.5 justify-center ${
+                                  isCatActive
+                                    ? "bg-[#5B3DF5] text-white shadow-lg shadow-[#5B3DF5]/40 scale-105"
+                                    : "hover:text-white hover:bg-white/5"
+                                }`
+                          }`}
+                          title={`${cat.title} (${cat.count} ta qadam)`}
+                        >
+                          {isRightBarExpanded ? (
+                            <>
+                              <span className="text-[11px] font-mono opacity-60 font-bold shrink-0">{idx + 1}.</span>
+                              <IconComp className="w-4 h-4 shrink-0 text-indigo-400 group-hover:text-white" />
+                              <span className="text-xs font-medium truncate flex-1">{cat.title}</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 opacity-75 shrink-0">
+                                {cat.count}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <IconComp className="w-4 h-4" />
+                              {/* Tooltip on Hover when collapsed */}
+                              <span className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-[#18191E] border border-white/15 text-white text-[11px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all shadow-xl z-40">
+                                {cat.title} ({cat.count})
+                              </span>
+                            </>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Bottom utility buttons */}
+                  <div className={`w-full pt-2 border-t border-white/10 mt-2 flex flex-col space-y-1.5 ${isRightBarExpanded ? "" : "items-center"}`}>
+                    {/* Whiteboard Theme Toggle (Sun/Moon) */}
+                    <button
+                      onClick={() => {
+                        setIsBoardLight((prev) => !prev);
+                        showToast(isBoardLight ? "🌙 To'q doska yoqildi" : "☀️ Yorug' doska yoqildi");
+                      }}
+                      className={`rounded-xl transition-all flex items-center ${
+                        isRightBarExpanded
+                          ? `w-full px-3 py-2 space-x-2.5 text-left ${
+                              isBoardLight ? "text-amber-400 bg-amber-400/10" : "text-slate-300 hover:bg-white/10"
+                            }`
+                          : `p-2.5 justify-center ${
+                              isBoardLight ? "text-amber-400 hover:bg-amber-400/10" : "text-slate-300 hover:bg-white/10"
+                            }`
+                      }`}
+                      title={isBoardLight ? "To'q doskaga o'tkazish" : "Oq doskaga o'tkazish"}
+                    >
+                      {isBoardLight ? <Moon className="w-4 h-4 shrink-0" /> : <Sun className="w-4 h-4 shrink-0" />}
+                      {isRightBarExpanded && (
+                        <span className="text-xs font-medium">
+                          {isBoardLight ? "To'q doska" : "Yorug' doska"}
+                        </span>
+                      )}
+                    </button>
+
+                    {/* Fullscreen Button */}
+                    <button
+                      onClick={toggleFullscreen}
+                      className={`rounded-xl transition-all flex items-center ${
+                        isRightBarExpanded
+                          ? "w-full px-3 py-2 space-x-2.5 text-left hover:text-white hover:bg-white/5 text-slate-300"
+                          : "p-2.5 justify-center hover:text-white hover:bg-white/5 text-slate-300"
+                      }`}
+                      title="Katta ekran (F)"
+                    >
+                      <Crop className="w-4 h-4 shrink-0" />
+                      {isRightBarExpanded && (
+                        <span className="text-xs font-medium">Katta ekran (F)</span>
+                      )}
+                    </button>
+                  </div>
+                </aside>
+              )}
             </div>
           </>
         )}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const BOT_TOKEN = "8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78";
-const APP_URL = "https://teacher-os-beryl.vercel.app";
+const APP_URL = process.env.APP_URL || "https://downloading-holland-military-win.trycloudflare.com";
 
 async function sendTelegramMessage(chatId: number | string, text: string, replyMarkup?: any) {
   try {

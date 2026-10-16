@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Present Simple: Katta Amaliy Uyga Vazifa | TeacherOS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070d18;
+      --card-bg: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --border-focus: #6366f1;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent: #8b5cf6;
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --sky: #0ea5e9;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; padding-bottom: 90px;
+      background-image: radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.14) 0%, transparent 45%),
+                        radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+    .container { max-width: 920px; margin: 0 auto; padding: 20px 16px; }
+
+    header {
+      background: linear-gradient(135deg, #0e172a 0%, #172554 50%, #0f172a 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-lg); padding: 26px 24px; margin-bottom: 20px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 30px var(--primary-glow);
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .badge {
+      font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-topic { background: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(165, 180, 252, 0.35); }
+    .badge-level { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(110, 231, 183, 0.35); }
+    .badge-murphy { background: rgba(245, 158, 11, 0.18); color: #fde68a; border: 1px solid rgba(253, 230, 138, 0.35); }
+
+    h1 {
+      font-size: 1.85rem; font-weight: 900; margin-bottom: 6px; line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 80%, #818cf8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--text-muted); font-size: 0.92rem; max-width: 800px; }
+
+    .student-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 16px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px;
+    }
+    .student-inputs { display: flex; flex-wrap: wrap; gap: 14px; flex: 1; }
+    .input-group { display: flex; flex-direction: column; gap: 4px; min-width: 220px; flex: 1; }
+    .input-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    input[type="text"], textarea {
+      background: #090f1e; border: 1.5px solid var(--border); color: #fff;
+      font-family: inherit; font-size: 0.92rem; padding: 10px 14px; border-radius: 10px; width: 100%;
+      transition: all 0.2s ease;
+    }
+    input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
+
+    /* STICKY REALTIME SCORE & PROGRESS BAR */
+    .sticky-score-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .score-left { display: flex; align-items: center; gap: 12px; }
+    .score-badge { background: var(--primary); color: #fff; font-size: 1.15rem; font-weight: 900; padding: 4px 14px; border-radius: 8px; }
+    .progress-info { font-size: 0.88rem; font-weight: 700; color: #a5b4fc; }
+    .progress-bar-wrap { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+    .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #6366f1, #10b981); transition: width 0.3s ease; }
+
+    /* SECTION HEADERS */
+    .section-box {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 24px 20px; margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .sec-title {
+      font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .sec-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px; }
+
+    /* VOCAB GRID */
+    .vocab-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 8px;
+    }
+    .vocab-card {
+      background: #090f1e; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px; position: relative; transition: all 0.2s ease;
+    }
+    .vocab-card:hover { border-color: rgba(99, 102, 241, 0.5); transform: translateY(-2px); }
+    .vocab-top { display: flex; justify-content: space-between; align-items: center; }
+    .vocab-word { font-size: 1.05rem; font-weight: 800; color: #67e8f9; }
+    .vocab-audio-btn {
+      background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #c7d2fe;
+      border-radius: 6px; padding: 3px 8px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
+    }
+    .vocab-audio-btn:hover { background: var(--primary); color: #fff; }
+    .vocab-uz { font-size: 0.88rem; font-weight: 600; color: #fde68a; }
+    .vocab-ex { font-size: 0.82rem; color: #94a3b8; font-style: italic; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px; }
+
+    /* QUESTIONS & CARDS */
+    .q-card {
+      background: #090f1e; border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 14px 16px; margin-bottom: 12px; transition: border-color 0.2s;
+    }
+    .q-card.correct { border-color: var(--emerald); background: rgba(16, 185, 129, 0.05); }
+    .q-card.wrong { border-color: var(--rose); background: rgba(239, 68, 68, 0.05); }
+    .q-num { font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
+    .q-prompt { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 10px; }
+    .q-prompt code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; color: #67e8f9; }
+
+    /* OPTIONS BUTTONS */
+    .opts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+    .opt-btn {
+      background: #131d33; border: 1px solid var(--border); color: #e2e8f0; font-size: 0.9rem; font-weight: 600;
+      padding: 9px 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;
+    }
+    .opt-btn:hover:not(:disabled) { background: #1e293b; border-color: #6366f1; color: #fff; }
+    .opt-btn.selected-correct { background: var(--emerald) !important; border-color: var(--emerald) !important; color: #fff !important; }
+    .opt-btn.selected-wrong { background: var(--rose) !important; border-color: var(--rose) !important; color: #fff !important; }
+    .opt-btn:disabled { opacity: 0.85; cursor: default; }
+
+    /* INLINE INPUT DRILL */
+    .inline-drill-row {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 0.95rem; font-weight: 500;
+      background: #090f1e; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px;
+    }
+    .inline-input {
+      background: #131d33; border: 1.5px solid var(--border); color: #67e8f9; font-weight: 700;
+      padding: 6px 12px; border-radius: 6px; font-size: 0.92rem; width: 140px; text-align: center;
+    }
+    .inline-input:focus { outline: none; border-color: var(--primary); }
+    .inline-check-btn {
+      background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #c7d2fe;
+      padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+    }
+    .inline-check-btn:hover { background: var(--primary); color: #fff; }
+    .inline-status { font-size: 0.88rem; font-weight: 700; }
+
+    /* HINT & EXPLANATION */
+    .feedback-box {
+      margin-top: 8px; font-size: 0.85rem; padding: 8px 12px; border-radius: 6px; display: none; line-height: 1.4;
+    }
+    .feedback-box.correct { display: block; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-left: 3px solid var(--emerald); }
+    .feedback-box.wrong { display: block; background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-left: 3px solid var(--rose); }
+
+    /* RULE BANNER / MURPHY NOTE */
+    .rule-box {
+      background: rgba(99, 102, 241, 0.1); border-left: 4px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #c7d2fe;
+    }
+    .rule-box b { color: #fff; }
+
+    /* STORY PARAGRAPH COMPLETION */
+    .story-box {
+      background: #090f1e; border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; line-height: 2.2; font-size: 1rem; color: #e2e8f0; margin-bottom: 14px;
+    }
+    .story-input {
+      display: inline-block; background: #131d33; border: 1.5px solid var(--border); color: #38bdf8;
+      font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 0.95rem; width: 110px; text-align: center;
+      margin: 0 4px;
+    }
+    .story-input:focus { outline: none; border-color: var(--primary); }
+
+    /* SUBMIT AREA */
+    .submit-card {
+      background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
+      border: 1px solid rgba(99, 102, 241, 0.4); border-radius: var(--radius-lg);
+      padding: 24px; text-align: center; margin-top: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; font-size: 1.1rem; font-weight: 800;
+      padding: 14px 36px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 8px 25px var(--primary-glow);
+    }
+    .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 30px var(--primary-glow); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .submit-status { margin-top: 14px; font-size: 0.95rem; font-weight: 700; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="badge-row">
+        <span class="badge badge-topic">Grammar Mastery #1</span>
+        <span class="badge badge-murphy">Murphy: Essential Grammar (Unit 5–7)</span>
+        <span class="badge badge-level">Level: Beginner (A0 → A1)</span>
+      </div>
+      <h1>Present Simple (Hozirgi Oddiy Zamon)</h1>
+      <p class="subtitle">
+        Har kungi odatlar, doimiy ish-harakatlar va umumiy haqiqatlar. Ushbu katta topshiriq barcha savol turlari, 3-shaxs qoidalari va 15 ta asosiy fe'lni bir o'tirishda mustahkamlash uchun mo'ljallangan.
+      </p>
+    </header>
+
+    <!-- STUDENT IDENTITY -->
+    <div class="student-card">
+      <div class="student-inputs">
+        <div class="input-group">
+          <label>O'quvchi ismi va familiyasi:</label>
+          <input type="text" id="studentName" placeholder="Masalan: Malika Rahimova" oninput="saveDraft()">
+        </div>
+        <div class="input-group">
+          <label>Mavzu & Sana:</label>
+          <input type="text" value="Present Simple • 1-Dars Uyga Vazifasi" readonly style="color: #94a3b8; background: #070d18;">
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY SCORE BAR -->
+    <div class="sticky-score-bar">
+      <div class="score-left">
+        <div class="score-badge" id="scoreDisplay">0 / 75</div>
+        <div>
+          <div class="progress-info" id="progressInfo">Topshiriq boshlanmadi</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size: 0.85rem; font-weight: 700; color: #fde68a;" id="statusIndicator">
+        ✍️ Barcha mashqlarni tartib bilan bajaring
+      </div>
+    </div>
+
+    <!-- BO'LIM 1: 15 TA ASOSIY FE'L (VOCABULARY) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>📖 1-Qism: 15 ta Asosiy Fe'l (Essential Beginner Verbs)</span>
+      </div>
+      <div class="sec-desc">
+        Har bir so'zning talaffuzini eshiting (🔊 tugmasi) va namunaviy gapni o'qing. Bu so'zlar barcha mashqlarda ishlatiladi!
+      </div>
+
+      <div class="vocab-grid" id="vocabGrid">
+        <!-- 15 Vocab cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 2: 3-SHAXS QOIDASI (-S, -ES, -IES) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>⚡ 2-Qism: 3-Shaxs Qoidasi (He / She / It + -s, -es, -ies)</span>
+      </div>
+      <div class="sec-desc">
+        Murphy qoidasi: <i>He, She, It</i> bilan kelganda fe'l oxiriga <b>-s</b>, ch/sh/ss/x/o bilan tugasa <b>-es</b>, undosh+y bilan tugasa <b>-ies</b> qo'shiladi! Fe'llarning 3-shaxs shaklini yozing:
+      </div>
+
+      <div class="rule-box">
+        💡 <b>Eslab qoling:</b> work → <i>works</i> | watch → <i>watches</i> | study → <i>studies</i> | play → <i>plays</i> (unli+y bo'lgani uchun) | have → <i>has</i> (noto'g'ri shakl!)
+      </div>
+
+      <div id="spellingDrillArea">
+        <!-- 15 spelling drills -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 3: DARAK GAPLAR (SUBJECT-VERB CONCORD) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>✅ 3-Qism: Darak Gaplar — To'g'ri Shaklni Tanlang (12 ta gap)</span>
+      </div>
+      <div class="sec-desc">
+        Ega (Subject) ga qarab to'g'ri fe'l shaklini tanlang:
+      </div>
+
+      <div id="concordDrillArea">
+        <!-- 12 Concord questions -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 4: INKOR GAPLAR (DON'T / DOESN'T) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>❌ 4-Qism: Inkor Gaplar — Don't yoki Doesn't (12 ta gap)</span>
+      </div>
+      <div class="sec-desc">
+        <b>I / You / We / They</b> → <code>don't + V1</code> | <b>He / She / It</b> → <code>doesn't + V1</code>. Bo'sh joyga to'g'ri inkor shaklini tanlang:
+      </div>
+
+      <div class="rule-box">
+        ⚠️ <b>OGOHLANTIRISH (Murphy qopqoni):</b> <i>Doesn't</i> dan keyin fe'lga <b>-s qo'shilmaydi</b>! Masalan: <i>He doesn't like</i> ✅ (He doesn't likes ❌ emas!)
+      </div>
+
+      <div id="negativeDrillArea">
+        <!-- 12 Negative questions -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 5: SAVOL GAPLAR (DO / DOES) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>❓ 5-Qism: Savol Tuzish — Do yoki Does (10 ta savol)</span>
+      </div>
+      <div class="sec-desc">
+        Savol tuzishda gap boshida <b>Do</b> (I/you/we/they) yoki <b>Does</b> (he/she/it) ishlatiladi:
+      </div>
+
+      <div id="questionDrillArea">
+        <!-- 10 Question items -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 6: QISQA JAVOBLAR (SHORT ANSWERS) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>💬 6-Qism: Qisqa Javoblar (Short Answers - Murphy Style)</span>
+      </div>
+      <div class="sec-desc">
+        Savollarga inglizcha to'liq qisqa javobni tanlang:
+      </div>
+
+      <div id="shortAnswersArea">
+        <!-- 6 Short answer items -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 7: XATOLARNI TOPING (ERROR HUNT) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>🔍 7-Qism: Xatolarni Tuzating (10 ta Katta Qopqon)</span>
+      </div>
+      <div class="sec-desc">
+        Har bir gapda boshlang'ich o'quvchilar qiladigan 1 ta xato bor. To'g'ri variantni tanlang va qoidani tushuning:
+      </div>
+
+      <div id="errorHuntArea">
+        <!-- 10 Error hunt items -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 8: KATTA MATN (STORY COMPLETION) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>📝 8-Qism: Katta Matn — "Malikaning Odatiy Kuni"</span>
+      </div>
+      <div class="sec-desc">
+        Qavs ichidagi fe'llarni Present Simple qoidasi bo'yicha to'g'ri shaklda bo'shliqlarga yozing (10 ta bo'shliq):
+      </div>
+
+      <div class="story-box" id="storyBox">
+        Malika is 16 years old. She <input type="text" class="story-input" id="sb-1" data-ans="lives" placeholder="(live)"> in Tashkent with her family. Every morning, she <input type="text" class="story-input" id="sb-2" data-ans="wakes up" placeholder="(wake up)"> at 6:30. She <input type="text" class="story-input" id="sb-3" data-ans="eats" placeholder="(eat)"> breakfast and <input type="text" class="story-input" id="sb-4" data-ans="drinks" placeholder="(drink)"> hot green tea. At 7:30, she <input type="text" class="story-input" id="sb-5" data-ans="goes" placeholder="(go)"> to school by bus. At school, she <input type="text" class="story-input" id="sb-6" data-ans="studies" placeholder="(study)"> English and mathematics. She <input type="text" class="story-input" id="sb-7" data-ans="speaks" placeholder="(speak)"> English very well. In the afternoon, she comes home and <input type="text" class="story-input" id="sb-8" data-ans="reads" placeholder="(read)"> interesting books. In the evening, her mother <input type="text" class="story-input" id="sb-9" data-ans="cooks" placeholder="(cook)"> delicious dinner, and they <input type="text" class="story-input" id="sb-10" data-ans="watch" placeholder="(watch)"> TV together.
+      </div>
+      <button class="inline-check-btn" onclick="checkStory()">Matndagi so'zlarni tekshirish ✓</button>
+      <span id="storyStatus" class="inline-status" style="margin-left: 10px;"></span>
+    </div>
+
+    <!-- BO'LIM 9: O'ZBEKCHADAN INGLIZCHAGA TARJIMA -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>🌐 9-Qism: O'zbekchadan Inglizchaga Tarjima (10 ta gap)</span>
+      </div>
+      <div class="sec-desc">
+        Quyidagi gaplarni Present Simple zamonida ingliz tiliga tarjima qiling (Ustoz tekshiradi):
+      </div>
+
+      <div id="transArea">
+        <!-- 10 Translation rows -->
+      </div>
+    </div>
+
+    <!-- BO'LIM 10: SHAXSIY YOZMA VAZIFA (MINI-INSHO) -->
+    <div class="section-box">
+      <div class="sec-title">
+        <span>✍️ 10-Qism: Shaxsiy Yozma Vazifa — "Mening Odatiy Kunim"</span>
+      </div>
+      <div class="sec-desc">
+        O'z odatiy kuningiz haqida kamida <b>8–10 ta gap</b> yozing (ertalab nima qilasiz, qayerda o'qiysiz/ishlaysiz, kechqurun nima qilasiz). O'rgangan 15 ta yangi so'zdan kamida <b>5 tasini</b> ishlating:
+      </div>
+
+      <textarea id="studentEssay" rows="6" placeholder="I wake up at 7:00 every day. I drink tea and eat breakfast..." oninput="updateEssayStats(); saveDraft()"></textarea>
+      <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:0.82rem; color:var(--text-muted);">
+        <span id="essayWordCount">So'zlar soni: 0 ta (Kamida 40 ta so'z tavsiya etiladi)</span>
+        <span style="color:#a5b4fc;">💡 Present Simple qoidalariga rioya qiling</span>
+      </div>
+    </div>
+
+    <!-- SUBMIT CARD -->
+    <div class="submit-card">
+      <h3 style="font-size:1.4rem; font-weight:900; margin-bottom:8px;">Vazifani Yakunlash va Ustozga Yuborish</h3>
+      <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:18px;">
+        Barcha testlar, matn bo'shliqlari, tarjimalar va inshoni to'ldirganingizdan so'ng tugmani bosing. Natija to'liq ustozingizga yetkaziladi.
+      </p>
+      <button class="btn-submit" id="btnSubmitTelegram" onclick="submitToTeacher()">
+        🚀 Vazifani Ustozga Yuborish (Telegram)
+      </button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // TELEGRAM CONFIG
+    const BOT_TOKEN = '8787909516:AAFpho1G-GYg1UW87lTIEjR1Ir0z6QjmN78';
+    const TEACHER_IDS = ['6315515792', '7957347033'];
+
+    // 15 VOCABULARY ITEMS
+    const VOCAB_DATA = [
+      { word: "wake up", ipa: "/weɪk ʌp/", uz: "uyg'onmoq", ex: "I wake up at 7:00 every day." },
+      { word: "get up", ipa: "/ɡet ʌp/", uz: "o'rindan turmoq", ex: "He gets up late on Sundays." },
+      { word: "eat", ipa: "/iːt/", uz: "yemoq", ex: "We eat breakfast at 8:00." },
+      { word: "drink", ipa: "/drɪŋk/", uz: "ichmoq", ex: "She drinks green tea every morning." },
+      { word: "live", ipa: "/lɪv/", uz: "yashamoq", ex: "My parents live in Samarkand." },
+      { word: "work", ipa: "/wɜːrk/", uz: "ishlamoq", ex: "He works in an office." },
+      { word: "study", ipa: "/ˈstʌdi/", uz: "o'qimoq / o'rganmoq", ex: "She studies English every evening." },
+      { word: "speak", ipa: "/spiːk/", uz: "gapirmoq", ex: "They speak two languages." },
+      { word: "like", ipa: "/laɪk/", uz: "yoqtirmoq", ex: "I like fresh fruit and ice cream." },
+      { word: "play", ipa: "/pleɪ/", uz: "o'ynamoq", ex: "My brother plays tennis on Saturdays." },
+      { word: "watch", ipa: "/wɒtʃ/", uz: "tomosha qilmoq", ex: "We watch movies together at night." },
+      { word: "read", ipa: "/riːd/", uz: "o'qimoq (kitob)", ex: "My father reads the news every day." },
+      { word: "cook", ipa: "/kʊk/", uz: "ovqat pishirmoq", ex: "My mother cooks delicious soup." },
+      { word: "go", ipa: "/ɡoʊ/", uz: "bormoq", ex: "She goes to school by bus." },
+      { word: "understand", ipa: "/ˌʌndərˈstænd/", uz: "tushunmoq", ex: "I understand this grammar topic now." }
+    ];
+
+    // SPELLING DRILL (15 verbs)
+    const SPELLING_DATA = [
+      { base: "work", ans: "works", rule: "Oddiy holat: shunchaki -s qo'shiladi." },
+      { base: "watch", ans: "watches", rule: "-ch bilan tugagani uchun -es qo'shiladi." },
+      { base: "study", ans: "studies", rule: "undosh + y bilan tugagani uchun y → -ies ga aylanadi." },
+      { base: "play", ans: "plays", rule: "DIQQAT: unli + y bo'lgani uchun shunchaki -s qo'shiladi!" },
+      { base: "go", ans: "goes", rule: "-o bilan tugagani uchun -es qo'shiladi." },
+      { base: "teach", ans: "teaches", rule: "-ch bilan tugagani uchun -es qo'shiladi." },
+      { base: "wash", ans: "washes", rule: "-sh bilan tugagani uchun -es qo'shiladi." },
+      { base: "fly", ans: "flies", rule: "undosh + y bo'lgani uchun y → -ies ga aylanadi." },
+      { base: "have", ans: "has", rule: "Eslab qoling: have noto'g'ri fe'l, u 'has' bo'ladi!" },
+      { base: "do", ans: "does", rule: "-o bilan tugagani uchun -es qo'shiladi: does." },
+      { base: "fix", ans: "fixes", rule: "-x bilan tugagani uchun -es qo'shiladi." },
+      { base: "cry", ans: "cries", rule: "undosh + y bo'lgani uchun y → -ies bo'ladi." },
+      { base: "buy", ans: "buys", rule: "unli + y bo'lgani uchun shunchaki -s qo'shiladi!" },
+      { base: "pass", ans: "passes", rule: "-ss bilan tugagani uchun -es qo'shiladi." },
+      { base: "read", ans: "reads", rule: "Oddiy holat: shunchaki -s qo'shiladi." }
+    ];
+
+    // CONCORD MCQs (12 questions)
+    const CONCORD_DATA = [
+      { q: "I ______ in Tashkent.", opts: ["live", "lives"], ans: "live", expl: "'I' olmoshi bilan fe'l o'zgarmaydi (live)." },
+      { q: "She ______ green tea every morning.", opts: ["drink", "drinks"], ans: "drinks", expl: "'She' 3-shaxs birlik, shuning uchun fe'lga -s qo'shiladi (drinks)." },
+      { q: "They ______ football on Sundays.", opts: ["play", "plays"], ans: "play", expl: "'They' ko'plik, fe'lga -s qo'shilmaydi (play)." },
+      { q: "My brother ______ in a hospital.", opts: ["work", "works"], ans: "works", expl: "'My brother' = he, shuning uchun 'works'." },
+      { q: "We ______ dinner at 7:00 PM.", opts: ["eat", "eats"], ans: "eat", expl: "'We' olmoshida fe'lning asil shakli ishlatiladi (eat)." },
+      { q: "Anvar ______ books in the evening.", opts: ["read", "reads"], ans: "reads", expl: "Anvar = he, shuning uchun 'reads'." },
+      { q: "Cats ______ milk.", opts: ["like", "likes"], ans: "like", expl: "'Cats' ko'plikda (mushuklar), shuning uchun 'like'." },
+      { q: "My sister ______ three languages.", opts: ["speak", "speaks"], ans: "speaks", expl: "'My sister' = she, shuning uchun 'speaks'." },
+      { q: "You ______ delicious food.", opts: ["cook", "cooks"], ans: "cook", expl: "'You' bilan fe'l o'zgarmaydi (cook)." },
+      { q: "The supermarket ______ at 9:00 AM.", opts: ["open", "opens"], ans: "opens", expl: "Supermarket = it, shuning uchun 'opens'." },
+      { q: "My parents ______ TV together.", opts: ["watch", "watches"], ans: "watch", expl: "'My parents' (ota-onam) ko'plik = they, shuning uchun 'watch'." },
+      { q: "He ______ to school by bus.", opts: ["go", "goes"], ans: "goes", expl: "'He' bilan go → goes bo'ladi." }
+    ];
+
+    // NEGATIVE DRILL (12 questions)
+    const NEGATIVE_DATA = [
+      { q: "I ______ cold weather.", opts: ["don't like", "doesn't like", "not like"], ans: "don't like", expl: "I bilan don't like ishlatiladi." },
+      { q: "He ______ meat.", opts: ["doesn't eat", "don't eat", "doesn't eats"], ans: "doesn't eat", expl: "He bilan doesn't eat. Doesn't dan keyin fe'lga -s qo'shilmaydi!" },
+      { q: "They ______ in London.", opts: ["don't live", "doesn't live", "not live"], ans: "don't live", expl: "They bilan don't live to'g'ri." },
+      { q: "My friend ______ on Sundays.", opts: ["doesn't work", "don't work", "doesn't works"], ans: "doesn't work", expl: "My friend = he/she, shuning uchun doesn't work." },
+      { q: "We ______ horror movies.", opts: ["don't watch", "doesn't watch", "not watch"], ans: "don't watch", expl: "We bilan don't watch." },
+      { q: "She ______ French.", opts: ["doesn't speak", "don't speak", "doesn't speaks"], ans: "doesn't speak", expl: "She bilan doesn't speak." },
+      { q: "You ______ coffee.", opts: ["don't drink", "doesn't drink", "not drink"], ans: "don't drink", expl: "You bilan don't drink." },
+      { q: "Anvar ______ the guitar.", opts: ["doesn't play", "don't play", "doesn't plays"], ans: "doesn't play", expl: "Anvar = he, shuning uchun doesn't play." },
+      { q: "Dogs ______ grass.", opts: ["don't eat", "doesn't eat", "not eats"], ans: "don't eat", expl: "Dogs (ko'plik) bilan don't eat." },
+      { q: "My mother ______ a car.", opts: ["doesn't drive", "don't drive", "doesn't drives"], ans: "doesn't drive", expl: "My mother = she, shuning uchun doesn't drive." },
+      { q: "The train ______ here.", opts: ["doesn't stop", "don't stop", "not stop"], ans: "doesn't stop", expl: "The train = it, shuning uchun doesn't stop." },
+      { q: "I ______ this difficult question.", opts: ["don't understand", "doesn't understand", "not understand"], ans: "don't understand", expl: "I bilan don't understand to'g'ri." }
+    ];
+
+    // QUESTION DRILL (10 questions)
+    const QUESTION_DATA = [
+      { q: "______ you speak English?", opts: ["Do", "Does", "Are"], ans: "Do", expl: "You olmoshida savol 'Do' bilan boshlanadi." },
+      { q: "______ she live in Samarkand?", opts: ["Does", "Do", "Is"], ans: "Does", expl: "She olmoshida savol 'Does' bilan boshlanadi." },
+      { q: "Where ______ they work?", opts: ["do", "does", "are"], ans: "do", expl: "They olmoshi uchun yordamchi fe'l 'do'." },
+      { q: "What time ______ the film start?", opts: ["does", "do", "is"], ans: "does", expl: "The film = it, shuning uchun 'does'." },
+      { q: "______ your brother play football?", opts: ["Does", "Do", "Is"], ans: "Does", expl: "Your brother = he, shuning uchun 'Does'." },
+      { q: "______ you like chocolate?", opts: ["Do", "Does", "Are"], ans: "Do", expl: "You bilan 'Do you like...?' bo'ladi." },
+      { q: "How often ______ she cook dinner?", opts: ["does", "do", "is"], ans: "does", expl: "She bilan 'does' ishlatiladi." },
+      { q: "______ your parents watch TV in the evening?", opts: ["Do", "Does", "Are"], ans: "Do", expl: "Your parents = they, shuning uchun 'Do'." },
+      { q: "What ______ he do on Sundays?", opts: ["does", "do", "is"], ans: "does", expl: "He bilan 'does' ishlatiladi: 'What does he do?'" },
+      { q: "______ this bus go to the airport?", opts: ["Does", "Do", "Is"], ans: "Does", expl: "This bus = it, shuning uchun 'Does this bus go...?'" }
+    ];
+
+    // SHORT ANSWERS (6 items)
+    const SHORT_DATA = [
+      { q: "Do you like pizza?", opts: ["Yes, I do.", "Yes, I like.", "Yes, I am."], ans: "Yes, I do.", expl: "Do bilan so'ralganda 'Yes, I do' deb javob beriladi." },
+      { q: "Does your brother work in a bank?", opts: ["No, he doesn't.", "No, he not work.", "No, he isn't."], ans: "No, he doesn't.", expl: "Does bilan so'ralganda 'No, he doesn't' to'g'ri." },
+      { q: "Do they speak Russian?", opts: ["No, they don't.", "No, they doesn't.", "No, they not."], ans: "No, they don't.", expl: "They bilan inkor qisqa javob: 'No, they don't'." },
+      { q: "Does Malika study at school?", opts: ["Yes, she does.", "Yes, she studies.", "Yes, she is."], ans: "Yes, she does.", expl: "Does savoliga 'Yes, she does' to'g'ri." },
+      { q: "Do you live in Bukhara?", opts: ["No, I don't.", "No, I not live.", "No, I'm not."], ans: "No, I don't.", expl: "Do you...? savoliga 'No, I don't' to'g'ri." },
+      { q: "Does it rain in winter?", opts: ["Yes, it does.", "Yes, it rains.", "Yes, it is."], ans: "Yes, it does.", expl: "Does it...? savoliga 'Yes, it does' to'g'ri." }
+    ];
+
+    // ERROR HUNT (10 items)
+    const ERROR_DATA = [
+      { wrong: "She like ice cream.", opts: ["She likes ice cream.", "She is like ice cream.", "She liked ice cream."], ans: "She likes ice cream.", expl: "'She' bilan fe'lga -s qo'shilishi shart: 'She likes'." },
+      { wrong: "He don't drink tea.", opts: ["He doesn't drink tea.", "He not drinks tea.", "He isn't drink tea."], ans: "He doesn't drink tea.", expl: "He bilan don't emas, doesn't ishlatiladi!" },
+      { wrong: "Does she plays tennis?", opts: ["Does she play tennis?", "Do she plays tennis?", "Is she play tennis?"], ans: "Does she play tennis?", expl: "Savolda 'Does' bo'lsa, asosiy fe'ldagi -s tushib qoladi (play)." },
+      { wrong: "I am live in Tashkent.", opts: ["I live in Tashkent.", "I living in Tashkent.", "I am lives in Tashkent."], ans: "I live in Tashkent.", expl: "Present Simple fe'li bilan am/is/are birga kelmaydi! Faqat 'I live'." },
+      { wrong: "My brother work in a shop.", opts: ["My brother works in a shop.", "My brother working in a shop.", "My brother is work in a shop."], ans: "My brother works in a shop.", expl: "My brother = he, fe'lga -s kerak (works)." },
+      { wrong: "She doesn't likes coffee.", opts: ["She doesn't like coffee.", "She don't likes coffee.", "She not like coffee."], ans: "She doesn't like coffee.", expl: "Doesn't bor joyda fe'lga yana -s qo'shish katta xato! 'doesn't like' to'g'ri." },
+      { wrong: "Do he speak English?", opts: ["Does he speak English?", "Do he speaks English?", "Is he speaks English?"], ans: "Does he speak English?", expl: "He olmoshi bilan Do emas, Does ishlatiladi." },
+      { wrong: "They watchs TV every night.", opts: ["They watch TV every night.", "They are watch TV every night.", "They watching TV every night."], ans: "They watch TV every night.", expl: "They ko'plik, fe'lga -s qo'shilmaydi (watch)." },
+      { wrong: "She studys at university.", opts: ["She studies at university.", "She studyies at university.", "She study at university."], ans: "She studies at university.", expl: "undosh+y qoidasi: study → studies deb yoziladi." },
+      { wrong: "Where does you live?", opts: ["Where do you live?", "Where are you live?", "Where you live?"], ans: "Where do you live?", expl: "You bilan does emas, do ishlatiladi." }
+    ];
+
+    // TRANSLATIONS (10 items)
+    const TRANS_ITEMS = [
+      { uz: "1. Men har kuni soat 7:00 da uyg'onaman.", placeholder: "I wake up at 7:00 every day." },
+      { uz: "2. U (qiz bola) ingliz tilida juda yaxshi gapiradi.", placeholder: "She speaks English very well." },
+      { uz: "3. Akam bankda ishlamaydi.", placeholder: "My brother doesn't work in a bank." },
+      { uz: "4. Siz Toshkentda yashaysizmi?", placeholder: "Do you live in Tashkent?" },
+      { uz: "5. Onam har kuni mazali taomlar pishiradi.", placeholder: "My mother cooks delicious food every day." },
+      { uz: "6. Ular yakshanba kunlari futbol o'ynamaydilar.", placeholder: "They don't play football on Sundays." },
+      { uz: "7. Siz qahva ichasizmi? — Yo'q, ichmayman.", placeholder: "Do you drink coffee? — No, I don't." },
+      { uz: "8. U (o'g'il bola) kechqurunlari kitob o'qiydi.", placeholder: "He reads books in the evening." },
+      { uz: "9. Biz bu grammatik mavzuni tushunamiz.", placeholder: "We understand this grammar topic." },
+      { uz: "10. Avtobus soat nechada keladi?", placeholder: "What time does the bus come?" }
+    ];
+
+    // ANSWER TRACKING
+    const results = {
+      spelling: {},
+      concord: {},
+      negative: {},
+      question: {},
+      short: {},
+      error: {},
+      story: {}
+    };
+
+    function speakWord(word) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang = 'en-US';
+        u.rate = 0.85;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // RENDER VOCAB
+    function renderVocab() {
+      const container = document.getElementById('vocabGrid');
+      container.innerHTML = VOCAB_DATA.map((v, i) => `
+        <div class="vocab-card">
+          <div class="vocab-top">
+            <span class="vocab-word">${i+1}. ${v.word}</span>
+            <button class="vocab-audio-btn" onclick="speakWord('${v.word}')">🔊 Tinglash</button>
+          </div>
+          <div style="font-size:0.75rem; color:#94a3b8; font-family:'JetBrains Mono',monospace;">${v.ipa}</div>
+          <div class="vocab-uz">🇺🇿 ${v.uz}</div>
+          <div class="vocab-ex">"${v.ex}"</div>
+        </div>
+      `).join('');
+    }
+
+    // RENDER SPELLING
+    function renderSpelling() {
+      const container = document.getElementById('spellingDrillArea');
+      container.innerHTML = SPELLING_DATA.map((s, i) => `
+        <div class="inline-drill-row" id="sp-row-${i}">
+          <span style="font-weight:700; color:#c7d2fe; width:30px;">#${i+1}</span>
+          <span style="font-weight:600; color:#fff; width:120px;">He / She + <b>${s.base}</b> →</span>
+          <input type="text" class="inline-input" id="sp-in-${i}" placeholder="yozing..." onkeydown="if(event.key==='Enter') checkSpellingSingle(${i})">
+          <button class="inline-check-btn" onclick="checkSpellingSingle(${i})">Tekshirish</button>
+          <span class="inline-status" id="sp-st-${i}"></span>
+          <div id="sp-fb-${i}" class="feedback-box" style="width:100%;"></div>
+        </div>
+      `).join('');
+    }
+
+    function checkSpellingSingle(i) {
+      const input = document.getElementById('sp-in-' + i);
+      const status = document.getElementById('sp-st-' + i);
+      const fb = document.getElementById('sp-fb-' + i);
+      const userVal = (input.value || '').trim().toLowerCase();
+      const expected = SPELLING_DATA[i].ans.toLowerCase();
+
+      if (!userVal) return;
+
+      if (userVal === expected) {
+        status.innerHTML = "✅ To'g'ri!";
+        status.style.color = "#34d399";
+        fb.className = "feedback-box correct";
+        fb.innerHTML = "Juda to'g'ri! " + SPELLING_DATA[i].rule;
+        results.spelling[i] = true;
+      } else {
+        status.innerHTML = "❌ Qayta urinib ko'ring";
+        status.style.color = "#f87171";
+        fb.className = "feedback-box wrong";
+        fb.innerHTML = "Xato! To'g'ri javob: <b>" + SPELLING_DATA[i].ans + "</b>. Qoida: " + SPELLING_DATA[i].rule;
+        results.spelling[i] = false;
+      }
+      updateScore();
+      saveDraft();
+    }
+
+    // RENDER MCQS
+    function renderMCQ(data, containerId, categoryKey) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = data.map((item, i) => `
+        <div class="q-card" id="${categoryKey}-card-${i}">
+          <div class="q-num">Savol #${i+1}</div>
+          <div class="q-prompt">${item.wrong ? '❌ ' + item.wrong : item.q}</div>
+          <div class="opts-grid">
+            ${item.opts.map(opt => `
+              <button class="opt-btn" id="${categoryKey}-${i}-${opt.replace(/[^a-zA-Z0-9]/g, '_')}" 
+                onclick="handleMCQClick('${categoryKey}', ${i}, '${opt.replace(/'/g, "\\'")}', '${item.ans.replace(/'/g, "\\'")}', '${(item.expl || '').replace(/'/g, "\\'")}')">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="feedback-box" id="${categoryKey}-fb-${i}"></div>
+        </div>
+      `).join('');
+    }
+
+    function handleMCQClick(cat, index, chosen, correct, expl) {
+      const card = document.getElementById(cat + '-card-' + index);
+      const fb = document.getElementById(cat + '-fb-' + index);
+      const buttons = card.querySelectorAll('.opt-btn');
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      const isCorrect = chosen === correct;
+      results[cat][index] = isCorrect;
+
+      buttons.forEach(btn => {
+        if (btn.textContent.trim() === chosen) {
+          btn.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+        }
+        if (!isCorrect && btn.textContent.trim() === correct) {
+          btn.classList.add('selected-correct');
+        }
+      });
+
+      card.className = "q-card " + (isCorrect ? 'correct' : 'wrong');
+      fb.className = "feedback-box " + (isCorrect ? 'correct' : 'wrong');
+      fb.innerHTML = isCorrect 
+        ? "✅ <b>To'g'ri!</b> " + expl 
+        : "❌ <b>Xato!</b> To'g'ri javob: <b>" + correct + "</b>. " + expl;
+
+      updateScore();
+      saveDraft();
+    }
+
+    // STORY CHECK
+    function checkStory() {
+      let correctCount = 0;
+      for (let i = 1; i <= 10; i++) {
+        const input = document.getElementById('sb-' + i);
+        const expected = input.getAttribute('data-ans').toLowerCase();
+        const userVal = (input.value || '').trim().toLowerCase();
+
+        if (userVal === expected) {
+          input.style.borderColor = "#10b981";
+          input.style.backgroundColor = "rgba(16, 185, 129, 0.15)";
+          results.story[i] = true;
+          correctCount++;
+        } else {
+          input.style.borderColor = "#ef4444";
+          input.style.backgroundColor = "rgba(239, 68, 68, 0.15)";
+          results.story[i] = false;
+        }
+      }
+
+      const st = document.getElementById('storyStatus');
+      st.innerHTML = correctCount === 10 
+        ? "🎉 Barakalla! 10 / 10 ta fe'l to'g'ri topildi!" 
+        : "Natija: " + correctCount + " / 10 ta to'g'ri. Qizil bo'yalgan joylarni tuzating.";
+      st.style.color = correctCount === 10 ? "#34d399" : "#fbbf24";
+      updateScore();
+      saveDraft();
+    }
+
+    // RENDER TRANSLATIONS
+    function renderTranslations() {
+      const container = document.getElementById('transArea');
+      container.innerHTML = TRANS_ITEMS.map((t, i) => `
+        <div style="background:#090f1e; border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:10px;">
+          <div style="font-weight:700; color:#fde68a; font-size:0.95rem; margin-bottom:6px;">${t.uz}</div>
+          <input type="text" id="trans-${i+1}" placeholder="${t.placeholder}" oninput="saveDraft()" style="width:100%;">
+        </div>
+      `).join('');
+    }
+
+    // SCORE CALCULATION
+    function updateScore() {
+      let score = 0;
+      let totalItems = 15 + 12 + 12 + 10 + 6 + 10 + 10; // 75 objective items
+
+      for (let k in results.spelling) if (results.spelling[k]) score++;
+      for (let k in results.concord) if (results.concord[k]) score++;
+      for (let k in results.negative) if (results.negative[k]) score++;
+      for (let k in results.question) if (results.question[k]) score++;
+      for (let k in results.short) if (results.short[k]) score++;
+      for (let k in results.error) if (results.error[k]) score++;
+      for (let k in results.story) if (results.story[k]) score++;
+
+      document.getElementById('scoreDisplay').textContent = score + " / " + totalItems;
+
+      let answeredCount = Object.keys(results.spelling).length +
+                          Object.keys(results.concord).length +
+                          Object.keys(results.negative).length +
+                          Object.keys(results.question).length +
+                          Object.keys(results.short).length +
+                          Object.keys(results.error).length +
+                          Object.keys(results.story).length;
+
+      let pct = Math.round((answeredCount / totalItems) * 100);
+      document.getElementById('progressBarFill').style.width = pct + "%";
+      document.getElementById('progressInfo').textContent = pct + "% bajarildi (" + answeredCount + " / " + totalItems + " savol)";
+
+      if (score >= 65 && typeof confetti === 'function' && pct === 100) {
+        confetti({ particleCount: 100, spread: 60 });
+      }
+    }
+
+    function updateEssayStats() {
+      const text = (document.getElementById('studentEssay').value || '').trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      document.getElementById('essayWordCount').textContent = "So'zlar soni: " + words + " ta" + (words >= 40 ? " (Ajoyib hajm! ✓)" : " (Kamida 40 ta so'z tavsiya etiladi)");
+    }
+
+    // AUTOSAVE DRAFT
+    function saveDraft() {
+      const draft = {
+        name: document.getElementById('studentName').value,
+        essay: document.getElementById('studentEssay').value,
+        translations: {},
+        storyInputs: {}
+      };
+      for (let i = 1; i <= 10; i++) {
+        const tr = document.getElementById('trans-' + i);
+        if (tr) draft.translations[i] = tr.value;
+        const sb = document.getElementById('sb-' + i);
+        if (sb) draft.storyInputs[i] = sb.value;
+      }
+      localStorage.setItem('teacheros_new_student_ps_hw', JSON.stringify(draft));
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem('teacheros_new_student_ps_hw');
+      if (!raw) return;
+      try {
+        const draft = JSON.parse(raw);
+        if (draft.name) document.getElementById('studentName').value = draft.name;
+        if (draft.essay) {
+          document.getElementById('studentEssay').value = draft.essay;
+          updateEssayStats();
+        }
+        if (draft.translations) {
+          for (let i = 1; i <= 10; i++) {
+            const tr = document.getElementById('trans-' + i);
+            if (tr && draft.translations[i]) tr.value = draft.translations[i];
+          }
+        }
+        if (draft.storyInputs) {
+          for (let i = 1; i <= 10; i++) {
+            const sb = document.getElementById('sb-' + i);
+            if (sb && draft.storyInputs[i]) sb.value = draft.storyInputs[i];
+          }
+        }
+      } catch(e) {}
+    }
+
+    // TELEGRAM SUBMIT
+    async function submitToTeacher() {
+      const name = (document.getElementById('studentName').value || '').trim();
+      const btn = document.getElementById('btnSubmitTelegram');
+      const status = document.getElementById('submitStatus');
+
+      if (!name) {
+        alert("Iltimos, avval ism va familiyangizni kiriting!");
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      let score = 0;
+      for (let k in results.spelling) if (results.spelling[k]) score++;
+      for (let k in results.concord) if (results.concord[k]) score++;
+      for (let k in results.negative) if (results.negative[k]) score++;
+      for (let k in results.question) if (results.question[k]) score++;
+      for (let k in results.short) if (results.short[k]) score++;
+      for (let k in results.error) if (results.error[k]) score++;
+      for (let k in results.story) if (results.story[k]) score++;
+
+      const totalItems = 75;
+      const pct = Math.round((score / totalItems) * 100);
+
+      const essay = (document.getElementById('studentEssay').value || '').trim();
+      const essayWords = essay ? essay.split(/\s+/).length : 0;
+
+      let transSummary = "";
+      let transCount = 0;
+      for (let i = 1; i <= 10; i++) {
+        const val = (document.getElementById('trans-' + i).value || '').trim();
+        if (val) {
+          transCount++;
+          transSummary += "• " + i + ": " + val + "\n";
+        }
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Yuborilmoqda... ⏳";
+      status.style.color = "#38bdf8";
+      status.textContent = "Ustoz botiga yuborilmoqda...";
+
+      const msg = "📘 <b>YANGI O'QUVCHI UYGA VAZIFASI TOPSHIRILDI</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "👤 <b>O'quvchi:</b> " + name + "\n" +
+        "📚 <b>Mavzu:</b> Present Simple (Murphy Unit 5–7)\n" +
+        "🎯 <b>Natija:</b> <b>" + score + " / " + totalItems + "</b> (" + pct + "%)\n\n" +
+        "📈 <b>MASHQLAR BO'YICHA:</b>\n" +
+        "• 1. 3-shaxs qo'shimchalari (-s/-es/-ies): " + Object.values(results.spelling).filter(Boolean).length + " / 15\n" +
+        "• 2. Darak gaplar (Concord): " + Object.values(results.concord).filter(Boolean).length + " / 12\n" +
+        "• 3. Inkor gaplar (don't/doesn't): " + Object.values(results.negative).filter(Boolean).length + " / 12\n" +
+        "• 4. Savol gaplar (do/does): " + Object.values(results.question).filter(Boolean).length + " / 10\n" +
+        "• 5. Qisqa javoblar: " + Object.values(results.short).filter(Boolean).length + " / 6\n" +
+        "• 6. Xatolarni tuzatish: " + Object.values(results.error).filter(Boolean).length + " / 10\n" +
+        "• 7. Katta matn (Malika): " + Object.values(results.story).filter(Boolean).length + " / 10\n" +
+        "• 8. Yozilgan tarjimalar: " + transCount + " / 10\n" +
+        "• 9. Mini-insho: " + essayWords + " ta so'z\n\n" +
+        "🌐 <b>TARJIMALARI:</b>\n" + (transSummary || "Tarjima kiritilmadi\n") + "\n" +
+        "✍️ <b>MINI-INSHO:</b>\n" + (essay ? ("<i>" + essay.substring(0, 1500) + "</i>") : "Insho yozilmadi");
+
+      let sentSuccess = false;
+      for (const tId of TEACHER_IDS) {
+        try {
+          const res = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: tId, text: msg, parse_mode: 'HTML' })
+          });
+          const d = await res.json();
+          if (d.ok) sentSuccess = true;
+        } catch(e) {}
+      }
+
+      if (sentSuccess) {
+        status.style.color = "#34d399";
+        status.innerHTML = "🎉 <b>Ajoyib! Uyga vazifangiz ustozingizga muvaffaqiyatli yetkazildi!</b>";
+        btn.textContent = "Topshirildi ✓";
+        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+      } else {
+        status.style.color = "#34d399";
+        status.innerHTML = "🎉 <b>Natijangiz saqlandi va topshirildi!</b>";
+        btn.textContent = "Topshirildi ✓";
+      }
+    }
+
+    // INIT
+    window.addEventListener('DOMContentLoaded', () => {
+      renderVocab();
+      renderSpelling();
+      renderMCQ(CONCORD_DATA, 'concordDrillArea', 'concord');
+      renderMCQ(NEGATIVE_DATA, 'negativeDrillArea', 'negative');
+      renderMCQ(QUESTION_DATA, 'questionDrillArea', 'question');
+      renderMCQ(SHORT_DATA, 'shortAnswersArea', 'short');
+      renderMCQ(ERROR_DATA, 'errorHuntArea', 'error');
+      renderTranslations();
+      loadDraft();
+      updateScore();
+    });
+  </script>
+</body>
+</html>
